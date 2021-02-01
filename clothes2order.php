@@ -3,7 +3,7 @@
  * Clothes 2 Order plugin for WordPress
  *
  * @package   clothes2order
- * @link
+ * @link      https://ashredman.com
  * @author    Reuben Porter <porterdmu@gmail.com> & Ashley Redman <ash.redman@outlook.com>
  * @copyright 2021 AR Development
  * @license   GPL v2 or later
@@ -11,12 +11,12 @@
  * Plugin Name:  Clothes 2 Order
  * Description:  Clothes 2 Order custom plugin for WordPress
  * Version:      1.2
- * Plugin URI:   https://ashredman.com
+ * Plugin URI:
  * Author:       Reuben Porter & Ashley Redman
  * Author URI:   https://ashredman.com
  * Text Domain:  clothes2order
- * Domain Path:  /languages/
- * Requires PHP: 7.3
+ * Domain Path:
+ * Requires PHP: 7.4
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
