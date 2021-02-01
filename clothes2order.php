@@ -31,6 +31,8 @@
 
 namespace clothes2order;
 
+use clothes2order\classes\ProductTerms;
+
 defined( 'ABSPATH' ) || die();
 
 $c2o_dir = dirname( __FILE__ );
@@ -39,15 +41,22 @@ if (class_exists('WooCommerce')) {
 
     // TODO init the plugin
     // 1. Check & create specific taxonomy terms to determine which products to check in a basket
+    add_action('init', function () {
+        new classes\ProductTerms();
+    });
     // 2. Add any additional product fields
+
+
     // 3. On payment complete, 'run' the basket & post API calls for each basket item if meeting requirement
-
-    new classes\ProductTerms();
-
     add_action('woocommerce_payment_complete', function ($order_id) {
         $order = new classes\Order($order_id);
     });
 
 } else {
-    // TODO add warning message to dashboard.
+    /**
+     * Docs: https://developer.wordpress.org/reference/hooks/admin_notices/
+     */
+    add_action('admin_notices', function() {
+        echo '<div class="notice notice-error"><p>' . _('Woocommerce is required to use the Clothes2Order Plugin!') . '</p></div>';
+    });
 }
