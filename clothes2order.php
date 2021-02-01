@@ -31,32 +31,33 @@
 
 namespace clothes2order;
 
-use clothes2order\classes\ProductTerms;
+defined('ABSPATH') || die();
 
-defined( 'ABSPATH' ) || die();
+$c2o_dir = dirname(__FILE__);
 
-$c2o_dir = dirname( __FILE__ );
+add_action('plugins_loaded', function () {
 
-if (class_exists('WooCommerce')) {
+    if (class_exists('Woocommerce')) {
 
-    // TODO init the plugin
-    // 1. Check & create specific taxonomy terms to determine which products to check in a basket
-    add_action('init', function () {
-        new classes\ProductTerms();
-    });
-    // 2. Add any additional product fields
+        // TODO init the plugin
+        // 1. Check & create specific taxonomy terms to determine which products to check in a basket
+        add_action('init', function () {
+            //new classes\ProductTerms();
+        });
+        // 2. Add any additional product fields
 
 
-    // 3. On payment complete, 'run' the basket & post API calls for each basket item if meeting requirement
-    add_action('woocommerce_payment_complete', function ($order_id) {
-        $order = new classes\Order($order_id);
-    });
+        // 3. On payment complete, 'run' the basket & post API calls for each basket item if meeting requirement
+        add_action('woocommerce_payment_complete', function ($order_id) {
+            $order = new classes\Order($order_id);
+        });
 
-} else {
-    /**
-     * Docs: https://developer.wordpress.org/reference/hooks/admin_notices/
-     */
-    add_action('admin_notices', function() {
-        echo '<div class="notice notice-error"><p>' . _('Woocommerce is required to use the Clothes2Order Plugin!') . '</p></div>';
-    });
-}
+    } else {
+        /**
+         * Docs: https://developer.wordpress.org/reference/hooks/admin_notices/
+         */
+        add_action('admin_notices', function () {
+            echo '<div class="notice notice-error"><p>' . _('Woocommerce is required to use the Clothes2Order Plugin!') . '</p></div>';
+        });
+    }
+});
