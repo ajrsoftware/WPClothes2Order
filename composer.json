@@ -1,0 +1,13 @@
+{
+    "name": "ashleyredman/clothes2order",
+    "description": "CLothes2Order WordPress Plugin",
+    "type": "wordpress-plugin",
+    "license": "GNU",
+    "authors": [
+        {
+            "name": "Ashley Redman",
+            "email": "ash.redman@outlook.com"
+        }
+    ],
+    "require": {}
+}

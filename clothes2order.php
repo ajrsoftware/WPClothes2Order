@@ -39,11 +39,11 @@ add_action('plugins_loaded', function () {
 
     if (class_exists('Woocommerce')) {
 
+        require_once 'vendor/autoload.php';
+
         // TODO init the plugin
         // 1. Check & create specific taxonomy terms to determine which products to check in a basket
-        add_action('init', function () {
-            //new classes\ProductTerms();
-        });
+        // Figure out how to load classes here, some issue with order.
         // 2. Add any additional product fields
 
 
