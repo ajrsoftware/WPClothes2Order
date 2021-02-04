@@ -29,35 +29,50 @@
  * GNU General Public License for more details.
  */
 
-namespace clothes2order;
-
 defined('ABSPATH') || die();
-
-$c2o_dir = dirname(__FILE__);
 
 add_action('plugins_loaded', function () {
 
     if (class_exists('Woocommerce')) {
 
-        require_once 'vendor/autoload.php';
-
-        // TODO init the plugin
         // 1. Check & create specific taxonomy terms to determine which products to check in a basket
-        // Figure out how to load classes here, some issue with order.
+        add_action('init', 'createProductCatTerms');
+
         // 2. Add any additional product fields
 
 
         // 3. On payment complete, 'run' the basket & post API calls for each basket item if meeting requirement
-        add_action('woocommerce_payment_complete', function ($order_id) {
-            $order = new classes\Order($order_id);
-        });
+        add_action('woocommerce_payment_complete', 'processNewOrder');
 
     } else {
-        /**
-         * Docs: https://developer.wordpress.org/reference/hooks/admin_notices/
-         */
-        add_action('admin_notices', function () {
-            echo '<div class="notice notice-error"><p>' . _('Woocommerce is required to use the Clothes2Order Plugin!') . '</p></div>';
-        });
+        add_action('admin_notices', 'setAdminNoticeError');
     }
 });
+
+/**
+ *
+ */
+function createProductCatTerms(): void
+{
+    require_once plugin_dir_path(__FILE__) . '/classes/ProductTerms.php';
+    $productTerms = new clothes2order\classes\ProductTerms();
+    $productTerms->ensureTermsExist('product_cat', 'class', 'Class', 'Class Products');
+    $productTerms->ensureTermsExist('product_cat', 'clothing', 'Clothing', 'Clothing Products');
+}
+
+/**
+ * @param $order_id
+ */
+function processNewOrder($order_id)
+{
+    require_once plugin_dir_path(__FILE__) . '/classes/Order.php';
+    $order = new clothes2order\classes\Order($order_id);
+}
+
+/**
+ * Docs: https://developer.wordpress.org/reference/hooks/admin_notices/
+ */
+function setAdminNoticeError()
+{
+    echo '<div class="notice notice-error"><p>' . _('Woocommerce is required to use the Clothes2Order Plugin!') . '</p></div>';
+}

@@ -2,15 +2,16 @@
 
 namespace clothes2order\classes;
 
-class ProductTerms {
+class ProductTerms
+{
 
-    public function __construct()
-    {
-        $this->ensureTermsExist('product_cat', 'class', 'Class', 'Class Products');
-        $this->ensureTermsExist('product_cat', 'clothing', 'Clothing', 'Clothing Products');
-    }
-
-    protected function ensureTermsExist(string $taxonomy, string $slug, string $name, string $description)
+    /**
+     * @param string $taxonomy
+     * @param string $slug
+     * @param string $name
+     * @param string $description
+     */
+    public function ensureTermsExist(string $taxonomy, string $slug, string $name, string $description): void
     {
         if (taxonomy_exists($taxonomy)) {
             if (!term_exists($slug, $taxonomy)) {
