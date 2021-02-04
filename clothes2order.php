@@ -70,15 +70,6 @@ function createProductCatTerms(): void
 }
 
 /**
- * @param $order_id
- */
-function processNewOrder($order_id)
-{
-    require_once plugin_dir_path(__FILE__) . '/classes/Order.php';
-    $order = new clothes2order\classes\Order($order_id);
-}
-
-/**
  * @param $loop
  * @param $variation_data
  * @param $variation
@@ -99,8 +90,6 @@ function productVariationFieldsSettings($loop, $variation_data, $variation)
  */
 function productVariationFieldsSave($variation_id, $loop)
 {
-    var_dump('SAVE');
-    die();
     require_once plugin_dir_path(__FILE__) . '/classes/VariableProductField.php';
     $fields = new clothes2order\classes\VariableProductField();
 
@@ -116,12 +105,19 @@ function productVariationFieldsSave($variation_id, $loop)
  */
 function productVariationFieldsLoad($variation)
 {
-    var_dump('LOAD');
-    die();
     require_once plugin_dir_path(__FILE__) . '/classes/VariableProductField.php';
     $fields = new clothes2order\classes\VariableProductField();
 
     if ($fields->checkIfHasTerm($variation)) {
         $fields->load_variation_settings_fields($variation);
     }
+}
+
+/**
+ * @param $order_id
+ */
+function processNewOrder($order_id)
+{
+    require_once plugin_dir_path(__FILE__) . '/classes/Order.php';
+    $order = new clothes2order\classes\Order($order_id);
 }
