@@ -9,19 +9,22 @@ class VariableProductField
      *
      * @return bool
      */
-    public function checkIfHasTerm($variation): bool
+    public function checkIfHasTerm($variation) : bool
     {
         $product_variation = wc_get_product($variation);
         $product = wc_get_product($product_variation->get_parent_id());
 
-        $term = get_term_by('slug', sanitize_title_with_dashes(get_option('clothes-2-order_product_cat_term')), 'product_cat');
+        if ($product) {
+            $term = get_term_by('slug', sanitize_title_with_dashes(get_option('clothes-2-order_product_cat_term')), 'product_cat');
 
-        // check if variation parent product has the term, not the variation.
-        if (has_term($term->term_id, 'product_cat', $product->ID)) {
-            return true;
-        } else {
-            return false;
+            // check if variation parent product has the term, not the variation.
+            if (has_term($term->term_id, 'product_cat', $product->ID)) {
+                return true;
+            } else {
+                return false;
+            }
         }
+        return false;
     }
 
     /**
@@ -33,8 +36,8 @@ class VariableProductField
      */
     public function variation_settings_fields($loop, $variation_data, $variation)
     {
-        var_dump('SET settings');
-        die();
+//        var_dump('SET settings');
+//        die();
 //        woocommerce_wp_checkbox(
 //            array(
 //                'id' => "has_class_dates{$loop}",
@@ -69,8 +72,8 @@ class VariableProductField
      */
     public function save_variation_settings_fields($variation_id, $loop)
     {
-        var_dump('SAVE settings');
-        die();
+//        var_dump('SAVE settings');
+//        die();
 
 //        $has_dates = $_POST['has_class_dates'][$loop]; // yes(weird) or null
 //
@@ -90,17 +93,19 @@ class VariableProductField
      * Load variation custom fields on post open
      *
      * @param $variation
+     *
+     * @return mixed
      */
     public function load_variation_settings_fields($variation)
     {
-        var_dump('LOAD settings');
-        die();
+//        var_dump('LOAD settings');
+//        die();
 
 //        $variation['has_class_dates'] = get_post_meta($variation['variation_id'], 'has_class_dates', true);
 //        $variation['class_start_date'] = get_post_meta($variation['variation_id'], 'class_start_date', true);
 //        $variation['class_end_date'] = get_post_meta($variation['variation_id'], 'class_end_date', true);
 //
-//        return $variation;
+        return $variation;
     }
 
 }

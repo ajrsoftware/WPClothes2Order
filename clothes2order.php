@@ -50,6 +50,9 @@ add_action('plugins_loaded', function () {
 
             // 4. On payment complete, 'run' the basket & post API calls for each basket item if meeting requirement
             add_action('woocommerce_payment_complete', 'processNewOrder');
+            add_action('woocommerce_checkout_create_order', 'updateOrderMeta', 10, 2);
+            add_action('woocommerce_admin_order_data_after_order_details', 'updateOrderUI', 10, 1);
+
         } else {
             add_action('admin_notices', function () {
                 echo '<div class="notice notice-error"><p>' . _('Please ensure you complete the Clothes2Order required settings <a href="/wp-admin/admin.php?page=wc-settings&tab=products&section=clothes-2-order">here</a>') . '</p></div>';
@@ -177,12 +180,16 @@ function productVariationFieldsSave($variation_id, $loop)
  */
 function productVariationFieldsLoad($variation)
 {
-    require_once plugin_dir_path(__FILE__) . '/classes/VariableProductField.php';
-    $fields = new clothes2order\classes\VariableProductField();
+//    require_once plugin_dir_path(__FILE__) . '/classes/VariableProductField.php';
+//    $fields = new clothes2order\classes\VariableProductField();
 
-    if ($fields->checkIfHasTerm($variation)) {
-        $fields->load_variation_settings_fields($variation);
-    }
+//    if ($fields->checkIfHasTerm($variation)) {
+//        $fields->load_variation_settings_fields($variation);
+//    } else {
+//        return $variation;
+//    }
+
+    return $variation;
 }
 
 /**
@@ -191,5 +198,27 @@ function productVariationFieldsLoad($variation)
 function processNewOrder($order_id)
 {
     require_once plugin_dir_path(__FILE__) . '/classes/Order.php';
-    $order = new clothes2order\classes\Order($order_id);
+    $order = new clothes2order\classes\Order();
+    $order->checkBasket($order_id);
+}
+
+/**
+ * @param $order
+ * @param $data
+ */
+function updateOrderMeta($order, $data)
+{
+    $order->update_meta_data('_clothes_2_order_response_value', 'C2O TEST');
+}
+
+/**
+ * @param $order
+ */
+function updateOrderUI($order)
+{
+    if ($key = $order->get_meta('_clothes_2_order_response_value')) {
+        if ($value = $order->get_meta('_clothes_2_order_response_value')) {
+            echo '<br style="clear:both"><p><strong>' . __("Clothes 2 Order Response", "clothes-2-order") . ':</strong> ' . $value . '</p>';
+        }
+    }
 }
