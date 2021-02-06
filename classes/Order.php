@@ -2,26 +2,35 @@
 
 namespace clothes2order\classes;
 
-class Order {
-
-    CONST API_KEY = 'not saved in repo';
-    CONST API_POST_ORDER_ENDPOINT = 'https://www.clothes2order.com/api/post-order/';
-
-    private $order;
-
-    public function __construct($order_id)
+class Order
+{
+    public function checkBasket($order_id)
     {
-        $this->order = wc_get_order($order_id);
-        $this->checkBasket();
+        $order = wc_get_order($order_id);
+        $items = $order->get_items();
+
+        $term = get_term_by('slug', sanitize_title_with_dashes(get_option('clothes-2-order_product_cat_term')), 'product_cat');
+
+        foreach ($items as $item) {
+            $product_variation = $item->get_product();
+            $product = wc_get_product($product_variation->get_parent_id());
+
+            if (has_term($term->term_id, 'product_cat', $product->get_id())) {
+
+//                $response = wp_remote_post(self::API_POST_ORDER_ENDPOINT, [
+//                    'headers' => [
+//                        'Content-Type' => 'application/json',
+//                        'Accept' => 'application/json',
+//                        'Test-Mode' => 'true'
+//                    ],
+//                    'body' => wp_json_encode($this->buildPayload()),
+//                ]);
+                return;
+            }
+        }
     }
 
-    protected function checkBasket()
-    {
-        // TODO check the basket for clothing items
-        // foreach clothing basket item, build a payload
-    }
-
-    protected function buildPayload() : array
+    protected function buildPayload(): array
     {
         // TODO build the post structure
 
@@ -66,17 +75,5 @@ class Order {
                 ],
             ]
         ];
-    }
-
-    protected function postOrder()
-    {
-        $response = wp_remote_post(self::API_POST_ORDER_ENDPOINT, [
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-                'Test-Mode' => 'true'
-            ],
-            'body' => wp_json_encode($this->buildPayload()),
-        ]);
     }
 }
