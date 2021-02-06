@@ -52,7 +52,7 @@ add_action('plugins_loaded', function () {
             add_action('woocommerce_payment_complete', 'processNewOrder');
         } else {
             add_action('admin_notices', function () {
-                echo '<div class="notice notice-error"><p>' . _('Please ensure you add the Clothes2Order required settings <a href="/wp-admin/admin.php?page=wc-settings&tab=products&section=clothes-2-order">here</a>') . '</p></div>';
+                echo '<div class="notice notice-error"><p>' . _('Please ensure you complete the Clothes2Order required settings <a href="/wp-admin/admin.php?page=wc-settings&tab=products&section=clothes-2-order">here</a>') . '</p></div>';
             }, 10, 2);
         }
 

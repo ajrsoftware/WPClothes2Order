@@ -14,7 +14,7 @@ class VariableProductField
         $product_variation = wc_get_product($variation);
         $product = wc_get_product($product_variation->get_parent_id());
 
-        $term = get_term_by('slug', 'clothes2order-clothing', 'product_cat');
+        $term = get_term_by('slug', sanitize_title_with_dashes(get_option('clothes-2-order_product_cat_term')), 'product_cat');
 
         // check if variation parent product has the term, not the variation.
         if (has_term($term->term_id, 'product_cat', $product->ID)) {
