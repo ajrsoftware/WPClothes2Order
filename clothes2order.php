@@ -168,11 +168,22 @@ function productVariationFieldsSave($variation_id, $loop)
     require_once plugin_dir_path(__FILE__) . '/classes/VariableProductField.php';
     $fields = new clothes2order\classes\VariableProductField();
 
-    $variation = wc_get_product($variation_id);
+    $product_variation = wc_get_product($variation_id);
+    $parent_product = wc_get_product($product_variation->get_parent_id());
 
-    if ($fields->checkIfHasTerm($variation)) {
-        $fields->save_variation_settings_fields($variation_id, $loop);
+    if (has_term('tops', 'product_cat', get_post($parent_product->ID))) {
+        return $fields->updatePostMetaForTops($variation_id, $loop);
     }
+
+    if (has_term('bottoms', 'product_cat', get_post($parent_product->ID))) {
+        return $fields->updatePostMetaForBottoms($variation_id, $loop);
+    }
+
+//    $c2o_logo_position_front = $_POST['c2o_logo_position_front'][$loop];
+//    $c2o_logo_position_back = $_POST['c2o_logo_position_back'][$loop];
+//
+//    update_post_meta($variation_id, 'c2o_logo_position_front', esc_attr($c2o_logo_position_front));
+//    update_post_meta($variation_id, 'c2o_logo_position_back', esc_attr($c2o_logo_position_back));
 }
 
 /**
@@ -180,14 +191,8 @@ function productVariationFieldsSave($variation_id, $loop)
  */
 function productVariationFieldsLoad($variation)
 {
-//    require_once plugin_dir_path(__FILE__) . '/classes/VariableProductField.php';
-//    $fields = new clothes2order\classes\VariableProductField();
-
-//    if ($fields->checkIfHasTerm($variation)) {
-//        $fields->load_variation_settings_fields($variation);
-//    } else {
-//        return $variation;
-//    }
+    $variation['c2o_logo_position_front'] = get_post_meta($variation['variation_id'], 'c2o_logo_position_front', true);
+    $variation['c2o_logo_position_back'] = get_post_meta($variation['variation_id'], 'c2o_logo_position_back', true);
 
     return $variation;
 }
