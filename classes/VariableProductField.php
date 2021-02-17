@@ -117,6 +117,36 @@ class VariableProductField
                 'wrapper_class' => 'form-row form-row-full',
                 'required' => false
             ]);
+
+            woocommerce_wp_checkbox([
+                'id' => "c2o_tops_logo_position_tb[{$loop}]",
+                'name' => "c2o_tops_logo_position_tb[{$loop}]",
+                'value' => 9,
+                'label' => __('&nbsp;Top back', 'woocommerce'),
+                'desc_tip' => true,
+                'wrapper_class' => 'form-row form-row-full',
+                'required' => false
+            ]);
+
+            woocommerce_wp_checkbox([
+                'id' => "c2o_tops_logo_position_tc[{$loop}]",
+                'name' => "c2o_tops_logo_position_tc[{$loop}]",
+                'value' => 17,
+                'label' => __('&nbsp;Top chest', 'woocommerce'),
+                'desc_tip' => true,
+                'wrapper_class' => 'form-row form-row-full',
+                'required' => false
+            ]);
+
+            woocommerce_wp_checkbox([
+                'id' => "c2o_tops_logo_position_ib[{$loop}]",
+                'name' => "c2o_tops_logo_position_ib[{$loop}]",
+                'value' => 18,
+                'label' => __('&nbsp;Inside back (For printed labels)', 'woocommerce'),
+                'desc_tip' => true,
+                'wrapper_class' => 'form-row form-row-full',
+                'required' => false
+            ]);
         }
 
         if (has_term('bottoms', 'product_cat', get_post($parent_product->ID))) {
@@ -124,7 +154,7 @@ class VariableProductField
             woocommerce_wp_checkbox([
                 'id' => "c2o_bottoms_logo_position_lp[{$loop}]",
                 'name' => "c2o_bottoms_logo_position_lp[{$loop}]",
-                'value' => 1,
+                'value' => 15,
                 'label' => __('&nbsp;Left pocket', 'woocommerce'),
                 'desc_tip' => true,
                 'wrapper_class' => 'form-row form-row-full',
@@ -134,8 +164,21 @@ class VariableProductField
             woocommerce_wp_checkbox([
                 'id' => "c2o_bottoms_logo_position_rp[{$loop}]",
                 'name' => "c2o_bottoms_logo_position_rp[{$loop}]",
-                'value' => 1,
+                'value' => 16,
                 'label' => __('&nbsp;Right pocket', 'woocommerce'),
+                'desc_tip' => true,
+                'wrapper_class' => 'form-row form-row-full',
+                'required' => false
+            ]);
+        }
+
+        if (has_term('hats', 'product_cat', get_post($parent_product->ID))) {
+            echo '<p>Select logo positions:</p>';
+            woocommerce_wp_checkbox([
+                'id' => "c2o_hats_logo_position_front[{$loop}]",
+                'name' => "c2o_hats_logo_position_front[{$loop}]",
+                'value' => 11,
+                'label' => __('&nbsp;Front', 'woocommerce'),
                 'desc_tip' => true,
                 'wrapper_class' => 'form-row form-row-full',
                 'required' => false
@@ -147,7 +190,7 @@ class VariableProductField
             woocommerce_wp_checkbox([
                 'id' => "c2o_bags_logo_position_front[{$loop}]",
                 'name' => "c2o_bags_logo_position_front[{$loop}]",
-                'value' => 1,
+                'value' => 13,
                 'label' => __('&nbsp;Front', 'woocommerce'),
                 'desc_tip' => true,
                 'wrapper_class' => 'form-row form-row-full',
@@ -160,7 +203,7 @@ class VariableProductField
             woocommerce_wp_checkbox([
                 'id' => "c2o_tt_logo_position_center[{$loop}]",
                 'name' => "c2o_tt_logo_position_center[{$loop}]",
-                'value' => 1,
+                'value' => 14,
                 'label' => __('&nbsp;Center', 'woocommerce'),
                 'desc_tip' => true,
                 'wrapper_class' => 'form-row form-row-full',
@@ -168,12 +211,12 @@ class VariableProductField
             ]);
         }
 
-        if (has_term('ties', 'product_cat', get_post($parent_product->ID))){
+        if (has_term('ties', 'product_cat', get_post($parent_product->ID))) {
             echo '<p>Select logo positions:</p>';
             woocommerce_wp_checkbox([
                 'id' => "c2o_ties_logo_position_front[{$loop}]",
                 'name' => "c2o_ties_logo_position_front[{$loop}]",
-                'value' => 1,
+                'value' => 19,
                 'label' => __('&nbsp;Front', 'woocommerce'),
                 'desc_tip' => true,
                 'wrapper_class' => 'form-row form-row-full',
@@ -182,7 +225,12 @@ class VariableProductField
         }
     }
 
-    public function updatePostMetaForTops($variation_id, $loop) : void
+    /**
+     * @param $variation_id
+     * @param $loop
+     * @return void
+     */
+    public function updatePostMetaForTops($variation_id, $loop): void
     {
         update_post_meta($variation_id, 'c2o_tops_logo_position_rs', esc_attr($_POST['c2o_tops_logo_position_rs'][$loop]));
         update_post_meta($variation_id, 'c2o_tops_logo_position_br', esc_attr($_POST['c2o_tops_logo_position_br'][$loop]));
@@ -192,11 +240,59 @@ class VariableProductField
         update_post_meta($variation_id, 'c2o_tops_logo_position_bl', esc_attr($_POST['c2o_tops_logo_position_bl'][$loop]));
         update_post_meta($variation_id, 'c2o_tops_logo_position_ls', esc_attr($_POST['c2o_tops_logo_position_ls'][$loop]));
         update_post_meta($variation_id, 'c2o_tops_logo_position_cb', esc_attr($_POST['c2o_tops_logo_position_cb'][$loop]));
+        update_post_meta($variation_id, 'c2o_tops_logo_position_tb', esc_attr($_POST['c2o_tops_logo_position_tb'][$loop]));
+        update_post_meta($variation_id, 'c2o_tops_logo_position_tc', esc_attr($_POST['c2o_tops_logo_position_tc'][$loop]));
+        update_post_meta($variation_id, 'c2o_tops_logo_position_ib', esc_attr($_POST['c2o_tops_logo_position_ib'][$loop]));
     }
 
-    public function updatePostMetaForBottoms($variation_id, $loop) : void
+    /**
+     * @param $variation_id
+     * @param $loop
+     * @return void
+     */
+    public function updatePostMetaForBottoms($variation_id, $loop): void
     {
         update_post_meta($variation_id, 'c2o_bottoms_logo_position_lp', esc_attr($_POST['c2o_bottoms_logo_position_lp'][$loop]));
         update_post_meta($variation_id, 'c2o_bottoms_logo_position_rp', esc_attr($_POST['c2o_bottoms_logo_position_rp'][$loop]));
+    }
+
+    /**
+     * @param $variation_id
+     * @param $loop
+     * @return void
+     */
+    public function updatePostMetaForHats($variation_id, $loop): void
+    {
+        update_post_meta($variation_id, 'c2o_hats_logo_position_front', esc_attr($_POST['c2o_hats_logo_position_front'][$loop]));
+    }
+
+    /**
+     * @param $variation_id
+     * @param $loop
+     * @return void
+     */
+    public function updatePostMetaForBags($variation_id, $loop): void
+    {
+        update_post_meta($variation_id, 'c2o_bags_logo_position_front', esc_attr($_POST['c2o_bags_logo_position_front'][$loop]));
+    }
+
+    /**
+     * @param $variation_id
+     * @param $loop
+     * @return void
+     */
+    public function updatePostMetaForTeaTowels($variation_id, $loop): void
+    {
+        update_post_meta($variation_id, 'c2o_tt_logo_position_center', esc_attr($_POST['c2o_tt_logo_position_center'][$loop]));
+    }
+
+    /**
+     * @param $variation_id
+     * @param $loop
+     * @return void
+     */
+    public function updatePostMetaForTies($variation_id, $loop): void
+    {
+        update_post_meta($variation_id, 'c2o_ties_logo_position_front', esc_attr($_POST['c2o_ties_logo_position_front'][$loop]));
     }
 }
