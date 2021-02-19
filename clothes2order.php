@@ -4,7 +4,7 @@
  * Clothes 2 Order plugin for WordPress
  *
  * @package   clothes2order
- * @link      https://ashredman.com
+ * @link      
  * @author    Reuben Porter <porterdmu@gmail.com> & Ashley Redman <ash.redman@outlook.com>
  * @copyright 2021 AR Development
  * @license   GPL v2 or later
@@ -14,7 +14,7 @@
  * Version:      1.2
  * Plugin URI:
  * Author:       Reuben Porter & Ashley Redman
- * Author URI:   https://ashredman.com
+ * Author URI:   
  * Text Domain:  clothes-2-order
  * Domain Path:
  * Requires PHP: 7.4
@@ -32,7 +32,7 @@
 
 defined('ABSPATH') || die();
 
-require_once 'constants.php';
+require_once 'inc/constants.php';
 
 add_action('plugins_loaded', function () {
 
@@ -46,12 +46,13 @@ add_action('plugins_loaded', function () {
             // 2. Check & create specific taxonomy terms to determine which products to check in a basket
             add_action('init', 'createProductCatTerms');
 
-            // 3. Add any additional product fields
+            //3. Update the UI of the product_cat c2o terms to be radio buttons & not check boxes
+
+            // 4. Add any additional product fields
             add_action('woocommerce_product_after_variable_attributes', 'productVariationFieldsSettings', 10, 3);
             add_action('woocommerce_save_product_variation', 'productVariationFieldsSave', 10, 2);
-            add_filter('woocommerce_available_variation', 'productVariationFieldsLoad');
 
-            // 4. On payment complete, 'run' the basket & post API calls for each basket item if meeting requirement
+            // 5. On payment complete, 'run' the basket & post API calls for each basket item if meeting requirement
             add_action('woocommerce_payment_complete', 'processNewOrder');
             add_action('woocommerce_checkout_create_order', 'updateOrderMeta', 10, 2);
             add_action('woocommerce_admin_order_data_after_order_details', 'updateOrderUI', 10, 1);
@@ -87,8 +88,6 @@ function wcUICreate($sections)
 function wcUISettings($settings, $current_section): array
 {
     if ($current_section == 'clothes-2-order') {
-
-
 
         $settings_c2o = [];
 
@@ -172,6 +171,8 @@ function productVariationFieldsSave($variation_id, $loop)
     require_once plugin_dir_path(__FILE__) . '/classes/VariableProductField.php';
     $fields = new clothes2order\classes\VariableProductField();
 
+    $fields->updatePostMetaForTops($variation_id, $loop);
+
     $product_variation = wc_get_product($variation_id);
     $parent_product = wc_get_product($product_variation->get_parent_id());
 
@@ -183,22 +184,21 @@ function productVariationFieldsSave($variation_id, $loop)
         return $fields->updatePostMetaForBottoms($variation_id, $loop);
     }
 
-    //    $c2o_logo_position_front = $_POST['c2o_logo_position_front'][$loop];
-    //    $c2o_logo_position_back = $_POST['c2o_logo_position_back'][$loop];
-    //
-    //    update_post_meta($variation_id, 'c2o_logo_position_front', esc_attr($c2o_logo_position_front));
-    //    update_post_meta($variation_id, 'c2o_logo_position_back', esc_attr($c2o_logo_position_back));
-}
+    if (has_term('hats', 'product_cat', get_post($parent_product->ID))) {
+        return $fields->updatePostMetaForHats($variation_id, $loop);
+    }
 
-/**
- * @param $variation
- */
-function productVariationFieldsLoad($variation)
-{
-    $variation['c2o_logo_position_front'] = get_post_meta($variation['variation_id'], 'c2o_logo_position_front', true);
-    $variation['c2o_logo_position_back'] = get_post_meta($variation['variation_id'], 'c2o_logo_position_back', true);
+    if (has_term('bags', 'product_cat', get_post($parent_product->ID))) {
+        return $fields->updatePostMetaForBags($variation_id, $loop);
+    }
 
-    return $variation;
+    if (has_term('tea-towels', 'product_cat', get_post($parent_product->ID))) {
+        return $fields->updatePostMetaForTeaTowels($variation_id, $loop);
+    }
+
+    if (has_term('tie', 'product_cat', get_post($parent_product->ID))) {
+        return $fields->updatePostMetaForTies($variation_id, $loop);
+    }
 }
 
 /**
@@ -231,70 +231,3 @@ function updateOrderUI($order)
         }
     }
 }
-
-
-
-
-
-
-
-
-/**
- * Use radio inputs instead of checkboxes for term checklists in specified taxonomies.
- *
- * @param   array   $args
- * @return  array
- */
-function wpse_139269_term_radio_checklist($args)
-{
-    if (!empty($args['taxonomy']) && $args['taxonomy'] === 'product_cat' /* <== Change to your required taxonomy */) {
-
-
-        if (empty($args['walker']) || is_a($args['walker'], 'Walker')) { // Don't override 3rd party walkers.
-            if (!class_exists('WPSE_139269_Walker_Category_Radio_Checklist')) {
-                /**
-                 * Custom walker for switching checkbox inputs to radio.
-                 *
-                 * @see Walker_Category_Checklist
-                 */
-                class WPSE_139269_Walker_Category_Radio_Checklist extends Walker_Category_Checklist
-                {
-                    function walk($elements, $max_depth, ...$args)
-                    {
-
-                        $tops_id = get_term('tops', 'slug', 'product_cat')->term_id;
-
-                        // var_dump($elements);
-
-                        $clothing_sub_terms = CLOTHING_SUB_TERMS;
-
-                        $output = parent::walk($elements, $max_depth, ...$args);
-
-                        // var_dump($output);
-
-                        // if (in_array($output[0]['slug'], CLOTHING_SUB_TERMS)) {
-                        if (strpos($output, 'Tops') !== false) {
-
-                            var_dump($output);
-
-                            $output = str_replace(
-                                array('type="checkbox"', "type='checkbox'"),
-                                array('type="radio"', "type='radio'"),
-                                $output
-                            );
-                        }
-
-
-                        return $output;
-                    }
-                }
-            }
-
-            $args['walker'] = new WPSE_139269_Walker_Category_Radio_Checklist;
-        }
-    }
-
-    return $args;
-}
-
-add_filter('wp_terms_checklist_args', 'wpse_139269_term_radio_checklist');
