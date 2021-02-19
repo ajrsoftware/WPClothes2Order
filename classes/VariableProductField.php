@@ -5,8 +5,8 @@ namespace clothes2order\classes;
 class VariableProductField
 {
     /**
+     * Check if the variation parent has any c2o terms
      * @param $variation
-     *
      * @return bool
      */
     public function checkIfHasTerm($variation): bool
@@ -261,7 +261,7 @@ class VariableProductField
      * @param $loop
      * @return void
      */
-    public function updatePostMetaForHats($variation_id, $loop): void
+    public function updatePostMetaForHats($variation_id, $loop)
     {
         update_post_meta($variation_id, 'c2o_hats_logo_position_front', esc_attr($_POST['c2o_hats_logo_position_front'][$loop]));
     }
@@ -271,7 +271,7 @@ class VariableProductField
      * @param $loop
      * @return void
      */
-    public function updatePostMetaForBags($variation_id, $loop): void
+    public function updatePostMetaForBags($variation_id, $loop)
     {
         update_post_meta($variation_id, 'c2o_bags_logo_position_front', esc_attr($_POST['c2o_bags_logo_position_front'][$loop]));
     }
@@ -281,7 +281,7 @@ class VariableProductField
      * @param $loop
      * @return void
      */
-    public function updatePostMetaForTeaTowels($variation_id, $loop): void
+    public function updatePostMetaForTeaTowels($variation_id, $loop)
     {
         update_post_meta($variation_id, 'c2o_tt_logo_position_center', esc_attr($_POST['c2o_tt_logo_position_center'][$loop]));
     }
@@ -291,7 +291,7 @@ class VariableProductField
      * @param $loop
      * @return void
      */
-    public function updatePostMetaForTies($variation_id, $loop): void
+    public function updatePostMetaForTies($variation_id, $loop)
     {
         update_post_meta($variation_id, 'c2o_ties_logo_position_front', esc_attr($_POST['c2o_ties_logo_position_front'][$loop]));
     }

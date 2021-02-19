@@ -17,14 +17,14 @@ class Order
 
             if (has_term($term->term_id, 'product_cat', $product->get_id())) {
 
-//                $response = wp_remote_post(self::API_POST_ORDER_ENDPOINT, [
-//                    'headers' => [
-//                        'Content-Type' => 'application/json',
-//                        'Accept' => 'application/json',
-//                        'Test-Mode' => 'true'
-//                    ],
-//                    'body' => wp_json_encode($this->buildPayload()),
-//                ]);
+                //                $response = wp_remote_post(self::API_POST_ORDER_ENDPOINT, [
+                //                    'headers' => [
+                //                        'Content-Type' => 'application/json',
+                //                        'Accept' => 'application/json',
+                //                        'Test-Mode' => 'true'
+                //                    ],
+                //                    'body' => wp_json_encode($this->buildPayload()),
+                //                ]);
                 return;
             }
         }
