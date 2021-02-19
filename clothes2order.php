@@ -30,10 +30,19 @@
  * GNU General Public License for more details.
  */
 
+/**
+ * 
+ */
 defined('ABSPATH') || die();
 
+/**
+ * 
+ */
 require_once 'inc/constants.php';
 
+/**
+ * Init the plugin only when all plugins are loaded & we can check for WC being available
+ */
 add_action('plugins_loaded', function () {
 
     if (class_exists('Woocommerce')) {
@@ -69,8 +78,8 @@ add_action('plugins_loaded', function () {
 });
 
 /**
+ * Create a new section under the WC products
  * @param $sections
- *
  * @return mixed
  */
 function wcUICreate($sections)
@@ -80,6 +89,7 @@ function wcUICreate($sections)
 }
 
 /**
+ * Create the settings to show under the new C20 WC products section
  * @param $settings
  * @param $current_section
  *
@@ -133,9 +143,9 @@ function wcUISettings($settings, $current_section): array
 }
 
 /**
- *
+ * Ensure the required product_cat terms are available
  */
-function createProductCatTerms(): void
+function createProductCatTerms()
 {
     require_once plugin_dir_path(__FILE__) . '/classes/ProductTerms.php';
     $productTerms = new clothes2order\classes\ProductTerms();
@@ -148,6 +158,7 @@ function createProductCatTerms(): void
 }
 
 /**
+ * Add all custom product variation fields
  * @param $loop
  * @param $variation_data
  * @param $variation
@@ -163,6 +174,7 @@ function productVariationFieldsSettings($loop, $variation_data, $variation)
 }
 
 /**
+ * Save the custom product variation fields as post meta
  * @param $variation_id
  * @param $loop
  */
@@ -202,6 +214,7 @@ function productVariationFieldsSave($variation_id, $loop)
 }
 
 /**
+ * Handle a successful order if the order/basket items contain c2o items
  * @param $order_id
  */
 function processNewOrder($order_id)
@@ -212,6 +225,7 @@ function processNewOrder($order_id)
 }
 
 /**
+ * Update the admin order meta with c2o response
  * @param $order
  * @param $data
  */
@@ -221,6 +235,7 @@ function updateOrderMeta($order, $data)
 }
 
 /**
+ * Display the order meta from c2o
  * @param $order
  */
 function updateOrderUI($order)
