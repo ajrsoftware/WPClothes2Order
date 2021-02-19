@@ -51,7 +51,6 @@ add_action('plugins_loaded', function () {
             // 4. Add any additional product fields
             add_action('woocommerce_product_after_variable_attributes', 'productVariationFieldsSettings', 10, 3);
             add_action('woocommerce_save_product_variation', 'productVariationFieldsSave', 10, 2);
-            add_filter('woocommerce_available_variation', 'productVariationFieldsLoad', 10, 3);
 
             // 5. On payment complete, 'run' the basket & post API calls for each basket item if meeting requirement
             add_action('woocommerce_payment_complete', 'processNewOrder');
@@ -172,6 +171,8 @@ function productVariationFieldsSave($variation_id, $loop)
     require_once plugin_dir_path(__FILE__) . '/classes/VariableProductField.php';
     $fields = new clothes2order\classes\VariableProductField();
 
+    $fields->updatePostMetaForTops($variation_id, $loop);
+
     $product_variation = wc_get_product($variation_id);
     $parent_product = wc_get_product($product_variation->get_parent_id());
 
@@ -198,19 +199,6 @@ function productVariationFieldsSave($variation_id, $loop)
     if (has_term('tie', 'product_cat', get_post($parent_product->ID))) {
         return $fields->updatePostMetaForTies($variation_id, $loop);
     }
-}
-
-/**
- * @param $variation
- */
-function productVariationFieldsLoad($variation_get_max_purchase_quantity, $instance, $variation)
-{
-    // var_dump($variation);
-    // die();
-    // $variation['c2o_tops_logo_position_ib'] = get_post_meta($variation['variation_id'], 'c2o_tops_logo_position_ib', true);
-
-
-    return $variation_get_max_purchase_quantity;
 }
 
 /**

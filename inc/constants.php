@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * 
+ */
 const CLOTHING_SUB_TERMS = [
     0 => [
         'name' => 'Tops',
@@ -31,4 +34,12 @@ const CLOTHING_SUB_TERMS = [
         'description' => 'Ties.',
         'slug' => 'tie'
     ]
+];
+
+/**
+ * 
+ */
+const POSITION_TO_VALUE = [
+    'c2o_tops_logo_position_rs' => 1,
+    'c2o_tops_logo_position_br' => 2,
 ];
