@@ -1,0 +1,128 @@
+{
+    "key": "group_60317c712dfd1",
+    "title": "Logo positions: Tops",
+    "fields": [
+        {
+            "key": "field_60317e7fad0ea",
+            "label": "Right sleeve",
+            "name": "c2o_top_rs",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "30",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_60317fb495beb",
+            "label": "Right sleeve logo",
+            "name": "c2o_top_rs_logo",
+            "type": "image",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_60317e7fad0ea",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "70",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "url",
+            "preview_size": "thumbnail",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "jpg, jpeg, png, svg"
+        },
+        {
+            "key": "field_60318074bb79f",
+            "label": "Left sleeve",
+            "name": "c20_otp_ls",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "30",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_6031808fbb7a0",
+            "label": "Left sleeve logo",
+            "name": "c20_otp_ls_logo",
+            "type": "image",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "70",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "url",
+            "preview_size": "thumbnail",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "jpg, jpeg, png, svg"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "product"
+            },
+            {
+                "param": "post_taxonomy",
+                "operator": "==",
+                "value": "product_cat:clothing"
+            },
+            {
+                "param": "post_taxonomy",
+                "operator": "==",
+                "value": "product_cat:tops"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "modified": 1613857060
+}

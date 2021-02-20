@@ -4,7 +4,7 @@
  * Clothes 2 Order plugin for WordPress
  *
  * @package   clothes2order
- * @link      
+ * @link
  * @author    Reuben Porter <porterdmu@gmail.com> & Ashley Redman <ash.redman@outlook.com>
  * @copyright 2021 AR Development
  * @license   GPL v2 or later
@@ -14,7 +14,7 @@
  * Version:      1.2
  * Plugin URI:
  * Author:       Reuben Porter & Ashley Redman
- * Author URI:   
+ * Author URI:
  * Text Domain:  clothes-2-order
  * Domain Path:
  * Requires PHP: 7.4
@@ -31,14 +31,23 @@
  */
 
 /**
- * 
+ *
  */
 defined('ABSPATH') || die();
 
 /**
- * 
+ *
  */
 require_once 'inc/constants.php';
+require_once 'inc/acf/acf.php';
+
+add_filter('acf/settings/save_json', 'my_acf_json_save_point');
+function my_acf_json_save_point($path)
+{
+    $path = plugin_dir_path( __FILE__ ) . '/acf-json';
+    return $path;
+}
+
 
 /**
  * Init the plugin only when all plugins are loaded & we can check for WC being available
@@ -55,11 +64,10 @@ add_action('plugins_loaded', function () {
             // 2. Check & create specific taxonomy terms to determine which products to check in a basket
             add_action('init', 'createProductCatTerms');
 
-            //3. Update the UI of the product_cat c2o terms to be radio buttons & not check boxes
 
             // 4. Add any additional product fields
-            add_action('woocommerce_product_after_variable_attributes', 'productVariationFieldsSettings', 10, 3);
-            add_action('woocommerce_save_product_variation', 'productVariationFieldsSave', 10, 2);
+//            add_action('woocommerce_product_after_variable_attributes', 'productVariationFieldsSettings', 10, 3);
+//            add_action('woocommerce_save_product_variation', 'productVariationFieldsSave', 10, 2);
 
             // 5. On payment complete, 'run' the basket & post API calls for each basket item if meeting requirement
             add_action('woocommerce_payment_complete', 'processNewOrder');
@@ -79,7 +87,9 @@ add_action('plugins_loaded', function () {
 
 /**
  * Create a new section under the WC products
+ *
  * @param $sections
+ *
  * @return mixed
  */
 function wcUICreate($sections)
@@ -90,6 +100,7 @@ function wcUICreate($sections)
 
 /**
  * Create the settings to show under the new C20 WC products section
+ *
  * @param $settings
  * @param $current_section
  *
@@ -159,6 +170,7 @@ function createProductCatTerms()
 
 /**
  * Add all custom product variation fields
+ *
  * @param $loop
  * @param $variation_data
  * @param $variation
@@ -175,6 +187,7 @@ function productVariationFieldsSettings($loop, $variation_data, $variation)
 
 /**
  * Save the custom product variation fields as post meta
+ *
  * @param $variation_id
  * @param $loop
  */
@@ -189,32 +202,39 @@ function productVariationFieldsSave($variation_id, $loop)
     $parent_product = wc_get_product($product_variation->get_parent_id());
 
     if (has_term('tops', 'product_cat', get_post($parent_product->ID))) {
+        $fields->resetLogoPositionCheckboxes($variation_id, $loop, 'tops');
         return $fields->updatePostMetaForTops($variation_id, $loop);
     }
 
     if (has_term('bottoms', 'product_cat', get_post($parent_product->ID))) {
+        $fields->resetLogoPositionCheckboxes($variation_id, $loop, 'bottoms');
         return $fields->updatePostMetaForBottoms($variation_id, $loop);
     }
 
     if (has_term('hats', 'product_cat', get_post($parent_product->ID))) {
+        $fields->resetLogoPositionCheckboxes($variation_id, $loop, 'hats');
         return $fields->updatePostMetaForHats($variation_id, $loop);
     }
 
     if (has_term('bags', 'product_cat', get_post($parent_product->ID))) {
+        $fields->resetLogoPositionCheckboxes($variation_id, $loop, 'bags');
         return $fields->updatePostMetaForBags($variation_id, $loop);
     }
 
     if (has_term('tea-towels', 'product_cat', get_post($parent_product->ID))) {
+        $fields->resetLogoPositionCheckboxes($variation_id, $loop, 'tea-towels');
         return $fields->updatePostMetaForTeaTowels($variation_id, $loop);
     }
 
     if (has_term('tie', 'product_cat', get_post($parent_product->ID))) {
+        $fields->resetLogoPositionCheckboxes($variation_id, $loop, 'tie');
         return $fields->updatePostMetaForTies($variation_id, $loop);
     }
 }
 
 /**
  * Handle a successful order if the order/basket items contain c2o items
+ *
  * @param $order_id
  */
 function processNewOrder($order_id)
@@ -226,6 +246,7 @@ function processNewOrder($order_id)
 
 /**
  * Update the admin order meta with c2o response
+ *
  * @param $order
  * @param $data
  */
@@ -236,6 +257,7 @@ function updateOrderMeta($order, $data)
 
 /**
  * Display the order meta from c2o
+ *
  * @param $order
  */
 function updateOrderUI($order)

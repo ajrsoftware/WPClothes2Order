@@ -295,4 +295,13 @@ class VariableProductField
     {
         update_post_meta($variation_id, 'c2o_ties_logo_position_front', esc_attr($_POST['c2o_ties_logo_position_front'][$loop]));
     }
+
+    public function resetLogoPositionCheckboxes($variation_id, $loop, $term)
+    {
+        // get all terms from clothing
+        // clear all meta data that isnt in term $term
+
+
+
+    }
 }

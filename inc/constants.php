@@ -35,11 +35,3 @@ const CLOTHING_SUB_TERMS = [
         'slug' => 'tie'
     ]
 ];
-
-/**
- * 
- */
-const POSITION_TO_VALUE = [
-    'c2o_tops_logo_position_rs' => 1,
-    'c2o_tops_logo_position_br' => 2,
-];
