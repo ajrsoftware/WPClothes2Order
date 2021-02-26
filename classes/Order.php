@@ -2,155 +2,161 @@
 
 namespace clothes2order\classes;
 
-use WC_Order_Item_Product;
-
 class Order
 {
+    /**
+     * @param $order_id
+     */
     public function checkBasket($order_id)
     {
         $order = wc_get_order($order_id);
-        $items = $order->get_items();
+        $products = [];
 
-
-        foreach ($items as $item) {
+        foreach ($order->get_items() as $item_id => $item) {
 
             $variation_id = $item->get_product_id();
-            $variation_product == wc_get_product($variation_id);
+            $variation_product = wc_get_product($variation_id);
             $product = wc_get_product($variation_product->get_parent_id());
+            $product_id = $product->get_id();
+            $logos_for_item = [];
 
 
-            // check its term
-            if (has_term(get_option('clothes-2-order_product_cat_term'), 'product_cat', $product->get_id())) {
+            if (has_term('clothing', 'product_cat', $product_id)) {
 
-                // we know htis is a 'clothing' item
+                $this->setLogoData('tops', 'product_cat', $product_id, 'top', [
+                    'rs' => 1, // Right sleeve
+                    'br' => 2, // Bottom right
+                    'rc' => 3, // Right center
+                    'cc' => 4, // Center center
+                    'lc' => 5, // Left center
+                    'bl' => 6, // Bottom left
+                    'ls' => 7, // Left sleeve
+                    'cb' => 8, // Center back
+                    'tb' => 9, // Top back
+                    'tc' => 17, // Top chest
+                    'ib' => 18 // Inside back (For printed labels)
+                ]);
+                $this->setLogoData('bottoms', 'product_cat', $product_id, 'bottom', [
+                    'lp' => 15, // Left pocket
+                    'rp' => 16 // Right pocket
+                ]);
+                $this->setLogoData('hats', 'product_cat', $product_id, 'hat', ['front' => 11]); // Front
+                $this->setLogoData('bags', 'product_cat', $product_id, 'bag', ['front' => 13]); // Front
+                $this->setLogoData('tea-towels', 'product_cat', $product_id, 'tt', ['center' => 14]); // Center
+                $this->setLogoData('tie', 'product_cat', $product_id, 'tie', ['front' => 19]); // Front
+
                 $api_product = [
                     [
                         'sku' => $variation_product->get_sku(),
                         'quantity' => 1,
                         'logos' => [
-                            [
-                                //                     'unique_id' => 'TEST_01', // unsure
-                                //                     'file' => 'https://c2o-customisation-images.s3-eu-west-1.amazonaws.com/5/8/7/d/transparent/587dd8b7651c44c68a29f118decbf740_316993.png?rand=503402',
-                                //                     'position' => '4', // center chest
-                                //                     'width' => '26', //30cm
-                                //                     'type' => 'print' // unsure
-                            ]
-                        ]
+                            'logo' => $logos_for_item,
+                        ],
                     ]
                 ];
 
-                // 'product' => [
-                //     [
-                //         'sku' => '594-117-15',
-                //         'quantity' => '1',
-                //         'logos' => [
-                //             'logo' => [
-                //                 [
-                //                     'unique_id' => 'TEST_01', // unsure
-                //                     'file' => 'https://c2o-customisation-images.s3-eu-west-1.amazonaws.com/5/8/7/d/transparent/587dd8b7651c44c68a29f118decbf740_316993.png?rand=503402',
-                //                     'position' => '4', // center chest
-                //                     'width' => '26', //30cm
-                //                     'type' => 'print' // unsure
-                //                 ]
-                //             ]
-                //         ],
-                //     ]
-                // ],
-
-                // Now check what sub term it has (tops, bottoms etc)
-                if (has_term('tops', 'product_cat', $product->get_id())) {
-
-                    $tops_rs = get_post_meta($variation_id, 'c2o_tops_logo_position_rs', true); // 1
-                    $tops_br = get_post_meta($variation_id, 'c2o_tops_logo_position_br', true); // 2
-                    $tops_rc = get_post_meta($variation_id, 'c2o_tops_logo_position_rc', true); // 3
-                    $tops_cc = get_post_meta($variation_id, 'c2o_tops_logo_position_cc', true); // 4
-                    $tops_lc = get_post_meta($variation_id, 'c2o_tops_logo_position_lc', true); // 5
-                    $tops_bl = get_post_meta($variation_id, 'c2o_tops_logo_position_bl', true); // 6
-                    $tops_ls = get_post_meta($variation_id, 'c2o_tops_logo_position_ls', true); // 7
-                    $tops_cb = get_post_meta($variation_id, 'c2o_tops_logo_position_cb', true); // 8
-                    $tops_tb = get_post_meta($variation_id, 'c2o_tops_logo_position_tb', true); // 9
-                    $tops_tc = get_post_meta($variation_id, 'c2o_tops_logo_position_tc', true); // 17
-                    $tops_ib = get_post_meta($variation_id, 'c2o_tops_logo_position_ib', true); // 18
-
-                    $bottoms_lp = get_post_meta($variation_id, 'c2o_bottoms_logo_position_lb', true); // 15
-                    $bottoms_rp = get_post_meta($variation_id, 'c2o_bottoms_logo_position_rb', true); // 16
-
-                    $hats_front = get_post_meta($variation_id, 'c2o_hats_logo_position_front', true); // 11
-
-                    $bags_front = get_post_meta($variation_id, 'c2o_bags_logo_position_front', true); // 13
-
-                    $tea_towel_center = get_post_meta($variation_id, 'c2o_tt_logo_position_center', true); // 14
-
-                    $tie_front = get_post_meta($variation_id, 'c2o_ties_logo_position_front', true); // 19
-
-                    $logo = [
-                        'file' => '' // paste in url to logo here
-                    ];
-                //                     'unique_id' => 'TEST_01', // unsure
-                //                     'file' => 'https://c2o-customisation-images.s3-eu-west-1.amazonaws.com/5/8/7/d/transparent/587dd8b7651c44c68a29f118decbf740_316993.png?rand=503402',
-                //                     'position' => '4', // center chest
-                //                     'width' => '26', //30cm
-                //                     'type' => 'print' // unsure
-                //                 ]
-                    if ($tops_rs) {
-                        $value = 1;
-
-                    }
-
-                    if ($tops_br) {
-                        $value = 2;
-                    }
-                }
-
-                // now that we know what sub term, ew can get for exact meta fields
-
-
-                // check its meta field status, ticked or not ticked for otps right sleve etc
-
-
-                //                $response = wp_remote_post(self::API_POST_ORDER_ENDPOINT, [
-                //                    'headers' => [
-                //                        'Content-Type' => 'application/json',
-                //                        'Accept' => 'application/json',
-                //                        'Test-Mode' => 'true'
-                //                    ],
-                //                    'body' => wp_json_encode($this->buildPayload()),
-                //                ]);
-
+                $products[] = $api_product;
 
                 return;
             }
         }
+
+        $this->sendRequest($order, $products);
     }
 
-    protected function buildPayload(): array
+    /**
+     * @param $logo_url
+     * @param $logo_width
+     * @param $position_value
+     *
+     * @return array
+     */
+    protected function createSingleLogoPayload($logo_url, $logo_width, $position_value): array
     {
-        // TODO build the post structure
+        return [
+            'unique_id' => 'TEST_01', // unsure
+            'file' => $logo_url,
+            'position' => $position_value,
+            'width' => $logo_width,
+            'type' => 'print'
+        ];
+    }
+
+    /**
+     * @param $term
+     * @param $taxonomy
+     * @param $product_id
+     * @param $prefix
+     * @param $positions
+     *
+     * @return array
+     */
+    protected function setLogoData($term, $taxonomy, $product_id, $prefix, $positions): array
+    {
+        $logos_for_item = [];
+        if (has_term($term, $taxonomy, $product_id)) {
+            foreach ($positions as $position => $position_value) {
+                $included = get_field($prefix . '_' . $position . '_group_include', $product_id); // post_id
+                $logo_url = get_field($prefix . '_' . $position . '_group_logo', $product_id);
+                $logo_width = get_field($prefix . '_' . $position . '_group_logo_width', $product_id);
+                if ($included && $logo_url && $logo_width) $logos_for_item[] = $this->createSingleLogoPayload($logo_url, $logo_width, $position_value);
+            }
+        }
+        return $logos_for_item;
+    }
+
+    /**
+     * @param $order
+     * @param $products
+     *
+     * @return array
+     */
+    protected function buildPayload($order, $products): array
+    {
+        $api_key = get_option('clothes-2-order_api_key');
 
         return [
-            'api_key' => self::API_KEY,
+            'api_key' => $api_key,
             'order' => [
-                'order_id' => "1234",
-                'order_notes' => "Order notes here",
-                'delivery_method' => 'standard'
+                'order_id' => $order->get_id(),
+                'order_notes' => $order->get_customer_order_notes(),
+                'delivery_method' => 'standard' // TODO what can we do here?
             ],
             'customer' => [
-                'name' => 'john doe',
-                'email' => 'john@example.com',
-                'telephone' => '0 123 456 789',
+                'name' => $order->get_billing_first_name() . '' . $order->get_billing_last_name(),
+                'email' => $order->get_billing_email(),
+                'telephone' => $order->get_billing_phone(),
             ],
             'address' => [
-                'delivery_name' => 'Name',
-                'company_name' => 'Quayside Clothing Ltd',
-                'address_line_1' => 'Unit 9 Wheel Forge Way',
-                'address_line_2' => 'Trafford Park',
-                'city' => 'Manchester',
-                'postcode' => 'M17 1EH',
-                'country' => 'United Kingdom'
+                'delivery_name' => $order->get_billing_first_name() . '' . $order->get_billing_last_name(),
+                'company_name' => $order->get_billing_company(),
+                'address_line_1' => $order->get_billing_address_1(),
+                'address_line_2' => $order->get_billing_address_2(),
+                'city' => $order->get_billing_city(),
+                'postcode' => $order->get_billing_postcode(),
+                'country' => $order->get_billing_country()
             ],
-            'products' => [
-                // stuff goes here
-            ]
+            'products' => ['product' => $products],
         ];
+    }
+
+    /**
+     * @param $order
+     * @param $products
+     */
+    protected function sendRequest($order, $products)
+    {
+        $api_endpoint = get_option('clothes-2-order_endpoint');
+
+        $response = wp_remote_post($api_endpoint, [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+                'Test-Mode' => 'true'
+            ],
+            'body' => wp_json_encode($this->buildPayload($order, $products)),
+        ]);
+
+        $order->update_meta_data('_clothes_2_order_response_value', 'PUT RESPONSE HERE');
     }
 }
