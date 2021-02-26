@@ -11,19 +11,20 @@ class Order
     {
         $order = wc_get_order($order_id);
         $products = [];
+        $logos_for_item = [];
 
         foreach ($order->get_items() as $item_id => $item) {
 
-            $variation_id = $item->get_product_id();
-            $variation_product = wc_get_product($variation_id);
-            $product = wc_get_product($variation_product->get_parent_id());
-            $product_id = $product->get_id();
-            $logos_for_item = [];
+            // "potential polymorphic call" - IDE issue, WC_Order_Item class is inherited about 8 billion times
+            $basket_item_product = $item->get_product();
+            if (!$basket_item_product->is_type('variable')) return;
 
+            $parent_product = wc_get_product($basket_item_product->get_parent_id());
+            $parent_product_id = $parent_product->get_id();
 
-            if (has_term('clothing', 'product_cat', $product_id)) {
+            if (has_term('clothing', 'product_cat', $parent_product_id)) {
 
-                $this->setLogoData('tops', 'product_cat', $product_id, 'top', [
+                $this->setLogoData('tops', 'product_cat', $parent_product_id, 'top', [
                     'rs' => 1, // Right sleeve
                     'br' => 2, // Bottom right
                     'rc' => 3, // Right center
@@ -36,19 +37,19 @@ class Order
                     'tc' => 17, // Top chest
                     'ib' => 18 // Inside back (For printed labels)
                 ]);
-                $this->setLogoData('bottoms', 'product_cat', $product_id, 'bottom', [
+                $this->setLogoData('bottoms', 'product_cat', $parent_product_id, 'bottom', [
                     'lp' => 15, // Left pocket
                     'rp' => 16 // Right pocket
                 ]);
-                $this->setLogoData('hats', 'product_cat', $product_id, 'hat', ['front' => 11]); // Front
-                $this->setLogoData('bags', 'product_cat', $product_id, 'bag', ['front' => 13]); // Front
-                $this->setLogoData('tea-towels', 'product_cat', $product_id, 'tt', ['center' => 14]); // Center
-                $this->setLogoData('tie', 'product_cat', $product_id, 'tie', ['front' => 19]); // Front
+                $this->setLogoData('hats', 'product_cat', $parent_product_id, 'hat', ['front' => 11]); // Front
+                $this->setLogoData('bags', 'product_cat', $parent_product_id, 'bag', ['front' => 13]); // Front
+                $this->setLogoData('tea-towels', 'product_cat', $parent_product_id, 'tt', ['center' => 14]); // Center
+                $this->setLogoData('tie', 'product_cat', $parent_product_id, 'tie', ['front' => 19]); // Front
 
                 $api_product = [
                     [
-                        'sku' => $variation_product->get_sku(),
-                        'quantity' => 1,
+                        'sku' => $basket_item_product->get_sku(),
+                        'quantity' => $basket_item_product->get_quantity(),
                         'logos' => [
                             'logo' => $logos_for_item,
                         ],
@@ -56,30 +57,11 @@ class Order
                 ];
 
                 $products[] = $api_product;
-
-                return;
             }
         }
 
-        $this->sendRequest($order, $products);
-    }
-
-    /**
-     * @param $logo_url
-     * @param $logo_width
-     * @param $position_value
-     *
-     * @return array
-     */
-    protected function createSingleLogoPayload($logo_url, $logo_width, $position_value): array
-    {
-        return [
-            'unique_id' => 'TEST_01', // unsure
-            'file' => $logo_url,
-            'position' => $position_value,
-            'width' => $logo_width,
-            'type' => 'print'
-        ];
+        // Ensure we only send the request if the logos array contains valid data
+        if (count($logos_for_item) > 0) $this->sendRequest($order, $products);
     }
 
     /**
@@ -103,6 +85,45 @@ class Order
             }
         }
         return $logos_for_item;
+    }
+
+    /**
+     * @param $logo_url
+     * @param $logo_width
+     * @param $position_value
+     *
+     * @return array
+     */
+    protected function createSingleLogoPayload($logo_url, $logo_width, $position_value): array
+    {
+        return [
+            'unique_id' => 'TEST_01', // We're unsure of this value, maybe its important? $order->get_order_key(); / $order->get_id();
+            'file' => $logo_url,
+            'position' => $position_value,
+            'width' => $logo_width,
+            'type' => 'print' // We can add another acf option for 'type' rather than hard code it in
+        ];
+    }
+
+    /**
+     * @param $order
+     * @param $products
+     */
+    protected function sendRequest($order, $products)
+    {
+        $api_endpoint = get_option('clothes-2-order_endpoint');
+
+        $response = wp_remote_post($api_endpoint, [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+                'Test-Mode' => 'true'
+            ],
+            'body' => wp_json_encode($this->buildPayload($order, $products)),
+        ]);
+
+        // Lets do something with the response var to determine what we put in the order UI below
+        $order->update_meta_data('_clothes_2_order_response_value', 'PUT RESPONSE HERE');
     }
 
     /**
@@ -138,25 +159,5 @@ class Order
             ],
             'products' => ['product' => $products],
         ];
-    }
-
-    /**
-     * @param $order
-     * @param $products
-     */
-    protected function sendRequest($order, $products)
-    {
-        $api_endpoint = get_option('clothes-2-order_endpoint');
-
-        $response = wp_remote_post($api_endpoint, [
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-                'Test-Mode' => 'true'
-            ],
-            'body' => wp_json_encode($this->buildPayload($order, $products)),
-        ]);
-
-        $order->update_meta_data('_clothes_2_order_response_value', 'PUT RESPONSE HERE');
     }
 }
