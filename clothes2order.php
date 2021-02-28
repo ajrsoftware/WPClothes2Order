@@ -46,7 +46,8 @@ add_action('plugins_loaded', function () {
         add_filter('woocommerce_get_sections_products', 'wcUICreate');
         add_filter('woocommerce_get_settings_products', 'wcUISettings', 10, 2);
 
-        if (get_option('clothes-2-order_api_key') && get_option('clothes-2-order_endpoint')) {
+        if (get_option('clothes-2-order_api_key') && get_option('clothes-2-order_endpoint') && get_option('clothes-2-order_email')) {
+
             // 2. Check & create specific taxonomy terms to determine which products to check in a basket
             add_action('init', 'createProductCatTerms');
 
@@ -129,6 +130,21 @@ function wcUISettings($settings, $current_section): array
         ];
 
         $settings_c2o[] = [
+            'name' => __('API Admin email', 'clothes-2-order'),
+            'desc_tip' => __('Please enter an email address', 'clothes-2-order'),
+            'id' => 'clothes-2-order_email',
+            'type' => 'email',
+            'desc' => __('This address will receive any failed order emails', 'clothes-2-order'),
+        ];
+
+        $settings_c2o[] = [
+            'name' => __('API Test Mode', 'clothes-2-order'),
+            'id' => 'clothes-2-order_test_mode',
+            'type' => 'checkbox',
+            'desc' => __('This will enable test mode.', 'clothes-2-order'),
+        ];
+
+        $settings_c2o[] = [
             'type' => 'sectionend', 'id' => 'clothes-2-order'
         ];
 
@@ -172,9 +188,21 @@ function processNewOrder($order_id)
  */
 function updateOrderUI($order)
 {
-    if ($key = $order->get_meta('_clothes_2_order_response_value')) {
-        if ($value = $order->get_meta('_clothes_2_order_response_value')) {
-            echo '<br style="clear:both"><p><strong>' . __("Clothes 2 Order API Status", "clothes-2-order") . ':</strong> ' . $value . '</p>';
-        }
+    echo '<br style="clear: both"><h3>Clothes 2 Order</h3>';
+
+    if ($value = $order->get_meta('_clothes_2_order_error_msg')) {
+        echo '<p><strong>' . __("Error message", "clothes-2-order") . ':</strong> ' . $value . '</p>';
+    }
+    if ($value = $order->get_meta('_clothes_2_order_order_ID')) {
+        echo '<p><strong>' . __("Order ID", "clothes-2-order") . ':</strong> ' . $value . '</p>';
+    }
+    if ($value = $order->get_meta('_clothes_2_order_net_value')) {
+        echo '<p><strong>' . __("Order net value", "clothes-2-order") . ':</strong> ' . $value . '</p>';
+    }
+    if ($value = $order->get_meta('_clothes_2_order_gross_value')) {
+        echo '<p><strong>' . __("Order gross value", "clothes-2-order") . ':</strong> ' . $value . '</p>';
+    }
+    if ($value = $order->get_meta('_clothes_2_order_est_dispatch_date')) {
+        echo '<p><strong>' . __("Estimated dispatch date", "clothes-2-order") . ':</strong> ' . $value . '</p>';
     }
 }
