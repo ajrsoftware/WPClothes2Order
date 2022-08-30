@@ -11,7 +11,7 @@
  *
  * Plugin Name:  Clothes 2 Order
  * Description:  Clothes 2 Order custom plugin for WordPress
- * Version:      1.2
+ * Version:      0.1.0
  * Plugin URI:
  * Author:       Reuben Porter & Ashley Redman
  * Author URI:
@@ -66,7 +66,6 @@ add_action('plugins_loaded', function () {
             // 5. On payment complete, 'run' the basket & post API calls for each basket item if meeting requirement
             add_action('woocommerce_payment_complete', 'processNewOrder');
             add_action('woocommerce_admin_order_data_after_order_details', 'updateOrderUI', 10, 1);
-
         } else {
             add_action('admin_notices', function () {
                 echo '<div class="notice notice-error"><p>' . _('Please ensure you complete the Clothes2Order required settings <a href="/wp-admin/admin.php?page=wc-settings&tab=products&section=clothes-2-order">here</a>') . '</p></div>';
