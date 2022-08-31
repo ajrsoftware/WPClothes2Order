@@ -1,4 +1,4 @@
-# === WPClothes2Order ===
+# WPClothes2Order
 
 -   Contributors: @AJ_Redman
 -   Tags: woocommerce, clothes2order
@@ -9,13 +9,17 @@
 -   License: GPLv3
 -   License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-## == Description ==
+## Description
 
 Unofficial WooCommerce Plugin for Clothes2Order
 
-## = Minimum Requirements =
+## Minimum Requirements
 
 -   PHP 7.4 or greater is recommended
 -   MySQL 5.7 or greater is recommended
+
+## Getting started
+
+[See our getting started guide (Coming soon)](https://www.wpclothes2order.com/getting-started)
 
 [See changelog for all versions](https://github.com/AshleyRedman/WPClothes2Order/releases).
