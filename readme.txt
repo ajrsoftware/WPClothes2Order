@@ -17,4 +17,6 @@ Unofficial WooCommerce Plugin for Clothes2Order
 * PHP 7.4 or greater is recommended
 * MySQL 5.7 or greater is recommended
 
+[See our getting started guide (Coming soon)](https://www.wpclothes2order.com/getting-started)
+
 [See changelog for all versions](https://github.com/AshleyRedman/WPClothes2Order/releases).
