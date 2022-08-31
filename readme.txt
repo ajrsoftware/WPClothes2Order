@@ -1,5 +1,5 @@
 === WPClothes2Order ===
-Contributors: @AJ_Redman
+Contributors: [Ashley Redman](https://twitter.com/aj_redman), [Reuben Porter](porderdmu@gmail.com)
 Tags: woocommerce, clothes2order
 Requires at least: 5.8
 Tested up to: 6.0.0
