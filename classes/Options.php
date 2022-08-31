@@ -29,25 +29,25 @@ class Options
             ];
 
             $wpc2o_settings[] = [
-                'name' => __('API Key', 'wpc2o'),
+                'name' => __('API Key (required)', 'wpc2o'),
                 'desc_tip' => __('This is the unique API key provided by Clothes2Order', 'wpc2o'),
-                'id' => 'wpc2o_api_key',
+                'id' => constant("WPC2O_API_KEY"),
                 'type' => 'password',
                 'desc' => __('API key provided by Clothes2Order', 'wpc2o'),
             ];
 
             $wpc2o_settings[] = [
-                'name' => __('API Endpoint', 'wpc2o'),
+                'name' => __('API Endpoint (required)', 'wpc2o'),
                 'desc_tip' => __('This is the unique URI that is used to communicate with Clothes2Order', 'wpc2o'),
-                'id' => 'wpc2o_endpoint',
+                'id' => constant("WPC2O_API_ENDPOINT"),
                 'type' => 'text',
                 'desc' => __('Endpoint URL provided by Clothes2Order', 'wpc2o'),
             ];
 
             $wpc2o_settings[] = [
-                'name' => __('Store manager email', 'wpc2o'),
+                'name' => __('Manager email (required)', 'wpc2o'),
                 'desc_tip' => __('Please enter an email address', 'wpc2o'),
-                'id' => 'wpc2o_manager_email',
+                'id' => constant("WPC2O_API_STORE_MANAGER_EMAIL"),
                 'type' => 'email',
                 'desc' => __('This address will receive failed order email notifications', 'wpc2o'),
             ];
