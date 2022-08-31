@@ -9,7 +9,7 @@ Welcome! :tada::sparkles: and thank you for taking the time to contribute to thi
 ---
 
 -   [Report a bug by creating an issue](#report-a-bug-by-creating-an-issue)
--   [Suggesting a feature](#suggest-an-enhancement-by-posting-in-the-ideas-section)
+-   [Suggesting a feature](#suggesting-a-feature)
 -   [Submit changes by creating a PR](#submit-changes-by-creating-a-pr)
 
 ---
