@@ -1,6 +1,6 @@
 # WPClothes2Order
 
--   Contributors: [Ashley Redman](https://twitter.com/aj_redman), [Reuben Porter](porderdmu@gmail.com)
+-   Contributors: [Ashley Redman](https://github.com/AshleyRedman), [Reuben Porter](https://github.com/ReubenPorter)
 -   Tags: woocommerce, clothes2order
 -   Requires at least: 5.8
 -   Tested up to: 6.0.0
