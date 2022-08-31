@@ -24,6 +24,11 @@ Unofficial WooCommerce Plugin for Clothes2Order
 
 [See changelog for all versions](https://github.com/AshleyRedman/WPClothes2Order/releases).
 
+## Development
+
+We have created a test environment using [Docker](https://www.docker.com/) to allow easy & open development of this please.
+For more information, [please see here](https://github.com/AshleyRedman/WPClothes2Order-test-env).
+
 ### Important information
 
 Please note, this is an **unoffical** Clothes2Order plugin.
