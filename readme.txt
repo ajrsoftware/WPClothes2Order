@@ -23,7 +23,7 @@ Unofficial WooCommerce Plugin for Clothes2Order
 
 = Development =
 
-We have created a test environment using [Docker](https://www.docker.com/) to allow easy & open development of this please.
+We have created a test environment using [Docker](https://www.docker.com/) to allow easy & open development of this project.
 For more information, [please see here](https://github.com/AshleyRedman/WPClothes2Order-test-env).
 
 = Important information =
