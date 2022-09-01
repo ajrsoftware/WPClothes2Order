@@ -1,22 +1,22 @@
 <?php
 
-namespace WPClothes2Order;
+namespace WPC2O;
 
-class Options
+class APIOptions
 {
     public function __construct()
     {
-        add_filter('woocommerce_get_sections_products', [$this, 'wpc2o_options_page']);
-        add_filter('woocommerce_get_settings_products', [$this, 'wpc2o_options_page_settings'], 10, 2);
+        add_filter('woocommerce_get_sections_products', [$this, 'WC_OptionsPage']);
+        add_filter('woocommerce_get_settings_products', [$this, 'WC_OptionsPageSettings'], 10, 2);
     }
 
-    public function wpc2o_options_page($sections)
+    public function WC_OptionsPage($sections)
     {
         $sections['wpc2o'] = __('WPClothes2Order', 'wpc2o');
         return $sections;
     }
 
-    public function wpc2o_options_page_settings($settings, $current_section)
+    public function WC_OptionsPageSettings($settings, $current_section)
     {
         if ($current_section === 'wpc2o') {
             $wpc2o_settings = [];
