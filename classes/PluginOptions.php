@@ -31,7 +31,7 @@ class PluginOptions
                     ->set_html('<h2>Logo</h2>')
             ])
             ->add_tab(__('Delivery options'), [
-                Field::make('html', 'delivery_options')
+                Field::make('html', 'wpc2o_delivery_options')
                     ->set_html('<h2>Delivery options</h2>')
             ]);
     }
