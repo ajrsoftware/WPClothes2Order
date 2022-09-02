@@ -1,0 +1,36 @@
+{
+    "name": "wpclothes2order",
+    "version": "1.0.0",
+    "description": "",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/AshleyRedman/WPClothes2Order.git"
+    },
+    "author": "Ashley Redman",
+    "license": "GPLv3",
+    "bugs": {
+        "url": "https://github.com/AshleyRedman/WPClothes2Order/issues"
+    },
+    "homepage": "https://github.com/AshleyRedman/WPClothes2Order#readme",
+    "scripts": {
+        "mix:dev": "npx mix",
+        "mix:watch": "npx mix watch",
+        "mix:prod": "npx mix --production",
+        "format:write": "npx prettier --write src/",
+        "format:check": "npx prettier --check src/",
+        "lint:check": "eslint src/"
+    },
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^5.36.1",
+        "@typescript-eslint/parser": "^5.36.1",
+        "eslint": "^8.23.0",
+        "eslint-plugin-prettier": "^4.2.1",
+        "laravel-mix": "^6.0.49",
+        "prettier": "^2.7.1",
+        "ts-loader": "^9.3.1",
+        "typescript": "^4.8.2"
+    },
+    "dependencies": {
+        "highlight.js": "^11.6.0"
+    }
+}
