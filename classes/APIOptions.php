@@ -1,22 +1,22 @@
 <?php
 
-namespace WPClothes2Order;
+namespace WPC2O;
 
-class Options
+class APIOptions
 {
     public function __construct()
     {
-        add_filter('woocommerce_get_sections_products', [$this, 'wpc2o_options_page']);
-        add_filter('woocommerce_get_settings_products', [$this, 'wpc2o_options_page_settings'], 10, 2);
+        add_filter('woocommerce_get_sections_products', [$this, 'WC_OptionsPage']);
+        add_filter('woocommerce_get_settings_products', [$this, 'WC_OptionsPageSettings'], 10, 2);
     }
 
-    public function wpc2o_options_page($sections)
+    public function WC_OptionsPage($sections)
     {
         $sections['wpc2o'] = __('WPClothes2Order', 'wpc2o');
         return $sections;
     }
 
-    public function wpc2o_options_page_settings($settings, $current_section)
+    public function WC_OptionsPageSettings($settings, $current_section)
     {
         if ($current_section === 'wpc2o') {
             $wpc2o_settings = [];
@@ -37,15 +37,23 @@ class Options
             ];
 
             $wpc2o_settings[] = [
-                'name' => __('API Endpoint (required)', 'wpc2o'),
+                'name' => __('Order API Endpoint (required)', 'wpc2o'),
                 'desc_tip' => __('This is the unique URI that is used to communicate with Clothes2Order', 'wpc2o'),
                 'id' => constant("WPC2O_API_ENDPOINT"),
                 'type' => 'text',
-                'desc' => __('Endpoint URL provided by Clothes2Order', 'wpc2o'),
+                'desc' => __('Order endpoint URL provided by Clothes2Order', 'wpc2o'),
             ];
 
             $wpc2o_settings[] = [
-                'name' => __('Manager email (required)', 'wpc2o'),
+                'name' => __('Stock API Endpoint (required)', 'wpc2o'),
+                'desc_tip' => __('This is the unique URI that is used to retrieve the Clothes2Order stock', 'wpc2o'),
+                'id' => constant("WPC2O_API_STOCK_ENDPOINT"),
+                'type' => 'text',
+                'desc' => __('Stock endpoint URL provided by Clothes2Order', 'wpc2o'),
+            ];
+
+            $wpc2o_settings[] = [
+                'name' => __('Store manager email (required)', 'wpc2o'),
                 'desc_tip' => __('Please enter an email address', 'wpc2o'),
                 'id' => constant("WPC2O_API_STORE_MANAGER_EMAIL"),
                 'type' => 'email',

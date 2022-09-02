@@ -29,33 +29,26 @@
  * GNU General Public License for more details.
  */
 
-namespace WPClothes2Order;
+namespace WPC2O;
 
 defined('ABSPATH') || exit;
 
+require_once('vendor/autoload.php');
 require_once('includes/CONSTANTS.php');
+require_once('classes/Scripts.php');
+require_once('classes/WPClothes2Order.php');
+require_once('classes/API.php');
+require_once('classes/Orders.php');
+require_once('classes/Stock.php');
+require_once('classes/Notices.php');
+require_once('classes/APIOptions.php');
+require_once('classes/PluginOptions.php');
+require_once('classes/WC_Product_WPC2O.php');
 
-add_action('plugins_loaded', function () {
-    if (class_exists('Woocommerce')) {
-        if (!class_exists('WPClothes2Order\Options')) {
-            require_once('classes/Options.php');
-            new Options;
+function start()
+{
+    $plugin = new WPClothes2Order();
+    $plugin->boot();
+}
 
-            if (
-                get_option(constant("WPC2O_API_STORE_MANAGER_EMAIL"))  &&
-                get_option(constant("WPC2O_API_ENDPOINT"))  &&
-                get_option(constant("WPC2O_API_KEY"))
-            ) {
-                // TODO
-            } else {
-                add_action('admin_notices', function () {
-                    echo constant("NO_API_CREDENTIALS");
-                }, 10, 2);
-            }
-        }
-    } else {
-        add_action('admin_notices', function () {
-            echo constant("NO_WOO_ACTIVE");
-        }, 10, 2);
-    }
-});
+add_action('plugins_loaded', 'WPC2O\start');
