@@ -18,6 +18,19 @@ class PluginOptions
             ->set_page_menu_title('WPC2O')
             ->set_page_menu_position(58)
             ->set_icon($this->buildIcon())
+            ->add_tab(__('Logo'), [
+
+                Field::make('image', 'wpc2o_logo_selection', __('Embedded logo'))
+                    ->set_type(['image']),
+                Field::make('html', 'wpc2o_logo_title')
+                    ->set_html('<p>Supported image formats are: jpg, jpeg, gif and png.</p>')
+            ])
+            ->add_tab(__('Delivery options'), [
+                Field::make('radio', 'wpc2o_delivery_options_selection', __('Select your prefered devliery option'))
+                    ->add_options([
+                        'standard' => __('Standard') // TODO - investigate other options
+                    ])
+            ])
             ->add_tab(__('Order history'), [
                 Field::make('html', 'wpc2o_order_history')
                     ->set_html('<h2>Full order history</h2>')
@@ -26,13 +39,13 @@ class PluginOptions
                 Field::make('html', 'wpc2o_stock_sync')
                     ->set_html('<h2>Stock sync</h2>')
             ])
-            ->add_tab(__('Logo'), [
-                Field::make('html', 'wpc2o_logo')
-                    ->set_html('<h2>Logo</h2>')
+            ->add_tab(__('API'), [
+                Field::make('html', 'wpc2o_api_credentials')
+                    ->set_html('<h1>API Credentials</h1><p style="padding: 0 1px;"><a href="' . get_admin_url() . 'admin.php?page=wc-settings&tab=products&section=wpc2o">Click here</a> to update your API credentials.</p>')
             ])
-            ->add_tab(__('Delivery options'), [
-                Field::make('html', 'wpc2o_delivery_options')
-                    ->set_html('<h2>Delivery options</h2>')
+            ->add_tab(__('Help & support'), [
+                Field::make('html', 'wpc2o_help_support')
+                    ->set_html('<h1>Help & support</h1><p style="padding: 0 1px;">For any queries, please <a href="https://github.com/AshleyRedman/WPClothes2Order/issues" target="_blank" rel="noopener noreferrer">open a new GitHub issue</a> on the open repository.</p>')
             ]);
     }
 
