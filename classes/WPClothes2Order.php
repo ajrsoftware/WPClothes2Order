@@ -13,6 +13,7 @@ class WPClothes2Order
             if (self::APICredentialsCheck()) {
                 add_action('after_setup_theme', [$this, 'LoadAdminMenu']);
                 add_filter('plugin_action_links_WPClothes2Order/wpclothes2order.php', [$this, 'PluginPageSettingLink']);
+                new Scripts();
             } else {
                 new Notices('error', 'Missing WPClothes2Order API credentials. Please add them <a href="' . get_admin_url() . 'admin.php?page=wc-settings&tab=products&section=wpc2o">here</a>', false);
             }

@@ -33,11 +33,11 @@ class PluginOptions
             ])
             ->add_tab(__('Order history'), [
                 Field::make('html', 'wpc2o_order_history')
-                    ->set_html('<h2>Full order history</h2>')
+                    ->set_html((new Order())->getFullHistoryView())
             ])
             ->add_tab(__('C2O Stock sync'), [
                 Field::make('html', 'wpc2o_stock_sync')
-                    ->set_html('<h2>Stock sync</h2>')
+                    ->set_html((new Stock())->StockSyncView())
             ])
             ->add_tab(__('API'), [
                 Field::make('html', 'wpc2o_api_credentials')
