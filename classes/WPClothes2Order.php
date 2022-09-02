@@ -10,28 +10,18 @@ class WPClothes2Order
     {
         if (class_exists('Woocommerce')) {
             new APIOptions;
-            if (self::APICredentialsCheck()) {
+            if ((new API())->APICredentialsCheck()) {
                 add_action('after_setup_theme', [$this, 'LoadAdminMenu']);
                 add_filter('plugin_action_links_WPClothes2Order/wpclothes2order.php', [$this, 'PluginPageSettingLink']);
                 new Scripts();
+                require_once('WC/Product.php');
+                new Register_WC_Product();
             } else {
                 new Notices('error', 'Missing WPClothes2Order API credentials. Please add them <a href="' . get_admin_url() . 'admin.php?page=wc-settings&tab=products&section=wpc2o">here</a>', false);
             }
         } else {
             new Notices('error', 'Woocommerce is required to use WPClothes2Order!', false);
         }
-    }
-
-    protected static function APICredentialsCheck(): bool
-    {
-        if (
-            get_option(constant("WPC2O_API_STORE_MANAGER_EMAIL"))  &&
-            get_option(constant("WPC2O_API_ENDPOINT"))  &&
-            get_option(constant("WPC2O_API_KEY"))
-        ) {
-            return true;
-        }
-        return false;
     }
 
     public function LoadAdminMenu()

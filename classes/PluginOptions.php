@@ -20,13 +20,13 @@ class PluginOptions
             ->set_icon($this->buildIcon())
             ->add_tab(__('Logo'), [
 
-                Field::make('image', 'wpc2o_logo_selection', __('Embedded logo'))
+                Field::make('image', constant("WPC2O_LOGO"), __('Embedded logo'))
                     ->set_type(['image']),
                 Field::make('html', 'wpc2o_logo_title')
                     ->set_html('<p>Supported image formats are: jpg, jpeg, gif and png.</p>')
             ])
             ->add_tab(__('Delivery options'), [
-                Field::make('radio', 'wpc2o_delivery_options_selection', __('Select your prefered devliery option'))
+                Field::make('radio', constant("WPC2O_DELIVERY_OPTION"), __('Select your prefered devliery option'))
                     ->add_options([
                         'standard' => __('Standard') // TODO - investigate other options
                     ])
@@ -41,7 +41,10 @@ class PluginOptions
             ])
             ->add_tab(__('API'), [
                 Field::make('html', 'wpc2o_api_credentials')
-                    ->set_html('<h1>API Credentials</h1><p style="padding: 0 1px;"><a href="' . get_admin_url() . 'admin.php?page=wc-settings&tab=products&section=wpc2o">Click here</a> to update your API credentials.</p>')
+                    ->set_html((new API())->getAPIView()),
+                Field::make('html', 'wpc2o_api_example')
+                    ->set_html((new API())->getExamplePOSTRequestView())
+
             ])
             ->add_tab(__('Help & support'), [
                 Field::make('html', 'wpc2o_help_support')

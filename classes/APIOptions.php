@@ -37,15 +37,23 @@ class APIOptions
             ];
 
             $wpc2o_settings[] = [
-                'name' => __('API Endpoint (required)', 'wpc2o'),
+                'name' => __('Order API Endpoint (required)', 'wpc2o'),
                 'desc_tip' => __('This is the unique URI that is used to communicate with Clothes2Order', 'wpc2o'),
                 'id' => constant("WPC2O_API_ENDPOINT"),
                 'type' => 'text',
-                'desc' => __('Endpoint URL provided by Clothes2Order', 'wpc2o'),
+                'desc' => __('Order endpoint URL provided by Clothes2Order', 'wpc2o'),
             ];
 
             $wpc2o_settings[] = [
-                'name' => __('Manager email (required)', 'wpc2o'),
+                'name' => __('Stock API Endpoint (required)', 'wpc2o'),
+                'desc_tip' => __('This is the unique URI that is used to retrieve the Clothes2Order stock', 'wpc2o'),
+                'id' => constant("WPC2O_API_STOCK_ENDPOINT"),
+                'type' => 'text',
+                'desc' => __('Stock endpoint URL provided by Clothes2Order', 'wpc2o'),
+            ];
+
+            $wpc2o_settings[] = [
+                'name' => __('Store manager email (required)', 'wpc2o'),
                 'desc_tip' => __('Please enter an email address', 'wpc2o'),
                 'id' => constant("WPC2O_API_STORE_MANAGER_EMAIL"),
                 'type' => 'email',

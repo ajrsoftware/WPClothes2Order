@@ -37,11 +37,13 @@ require_once('vendor/autoload.php');
 require_once('includes/CONSTANTS.php');
 require_once('classes/Scripts.php');
 require_once('classes/WPClothes2Order.php');
+require_once('classes/API.php');
 require_once('classes/Orders.php');
 require_once('classes/Stock.php');
 require_once('classes/Notices.php');
 require_once('classes/APIOptions.php');
 require_once('classes/PluginOptions.php');
+require_once('classes/WC_Product_WPC2O.php');
 
 function start()
 {

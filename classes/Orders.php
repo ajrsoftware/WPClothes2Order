@@ -17,6 +17,17 @@ class Order
      */
     public function getFullHistoryView(): string
     {
-        return '<h2>Full order history</h2>';
+        $content = '<h2>Full order history</h2>';
+        $content .= '<div style="padding: 0 12px">';
+
+        $orders = $this->getFullHistory();
+        if (count($orders) <= 0) {
+            $content .= '<p>No orders to show</p>';
+        } else {
+            // pass to template
+            $content .= '<p>TODO</p>';
+        }
+        $content .= '</div>';
+        return $content;
     }
 }
