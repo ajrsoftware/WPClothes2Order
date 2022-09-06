@@ -1,7 +1,5 @@
 <?php
 
-namespace WPC2O;
-
 class Notices
 {
     protected string $servierty;
@@ -13,10 +11,10 @@ class Notices
         $this->servierty = $servierty;
         $this->message = $message;
         $this->dissmissible = $dissmissible;
-        add_action('admin_notices', [$this, 'build']);
+        add_action('admin_notices', array($this, 'wpc2o_build'));
     }
 
-    public function build(): void
+    public function wpc2o_build(): void
     {
 ?>
         <div class="notice notice-<?php echo $this->servierty; ?> <?php $this->dissmissible ?: 'is-dismissible'; ?>">

@@ -29,26 +29,54 @@
  * GNU General Public License for more details.
  */
 
-namespace WPC2O;
-
 defined('ABSPATH') || exit;
 
 require_once('vendor/autoload.php');
-require_once('includes/CONSTANTS.php');
-require_once('classes/Scripts.php');
-require_once('classes/WPClothes2Order.php');
-require_once('classes/API.php');
-require_once('classes/Orders.php');
-require_once('classes/Stock.php');
+require_once('includes/constants.php');
 require_once('classes/Notices.php');
-require_once('classes/APIOptions.php');
-require_once('classes/PluginOptions.php');
-require_once('classes/WC_Product_WPC2O.php');
+require_once('includes/scripts.php');
+require_once('includes/wc_options.php');
+require_once('includes/wpc2o_options.php');
+require_once('includes/wpc2o_options_api.php');
+require_once('includes/wpc2o_options_logo.php');
+require_once('includes/wpc2o_options_orders.php');
+require_once('includes/wpc2o_options_stock.php');
 
-function start()
+add_action('plugins_loaded', 'wpc2o_start');
+
+function wpc2o_start()
 {
-    $plugin = new WPClothes2Order();
-    $plugin->boot();
-}
+    if (class_exists('Woocommerce')) {
+        add_filter('woocommerce_get_sections_products', 'wpc2o_options_page');
+        add_filter('woocommerce_get_settings_products', 'wpc2o_options_page_settings', 10, 2);
 
-add_action('plugins_loaded', 'WPC2O\start');
+        if (wpc2o_api_credentials_check()) {
+            // styles & scripts
+            add_action('admin_enqueue_scripts', 'wpc2o_assets');
+
+            // plugin options
+            add_action('after_setup_theme', 'wpc2o_options');
+            add_filter('plugin_action_links_WPClothes2Order/wpclothes2order.php', 'wpc2o_settings_link');
+
+            // register wc product
+            wpc2o_c2o_product();
+            add_filter('product_type_selector', 'wpc2o_product_type_selector');
+            add_filter('woocommerce_product_data_tabs', 'wpc2o_wc_product_data_tab');
+            add_filter('woocommerce_product_data_tabs', 'wpc2o_wc_product_data_remove_tabs');
+            add_filter('woocommerce_allow_marketplace_suggestions', '__return_false');
+            add_action('woocommerce_product_data_panels', 'wpc2o_wc_product_data_tab_content');
+            add_action('woocommerce_process_product_meta', 'wpc2o_wc_save_product_meta');
+
+            // wpc2o plugin option fields
+            add_action('carbon_fields_register_fields', 'wpc2o_theme_options');
+
+            // register cron
+
+            // register on place order
+        } else {
+            new Notices('error', 'Missing WPClothes2Order API credentials. Please add them <a href="' . get_admin_url() . 'admin.php?page=wc-settings&tab=products&section=wpc2o">here</a>', false);
+        }
+    } else {
+        new Notices('error', 'Woocommerce is required to use WPClothes2Order!', false);
+    }
+}
