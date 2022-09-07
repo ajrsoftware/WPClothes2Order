@@ -38,6 +38,7 @@ require_once('includes/scripts.php');
 require_once('includes/wc_options.php');
 require_once('includes/wpc2o_options.php');
 require_once('includes/wpc2o_options_api.php');
+require_once('includes/wpc2o_options_delivery.php');
 require_once('includes/wpc2o_options_logo.php');
 require_once('includes/wpc2o_options_orders.php');
 require_once('includes/wpc2o_options_stock.php');
