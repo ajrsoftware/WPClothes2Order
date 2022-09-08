@@ -12,17 +12,21 @@
         "url": "https://github.com/AshleyRedman/WPClothes2Order/issues"
     },
     "homepage": "https://github.com/AshleyRedman/WPClothes2Order#readme",
+    "engineStrict": true,
+    "engines": {
+        "node": "18.*"
+    },
     "scripts": {
         "mix:dev": "npx mix",
         "mix:watch": "npx mix watch",
         "mix:prod": "npx mix --production",
-        "format:write": "npx prettier --write src/",
-        "format:check": "npx prettier --check src/",
+        "format:write": "prettier --write src/",
+        "format:check": "prettier --check src/",
         "lint:check": "eslint src/"
     },
     "devDependencies": {
-        "@typescript-eslint/eslint-plugin": "^5.36.1",
-        "@typescript-eslint/parser": "^5.36.1",
+        "@typescript-eslint/eslint-plugin": "^5.36.2",
+        "@typescript-eslint/parser": "^5.36.2",
         "eslint": "^8.23.0",
         "eslint-plugin-prettier": "^4.2.1",
         "laravel-mix": "^6.0.49",

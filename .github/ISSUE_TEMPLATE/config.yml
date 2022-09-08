@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+    - name: Help & support - FAQ
+      url: https://github.com/AshleyRedman/WPClothes2Order/discussions/new?category=q-a
+      about: "If you can't get something to work the way you expect, check out our FAQ's."
+    - name: Feature Request
+      url: https://github.com/AshleyRedman/WPClothes2Order/discussions/new?category=ideas
+      about: "Suggest any ideas you have using our discussion forums."
+    - name: Bug Report
+      url: https://github.com/AshleyRedman/WPClothes2Order/issues/new?body=
+      about: "If you've already checked our our FAQ's without luck and confirmed something is broken, create a bug report."
