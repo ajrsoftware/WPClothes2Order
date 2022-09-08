@@ -14,12 +14,10 @@ function wpc2o_theme_options()
         ->add_tab(__('Logo'), array(
             Field::make('html', 'wpc2o_logo_title')
                 ->set_html(wpc2o_get_logo_view()),
-            Field::make('image', constant("WPC2O_LOGO"), __('Embedded logo'))
+            Field::make('image', constant("WPC2O_LOGO"), __('Upload your logo'))
                 ->set_type(['image']),
             Field::make('html', 'wpc2o_logo_position_detail')
-                ->set_html(wpc2o_get_logo_position_detail_view()),
-            Field::make('html', 'wpc2o_logo_width_detail')
-                ->set_html(wpc2o_get_logo_width_detail_view()),
+                ->set_html(wpc2o_get_logo_position_detail_view())
 
         ))
 
