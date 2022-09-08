@@ -2,11 +2,11 @@
 
 function wpc2o_c2o_product()
 {
-    class WC_Product_WPC2O extends WC_Product
+    class WC_Product_Wp_Clothes_Two_Order extends WC_Product
     {
         public function __construct($product)
         {
-            $this->product_type = 'wpc2o_product';
+            $this->product_type = 'wp_clothes_two_order';
             parent::__construct($product);
         }
     }
@@ -28,17 +28,27 @@ function wpc2o_api_credentials_check(): bool
 
 function wpc2o_product_type_selector(array $type): array
 {
-    $type['wpc2o_product'] = __('WPC2O Product');
+    $type['wp_clothes_two_order'] = __('WPC2O Product');
+
     return $type;
+}
+
+function wpc2o_load_custom_product_type_class($classname, $product_type)
+{
+    if ($product_type == 'wp_clothes_two_order') {
+        $classname = 'show_if_wp_clothes_two_order';
+    }
+
+    return $classname;
 }
 
 function wpc2o_wc_product_data_tab(array $tabs): array
 {
-    $tabs['wpc2o_product'] = [
-        'label'     => __('WPC2O', 'wpc2o'),
-        'target' => 'wpc2o_product_options',
-        'class'  => ('show_if_wpc2o_product')
-    ];
+    $tabs['wp_clothes_two_order'] = array(
+        'label' => __('WPC2O', 'wpc2o'),
+        'target' => 'wp_clothes_two_order_options',
+        'class' => ('show_if_wp_clothes_two_order')
+    );
 
     return $tabs;
 }
@@ -52,13 +62,105 @@ function wpc2o_wc_product_data_remove_tabs(array $tabs): array
 function wpc2o_wc_product_data_tab_content(): void
 {
 ?>
-    <div id="wpc2o_product_options" class='panel woocommerce_options_panel'>
+    <div id="wp_clothes_two_order_options" class='panel woocommerce_options_panel'>
         <div class='options_group'>
+            <p>Ensure you enter values acording to what Clothes2Order accept
+                <br>Please
+                <a href="<?php echo get_admin_url() . 'admin.php?page=crb_carbon_fields_container_wpclothes2order.php'; ?>" target="_blank" rel="noreferrer noopener">
+                    read the logo positions and widths explained
+                </a>
+                here before continuing.
+            </p>
+
             <?php
             woocommerce_wp_checkbox([
-                'id'     => '_enable_wpc2o_product',
+                'id'     => '_enable_wp_clothes_two_order',
                 'label' => __('Enable as C2O Product?', 'wpc2o'),
+                'desc_tip' => 'true',
+                'description' => __('Select if this product is a C2O product', 'wpc2o')
             ]);
+
+            woocommerce_wp_select([
+                'id' => '_type_wp_clothes_two_order',
+                'label' => __('Select product type', 'wpc2o'),
+                'options' => array(
+                    'top' => 'Top',
+                    'bottoms' => 'Bottoms',
+                    'bag' => 'Bag',
+                    'hat' => 'Hat',
+                    'tea-towel' => 'Tea towel',
+                    'tie' => 'Tie'
+                ),
+                'desc_tip' => 'true',
+                'custom_attributes' => array('required' => 'required'),
+                'description' => __('Select the type of C2O product', 'wpc2o')
+            ]);
+
+            woocommerce_wp_select([
+                'id' => '_position_wp_clothes_two_order',
+                'label' => __('Select logo position', 'wpc2o'),
+                'options' => array(
+                    'front' => 'Front',
+                    'center' => 'Center',
+                    'right-pocket' => 'Right pocket',
+                    'left-pocket' => 'Left pocket',
+                    'right-sleeve' => 'Right sleeve',
+                    'right-bottom' => 'Right bottom',
+                    'right-chest' => 'Right chest',
+                    'center-chest' => 'Center chest',
+                    'left-sleeve' => 'Left sleeve',
+                    'left-chest' => 'Left chest',
+                    'left-bottom' => 'Left bottom',
+                    'top-back' => 'Top back',
+                    'bottom-back' => 'Bottom back',
+                    'top-chest' => 'Top chest',
+                    'inside-back' => 'Inside back (labels)',
+                ),
+                'desc_tip' => 'true',
+                'custom_attributes' => array('required' => 'required'),
+                'description' => __('Select the position of the logo', 'wpc2o')
+            ]);
+
+            woocommerce_wp_select([
+                'id' => '_width_wp_clothes_two_order',
+                'label' => __('Select logo width', 'wpc2o'),
+                'options' => array(
+                    '1' => '1cm',
+                    '2' => '2cm',
+                    '3' => '3cm',
+                    '4' => '4cm',
+                    '5' => '5cm',
+                    '6' => '6cm',
+                    '7' => '7cm',
+                    '8' => '8cm',
+                    '9' => '9cm',
+                    '10' => '10cm',
+                    '11' => '11cm',
+                    '12' => '12cm',
+                    '13' => '13cm',
+                    '14' => '14cm',
+                    '15' => '15cm',
+                    '16' => '16cm',
+                    '17' => '17cm',
+                    '18' => '18cm',
+                    '19' => '19cm',
+                    '20' => '20cm',
+                    '21' => '21cm',
+                    '22' => '22cm',
+                    '23' => '23cm',
+                    '24' => '24cm',
+                    '25' => '25cm',
+                    '26' => '26cm',
+                    '27' => '27cm',
+                    '28' => '28cm',
+                    '29' => '29cm',
+                    '30' => '30cm',
+                ),
+                'desc_tip' => 'true',
+                'custom_attributes' => array('required' => 'required'),
+                'description' => __('Select the position of the logo', 'wpc2o')
+            ]);
+
             ?>
         </div>
     </div>
@@ -67,8 +169,18 @@ function wpc2o_wc_product_data_tab_content(): void
 
 function wpc2o_wc_save_product_meta(int $post_id): void
 {
-    $enable = isset($_POST['_enable_wpc2o_product']) ? 'yes' : 'no';
-    update_post_meta($post_id, '_enable_wpc2o_product', $enable);
+    $enable = isset($_POST['_enable_wp_clothes_two_order']);
+    $type = $_POST['_type_wp_clothes_two_order'];
+    $position = $_POST['_position_wp_clothes_two_order'];
+    $width = $_POST['_width_wp_clothes_two_order'];
+
+    update_post_meta($post_id, '_enable_wp_clothes_two_order', $_POST['_enable_wp_clothes_two_order']);
+
+    if ($enable) {
+        update_post_meta($post_id, '_type_wp_clothes_two_order', sanitize_text_field($type));
+        update_post_meta($post_id, '_position_wp_clothes_two_order', sanitize_text_field($position));
+        update_post_meta($post_id, '_width_wp_clothes_two_order', sanitize_text_field($width));
+    }
 }
 
 function wpc2o_options_page($sections)

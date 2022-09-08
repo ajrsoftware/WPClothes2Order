@@ -61,12 +61,13 @@ function wpc2o_start()
 
             // register wc product
             wpc2o_c2o_product();
-            add_filter('product_type_selector', 'wpc2o_product_type_selector');
-            add_filter('woocommerce_product_data_tabs', 'wpc2o_wc_product_data_tab');
-            add_filter('woocommerce_product_data_tabs', 'wpc2o_wc_product_data_remove_tabs');
-            add_filter('woocommerce_allow_marketplace_suggestions', '__return_false');
+            add_filter('product_type_selector', 'wpc2o_product_type_selector', 10, 1);
+            add_filter('woocommerce_product_class', 'wpc2o_load_custom_product_type_class', 10, 2);
+            add_filter('woocommerce_product_data_tabs', 'wpc2o_wc_product_data_tab', 10, 1);
+            add_filter('woocommerce_product_data_tabs', 'wpc2o_wc_product_data_remove_tabs', 10, 1);
+            add_filter('woocommerce_allow_marketplace_suggestions', '__return_false', 10);
             add_action('woocommerce_product_data_panels', 'wpc2o_wc_product_data_tab_content');
-            add_action('woocommerce_process_product_meta', 'wpc2o_wc_save_product_meta');
+            add_action('woocommerce_process_product_meta', 'wpc2o_wc_save_product_meta', 10, 1);
 
             // wpc2o plugin option fields
             add_action('carbon_fields_register_fields', 'wpc2o_theme_options');
