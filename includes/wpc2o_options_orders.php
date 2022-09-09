@@ -18,5 +18,7 @@ function wpc2o_get_order_history_view(): string
         $content .= '<p>TODO</p>';
     }
     $content .= '</div>';
+
+    $content .= '<div data-component="ProductList">failed to load</div>';
     return $content;
 }

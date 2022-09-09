@@ -56,6 +56,7 @@ function wpc2o_wc_product_data_tab(array $tabs): array
 function wpc2o_wc_product_data_remove_tabs(array $tabs): array
 {
     unset($tabs['linked_product']); // TODO - figure out which tabs we can support
+    unset($tabs['shipping_options']); // TODO - figure out which tabs we can support
     return $tabs;
 }
 
@@ -63,7 +64,7 @@ function wpc2o_wc_product_data_tab_content(): void
 {
 ?>
     <div id="wp_clothes_two_order_options" class='panel woocommerce_options_panel'>
-        <div class='options_group'>
+        <div class="options_group">
             <p>Ensure you enter values acording to what Clothes2Order accept
                 <br>Please
                 <a href="<?php echo get_admin_url() . 'admin.php?page=crb_carbon_fields_container_wpclothes2order.php'; ?>" target="_blank" rel="noreferrer noopener">
@@ -71,14 +72,22 @@ function wpc2o_wc_product_data_tab_content(): void
                 </a>
                 here before continuing.
             </p>
-
             <?php
-            woocommerce_wp_checkbox([
-                'id'     => '_enable_wp_clothes_two_order',
-                'label' => __('Enable as C2O Product?', 'wpc2o'),
-                'desc_tip' => 'true',
-                'description' => __('Select if this product is a C2O product', 'wpc2o')
-            ]);
+            woocommerce_wp_checkbox(
+                array(
+                    'id'     => '_enable_wp_clothes_two_order',
+                    'label' => __('Enable as C2O Product?', 'wpc2o'),
+                    'desc_tip' => 'true',
+                    'description' => __('Select if this product is a C2O product', 'wpc2o')
+                )
+            );
+            ?>
+
+
+        </div>
+
+        <div class='options_group'>
+            <?php
 
             woocommerce_wp_select([
                 'id' => '_type_wp_clothes_two_order',
@@ -162,7 +171,11 @@ function wpc2o_wc_product_data_tab_content(): void
             ]);
 
             ?>
+
+
         </div>
+
+        <div id="wpc2o-button-parent" style="padding: 12px"></div>
     </div>
 <?php
 }

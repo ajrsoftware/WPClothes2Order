@@ -2,8 +2,10 @@
     "root": true,
     "extends": [
         "eslint:recommended",
+        "plugin:react/recommended",
         "plugin:@typescript-eslint/eslint-recommended",
-        "plugin:@typescript-eslint/recommended"
+        "plugin:@typescript-eslint/recommended",
+        "plugin:jsx-a11y/recommended"
     ],
     "env": {
         "browser": true,
@@ -27,6 +29,8 @@
             {
                 "usePrettierrc": true
             }
-        ]
+        ],
+        "react/jsx-props-no-spreading": 2,
+        "react/react-in-jsx-scope": "off"
     }
 }
