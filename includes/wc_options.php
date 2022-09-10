@@ -1,18 +1,5 @@
 <?php
 
-function wpc2o_c2o_product()
-{
-    class WC_Product_Wp_Clothes_Two_Order extends WC_Product
-    {
-        public function __construct($product)
-        {
-            $this->product_type = 'wp_clothes_two_order';
-            parent::__construct($product);
-        }
-    }
-}
-
-
 function wpc2o_api_credentials_check(): bool
 {
     if (
@@ -24,176 +11,6 @@ function wpc2o_api_credentials_check(): bool
         return true;
     }
     return false;
-}
-
-function wpc2o_product_type_selector(array $type): array
-{
-    $type['wp_clothes_two_order'] = __('WPC2O Product');
-
-    return $type;
-}
-
-function wpc2o_load_custom_product_type_class($classname, $product_type)
-{
-    if ($product_type == 'wp_clothes_two_order') {
-        $classname = 'show_if_wp_clothes_two_order';
-    }
-
-    return $classname;
-}
-
-function wpc2o_wc_product_data_tab(array $tabs): array
-{
-    $tabs['wp_clothes_two_order'] = array(
-        'label' => __('WPC2O', 'wpc2o'),
-        'target' => 'wp_clothes_two_order_options',
-        'class' => ('show_if_wp_clothes_two_order')
-    );
-
-    return $tabs;
-}
-
-function wpc2o_wc_product_data_remove_tabs(array $tabs): array
-{
-    unset($tabs['linked_product']); // TODO - figure out which tabs we can support
-    unset($tabs['shipping_options']); // TODO - figure out which tabs we can support
-    return $tabs;
-}
-
-function wpc2o_wc_product_data_tab_content(): void
-{
-?>
-    <div id="wp_clothes_two_order_options" class='panel woocommerce_options_panel'>
-        <div class="options_group">
-            <p>Ensure you enter values acording to what Clothes2Order accept
-                <br>Please
-                <a href="<?php echo get_admin_url() . 'admin.php?page=crb_carbon_fields_container_wpclothes2order.php'; ?>" target="_blank" rel="noreferrer noopener">
-                    read the logo positions and widths explained
-                </a>
-                here before continuing.
-            </p>
-            <?php
-            woocommerce_wp_checkbox(
-                array(
-                    'id'     => '_enable_wp_clothes_two_order',
-                    'label' => __('Enable as C2O Product?', 'wpc2o'),
-                    'desc_tip' => 'true',
-                    'description' => __('Select if this product is a C2O product', 'wpc2o')
-                )
-            );
-            ?>
-
-
-        </div>
-
-        <div class='options_group'>
-            <?php
-
-            woocommerce_wp_select([
-                'id' => '_type_wp_clothes_two_order',
-                'label' => __('Select product type', 'wpc2o'),
-                'options' => array(
-                    'top' => 'Top',
-                    'bottoms' => 'Bottoms',
-                    'bag' => 'Bag',
-                    'hat' => 'Hat',
-                    'tea-towel' => 'Tea towel',
-                    'tie' => 'Tie'
-                ),
-                'desc_tip' => 'true',
-                'custom_attributes' => array('required' => 'required'),
-                'description' => __('Select the type of C2O product', 'wpc2o')
-            ]);
-
-            woocommerce_wp_select([
-                'id' => '_position_wp_clothes_two_order',
-                'label' => __('Select logo position', 'wpc2o'),
-                'options' => array(
-                    'front' => 'Front',
-                    'center' => 'Center',
-                    'right-pocket' => 'Right pocket',
-                    'left-pocket' => 'Left pocket',
-                    'right-sleeve' => 'Right sleeve',
-                    'right-bottom' => 'Right bottom',
-                    'right-chest' => 'Right chest',
-                    'center-chest' => 'Center chest',
-                    'left-sleeve' => 'Left sleeve',
-                    'left-chest' => 'Left chest',
-                    'left-bottom' => 'Left bottom',
-                    'top-back' => 'Top back',
-                    'bottom-back' => 'Bottom back',
-                    'top-chest' => 'Top chest',
-                    'inside-back' => 'Inside back (labels)',
-                ),
-                'desc_tip' => 'true',
-                'custom_attributes' => array('required' => 'required'),
-                'description' => __('Select the position of the logo', 'wpc2o')
-            ]);
-
-            woocommerce_wp_select([
-                'id' => '_width_wp_clothes_two_order',
-                'label' => __('Select logo width', 'wpc2o'),
-                'options' => array(
-                    '1' => '1cm',
-                    '2' => '2cm',
-                    '3' => '3cm',
-                    '4' => '4cm',
-                    '5' => '5cm',
-                    '6' => '6cm',
-                    '7' => '7cm',
-                    '8' => '8cm',
-                    '9' => '9cm',
-                    '10' => '10cm',
-                    '11' => '11cm',
-                    '12' => '12cm',
-                    '13' => '13cm',
-                    '14' => '14cm',
-                    '15' => '15cm',
-                    '16' => '16cm',
-                    '17' => '17cm',
-                    '18' => '18cm',
-                    '19' => '19cm',
-                    '20' => '20cm',
-                    '21' => '21cm',
-                    '22' => '22cm',
-                    '23' => '23cm',
-                    '24' => '24cm',
-                    '25' => '25cm',
-                    '26' => '26cm',
-                    '27' => '27cm',
-                    '28' => '28cm',
-                    '29' => '29cm',
-                    '30' => '30cm',
-                ),
-                'desc_tip' => 'true',
-                'custom_attributes' => array('required' => 'required'),
-                'description' => __('Select the position of the logo', 'wpc2o')
-            ]);
-
-            ?>
-
-
-        </div>
-
-        <div id="wpc2o-button-parent" style="padding: 12px"></div>
-    </div>
-<?php
-}
-
-function wpc2o_wc_save_product_meta(int $post_id): void
-{
-    $enable = isset($_POST['_enable_wp_clothes_two_order']);
-    $type = $_POST['_type_wp_clothes_two_order'];
-    $position = $_POST['_position_wp_clothes_two_order'];
-    $width = $_POST['_width_wp_clothes_two_order'];
-
-    update_post_meta($post_id, '_enable_wp_clothes_two_order', $_POST['_enable_wp_clothes_two_order']);
-
-    if ($enable) {
-        update_post_meta($post_id, '_type_wp_clothes_two_order', sanitize_text_field($type));
-        update_post_meta($post_id, '_position_wp_clothes_two_order', sanitize_text_field($position));
-        update_post_meta($post_id, '_width_wp_clothes_two_order', sanitize_text_field($width));
-    }
 }
 
 function wpc2o_options_page($sections)
@@ -262,4 +79,137 @@ function wpc2o_options_page_settings($settings, $current_section)
     }
 
     return $settings;
+}
+
+function wpc2o_admin_products_c2o_column($columns)
+{
+    return array_slice(
+        $columns,
+        0,
+        3,
+        true
+    ) + array(
+        'wpc2o' => 'WPC2O'
+    ) + array_slice(
+        $columns,
+        3,
+        count($columns) - 3,
+        true
+    );
+}
+
+function wpc2o_wc_c2o_product_column($column, $product_id)
+{
+    if ($column == 'wpc2o') {
+        $meta = get_post_meta($product_id);
+        if ($meta['_wpc2o'][0] === 'yes') {
+            echo '<span style="color: #7ad03a;"><strong>Yes</strong></span>';
+        } else {
+            echo '<span style="color: red;"><strong>No</strong></span>';
+        }
+    }
+}
+
+function wpc2o_admin_products_c2o_column_sortable($columns)
+{
+    $columns['wpc2o'] = 'wpc2o';
+    return $columns;
+}
+
+function wpc2o_add_product_type_options($product_type_options)
+{
+    $product_type_options["wpc2o"] = [
+        "id"            => "_wpc2o",
+        "wrapper_class" => "show_if_simple",
+        "label"         => "WPC2O",
+        "description"   => "Select if this product is a C2O product",
+        "default"       => "no",
+    ];
+
+    return $product_type_options;
+}
+
+function wpc2o_filter_woocommerce_product_data_tabs($default_tabs)
+{
+    $default_tabs['wpc2o'] = array(
+        'label'    => __('WPC2O', 'wpc2o'),
+        'target'   => 'wpc2o',
+        'class'    => array('show_if_wpc2o'),
+        'priority' => 25
+    );
+
+    return $default_tabs;
+}
+
+function wpc2o_wc_action_admin_footer()
+{
+?>
+    <script>
+        jQuery(document).ready(function($) {
+            var wpc2o_checkbox = document.querySelector('input#_wpc2o');
+            var wpc2o_tab = document.querySelectorAll('.show_if_wpc2o');
+
+            function adjust() {
+                if (wpc2o_checkbox.checked === true) {
+                    wpc2o_tab.forEach(element => element.style.display = '');
+                } else {
+                    wpc2o_tab.forEach(element => element.style.display = 'none');
+                }
+            }
+
+            adjust();
+            wpc2o_checkbox.addEventListener('change', function() {
+                adjust();
+            });
+        });
+    </script>
+<?php
+}
+
+function wpc2o_wc_product_data_tab_content(): void
+{
+?>
+    <div id="wpc2o" class='panel woocommerce_options_panel'>
+        <div class="options_group">
+            <p>Ensure you enter values acording to what Clothes2Order accept
+                <br>Please
+                <a href="<?php echo get_admin_url() . 'admin.php?page=crb_carbon_fields_container_wpclothes2order.php'; ?>" target="_blank" rel="noreferrer noopener">
+                    read the logo positions and widths explained
+                </a>
+                here before continuing.
+            </p>
+
+            <?php
+            woocommerce_wp_select([
+                'id' => '_wpc2o_order_method',
+                'label' => __('Send order to C2O?', 'wpc2o'),
+                'options' => array(
+                    true => 'Yes',
+                    false => 'No'
+                ),
+                'desc_tip' => 'true',
+                'description' => __('If selected, WPC2O will attempt to automatically send successful orders to C2O, however is disabled, you will have to manually put orders through to C2O on successful order.', 'wpc2o')
+            ]);
+            ?>
+            <div class='options_group'>
+                <div data-component="ProductList">failed to load</div>
+            </div>
+        </div>
+        <div id="wpc2o-button-parent" style="padding: 12px"></div>
+    </div>
+<?php
+}
+
+function wpc2o_save_post_product($post_ID, $product, $update)
+{
+    $is_c2o = isset($_POST["_wpc2o"]);
+    $order_method = $_POST['_wpc2o_order_method'];
+
+    update_post_meta($post_ID, "_wpc2o", $is_c2o ? "yes" : "no");
+
+    // We will use this post meta to determine if we process on order
+    if ($is_c2o) {
+        // Update values provided.
+        update_post_meta($post_ID, '_wpc2o_order_method', sanitize_text_field($order_method));
+    }
 }
