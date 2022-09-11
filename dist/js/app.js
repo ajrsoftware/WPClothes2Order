@@ -1,1 +1,40 @@
-"use strict";(self.webpackChunkwpclothes2order=self.webpackChunkwpclothes2order||[]).push([[0],{618:function(e,t,n){var u=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(t,"__esModule",{value:!0});var r=u(n(390)),o=u(n(14));r.default.registerLanguage("json",o.default),document.addEventListener("DOMContentLoaded",(function(){var e=document.getElementById("wpc2o-example-json");e&&r.default.highlightElement(e)}))}},e=>{e.O(0,[767],(()=>{return t=618,e(e.s=t);var t}));e.O()}]);
+"use strict";
+(self["webpackChunkwpclothes2order"] = self["webpackChunkwpclothes2order"] || []).push([["/dist/js/app"],{
+
+/***/ "./src/ts/app.ts":
+/*!***********************!*\
+  !*** ./src/ts/app.ts ***!
+  \***********************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var core_1 = __importDefault(__webpack_require__(/*! highlight.js/lib/core */ "./node_modules/highlight.js/lib/core.js"));
+
+var json_1 = __importDefault(__webpack_require__(/*! highlight.js/lib/languages/json */ "./node_modules/highlight.js/lib/languages/json.js"));
+
+core_1["default"].registerLanguage('json', json_1["default"]);
+document.addEventListener('DOMContentLoaded', function () {
+  var element = document.getElementById('wpc2o-example-json');
+  if (element) core_1["default"].highlightElement(element);
+});
+
+/***/ })
+
+},
+/******/ __webpack_require__ => { // webpackRuntimeModules
+/******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
+/******/ __webpack_require__.O(0, ["/dist/js/vendor"], () => (__webpack_exec__("./src/ts/app.ts")));
+/******/ var __webpack_exports__ = __webpack_require__.O();
+/******/ }
+]);

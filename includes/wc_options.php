@@ -185,6 +185,20 @@ function wpc2o_wc_action_admin_footer()
 
 function wpc2o_wc_product_data_tab_content(): void
 {
+    $product = wc_get_product();
+
+    ray(get_post_meta($product->id));
+
+    $current_order_method = get_post_meta($product->id, '_wpc2o_order_method')[0];
+    $current_type = get_post_meta($product->id, '_wpc2o_chosen_type')[0];
+    $current_position = get_post_meta($product->id, '_wpc2o_chosen_position')[0];
+    $current_width = get_post_meta($product->id, '_wpc2o_chosen_width')[0];
+
+    ray($current_order_method);
+    ray($current_position);
+    ray($current_type);
+    ray($current_width);
+
 ?>
     <div id="wpc2o" class='panel woocommerce_options_panel'>
         <div class="options-group">
@@ -213,7 +227,8 @@ function wpc2o_wc_product_data_tab_content(): void
             ?>
         </div>
         <div class='options_group'>
-            <div style="padding: 12px" data-component="ProductTypeSelector" data-prop-types=<?php echo dataToProps(['tops', 'bottoms']); ?>>failed to load</div>
+            <div style="padding: 12px" data-component="ProductTypeSelector" data-prop-type="<?php echo $current_type ?: 'top'; ?>" data-prop-position="<?php echo $current_position ?: '1'; ?>" data-prop-width="<?php echo $current_width ?: '1'; ?>">
+                failed to load</div>
         </div>
     </div>
 <?php
@@ -223,12 +238,17 @@ function wpc2o_save_post_product($post_ID, $product, $update)
 {
     $is_c2o = isset($_POST["_wpc2o"]);
     $order_method = $_POST['_wpc2o_order_method'];
+    $chosen_type = $_POST['_wpc2o_chosen_type'];
+    $chosen_position = $_POST['_wpc2o_chosen_position'];
+    $chosen_width = $_POST['_wpc2o_chosen_width'];
 
     update_post_meta($post_ID, "_wpc2o", $is_c2o ? "yes" : "no");
 
     // We will use this post meta to determine if we process on order
     if ($is_c2o) {
-        // Update values provided.
         update_post_meta($post_ID, '_wpc2o_order_method', sanitize_text_field($order_method));
+        update_post_meta($post_ID, '_wpc2o_chosen_type', sanitize_text_field($chosen_type));
+        update_post_meta($post_ID, '_wpc2o_chosen_position', sanitize_text_field($chosen_position));
+        update_post_meta($post_ID, '_wpc2o_chosen_width', sanitize_text_field($chosen_width));
     }
 }

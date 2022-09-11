@@ -1,11 +1,15 @@
-import { FC, useState, ChangeEvent, MouseEvent } from 'react';
+import { FC, useState, ChangeEvent } from 'react';
 import * as D from '../ts/data';
 import * as T from '../ts/types';
 import * as H from '../ts/helpers';
 
-const ProductTypeSelector: FC<T.ProductTypeSelectorProps> = () => {
+const ProductTypeSelector: FC<T.ProductTypeSelectorProps> = ({
+    type,
+    position,
+    width
+}) => {
     const availableTypes = D.clothingTypes;
-    const [chosenType, setChosenType] = useState(availableTypes[0]);
+    const [chosenType, setChosenType] = useState(type ?? availableTypes[0]);
 
     return (
         <div className="product-type-selector">
@@ -32,14 +36,26 @@ const ProductTypeSelector: FC<T.ProductTypeSelectorProps> = () => {
                 </label>
             </div>
 
-            <PositionSelector key={chosenType} type={chosenType} />
+            <PositionSelector
+                key={chosenType}
+                initial={position}
+                initialWidth={width ? parseInt(width, 10) : undefined}
+                type={chosenType}
+            />
         </div>
     );
 };
 
-const PositionSelector: FC<T.PositionSelectorProps> = ({ type }) => {
+const PositionSelector: FC<T.PositionSelectorProps> = ({
+    initial,
+    initialWidth,
+    type
+}) => {
     const availablePositions = D.getPositions(type);
-    const [chosenPosition, setChosenPosition] = useState(availablePositions[0]);
+
+    const [chosenPosition, setChosenPosition] = useState(
+        initial ?? availablePositions[0]
+    );
 
     if (chosenPosition) {
         return (
@@ -84,6 +100,7 @@ const PositionSelector: FC<T.PositionSelectorProps> = ({ type }) => {
 
                 <WidthSelector
                     key={chosenPosition}
+                    initial={initialWidth}
                     type={type}
                     position={chosenPosition}
                 />
@@ -94,12 +111,15 @@ const PositionSelector: FC<T.PositionSelectorProps> = ({ type }) => {
     return null;
 };
 
-const WidthSelector: FC<T.WidthSelectorProps> = ({ type, position }) => {
+const WidthSelector: FC<T.WidthSelectorProps> = ({
+    initial,
+    type,
+    position
+}) => {
     const widths = D.getWidths(type, position);
+    const first = widths ? widths[0].toString() : null;
 
-    const [selectedWidth, setSelectedWidth] = useState<string | null>(
-        widths ? widths[0].toString() : null
-    );
+    const [selectedWidth, setSelectedWidth] = useState<string | null>(first);
 
     if (widths) {
         return (
@@ -116,6 +136,7 @@ const WidthSelector: FC<T.WidthSelectorProps> = ({ type, position }) => {
                             name="_wpc2o_chosen_width"
                             id="_wpc2o_chosen_width"
                             className="select short"
+                            defaultValue={initial}
                             onChange={(event: ChangeEvent<HTMLSelectElement>) =>
                                 setSelectedWidth(event.target.value)
                             }
@@ -131,33 +152,11 @@ const WidthSelector: FC<T.WidthSelectorProps> = ({ type, position }) => {
                         </select>
                     </label>
                 </div>
-
-                {selectedWidth && (
-                    <AddLogo
-                        type={type}
-                        position={position}
-                        width={parseInt(selectedWidth, 10)}
-                    />
-                )}
             </>
         );
     }
 
     return null;
-};
-
-const AddLogo: FC<T.AddLogoProps> = ({ position, type, width }) => {
-    const addLogoHandler = (event: MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-    };
-
-    return (
-        <>
-            <button onClick={addLogoHandler} className="button addLogoButton">
-                Save
-            </button>
-        </>
-    );
 };
 
 export default ProductTypeSelector;

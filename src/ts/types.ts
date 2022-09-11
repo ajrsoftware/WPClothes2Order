@@ -42,21 +42,20 @@ export interface Data {
     };
 }
 
-export type AddLogoProps = {
-    type: ClothingType;
-    position: LogoLocations;
-    width: number;
-};
-
 export type WidthSelectorProps = {
+    initial: number | undefined;
     type: ClothingType;
     position: LogoLocations;
 };
 
 export type PositionSelectorProps = {
+    initial: LogoLocations | undefined;
+    initialWidth: number | undefined;
     type: ClothingType;
 };
 
 export type ProductTypeSelectorProps = {
-    types: ClothingType[];
+    type: ClothingType | undefined;
+    position: LogoLocations | undefined;
+    width: string | undefined;
 };
