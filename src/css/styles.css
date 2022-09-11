@@ -1,4 +1,5 @@
-.product-type-selector, .product-position-selector {
+.product-type-selector,
+.product-position-selector {
     display: grid;
     grid-template-columns: 100%;
 }
