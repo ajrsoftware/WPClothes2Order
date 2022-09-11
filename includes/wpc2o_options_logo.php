@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * TODO
+ * @return string 
+ */
 function wpc2o_get_logo_view(): string
 {
     $content = '<h2>Logo options</h2>';
@@ -19,6 +23,10 @@ function wpc2o_get_logo_view(): string
     return $content;
 }
 
+/**
+ * TODO
+ * @return string 
+ */
 function wpc2o_get_logo_position_detail_view(): string
 {
     $content = '<h4>Positions and widths explained</h4>';

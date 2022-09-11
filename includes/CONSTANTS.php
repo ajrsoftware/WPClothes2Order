@@ -1,5 +1,6 @@
 <?php
 
+// Our plugin version, used to asset cache busting & more
 define("WP_C2O_VERSION", "1.0.0");
 
 // API option values

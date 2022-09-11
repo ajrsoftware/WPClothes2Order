@@ -1,8 +1,13 @@
 <?php
 
+use Carbon_Fields\Exception\Incorrect_Syntax_Exception;
 use Carbon_Fields\Container;
 use Carbon_Fields\Field;
 
+/**
+ * Determine if the WC API options have been provided
+ * @return bool 
+ */
 function wpc2o_api_credentials_check(): bool
 {
     if (
@@ -16,13 +21,24 @@ function wpc2o_api_credentials_check(): bool
     return false;
 }
 
-function wpc2o_options_page($sections)
+/**
+ * Register a new WC settings section
+ * @param array $sections 
+ * @return array 
+ */
+function wpc2o_options_page(array $sections): array
 {
     $sections['wpc2o'] = __('WPClothes2Order', 'wpc2o');
     return $sections;
 }
 
-function wpc2o_options_page_settings($settings, $current_section)
+/**
+ * Setup the WC plugin api options
+ * @param array $settings 
+ * @param string $current_section 
+ * @return array 
+ */
+function wpc2o_options_page_settings(array $settings, string $current_section): array
 {
     if ($current_section === 'wpc2o') {
         $wpc2o_settings = array();
@@ -84,7 +100,12 @@ function wpc2o_options_page_settings($settings, $current_section)
     return $settings;
 }
 
-function wpc2o_admin_products_c2o_column($columns)
+/**
+ * Relocate our admin column
+ * @param array $columns 
+ * @return array 
+ */
+function wpc2o_admin_products_c2o_column(array $columns): array
 {
     return array_slice(
         $columns,
@@ -101,7 +122,13 @@ function wpc2o_admin_products_c2o_column($columns)
     );
 }
 
-function wpc2o_wc_c2o_product_column($column, $product_id)
+/**
+ * Setup the admin column
+ * @param array $column 
+ * @param int $product_id 
+ * @return void 
+ */
+function wpc2o_wc_c2o_product_column(string $column, int $product_id): void
 {
     if ($column == 'wpc2o') {
         $meta = get_post_meta($product_id);
@@ -116,7 +143,7 @@ function wpc2o_wc_c2o_product_column($column, $product_id)
         if ($meta['__wpc2o_product_enabled'][0] === 'yes') {
             echo '<span style="display: block; margin: 0 0 3px 0; color: #7ad03a;"><strong>Details</strong></span>';
             echo '<span style="display: block;"><span>Product type: ' . ucfirst($type) . '</span></span>';
-            echo '<span style="display: block;"><span>Logo position: ' . code_to_postion_text($position) . '</span></span>';
+            echo '<span style="display: block;"><span>Logo position: ' . wpc2o_code_to_postion_text($position) . '</span></span>';
             echo '<span style="display: block;"><span>Logo width: ' . $width . 'cm</span></span>';
             echo '<hr/>';
             echo '<span style="display: block;"><span>Print type: ' . ucfirst($print_type) . '</span></span>';
@@ -127,12 +154,22 @@ function wpc2o_wc_c2o_product_column($column, $product_id)
     }
 }
 
-function wpc2o_admin_products_c2o_column_sortable($columns)
+/**
+ * Allow our admin column to be sortable
+ * @param array $columns 
+ * @return array 
+ */
+function wpc2o_admin_products_c2o_column_sortable(array $columns): array
 {
     $columns['wpc2o'] = 'wpc2o';
     return $columns;
 }
 
+/**
+ * Get widths array
+ * @param string $max 
+ * @return array 
+ */
 function wpc2o_wc_widths(string $max): array
 {
     $all = array(
@@ -174,9 +211,13 @@ function wpc2o_wc_widths(string $max): array
     return $z;
 }
 
-function wpc2o_wc_theme_options()
+/**
+ * Set up WC Product post type fields
+ * @return void 
+ * @throws Incorrect_Syntax_Exception 
+ */
+function wpc2o_wc_theme_options(): void
 {
-
     Container::make('post_meta', __('WPClothes2Order'))
         ->where('post_type', '=', 'product')->add_fields(
             array(
@@ -185,6 +226,7 @@ function wpc2o_wc_theme_options()
                 Field::make('checkbox', constant('WPC2O_PRODUCT_ENABLED'), __('Enable as C2O product?'))
                     ->set_option_value('yes'),
 
+                // Use this when this product is ordered to see if we post info to c2o
                 Field::make('checkbox', constant('WPC2O_PRODUCT_API'), __('Automically send orders to Clothes2Order'))
                     ->set_option_value('yes')
                     ->set_help_text('On succesful purchase, automically send the order to Clothes2Order. If disabled, you will have to inform Clothes2Order of each purchase.')
@@ -211,6 +253,7 @@ function wpc2o_wc_theme_options()
                         )
                     ),
 
+                // Print type
                 Field::make('select', constant('WPC2O_PRODUCT_LOGO_PRINT_TYPE'), __('Print type'))
                     ->set_required(true)
                     ->set_help_text('Only certain product types support certain print types, however all support "Print", if in doubt leave as "Print" option. Contact Clothes2Order for more infomation.')
@@ -253,7 +296,7 @@ function wpc2o_wc_theme_options()
                         )
                     ),
 
-                // Position selection
+                // Top osition selection
                 Field::make('select', constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top', __('Logo position'))
                     ->set_width(33)
                     ->set_options(
@@ -285,6 +328,7 @@ function wpc2o_wc_theme_options()
                         )
                     ),
 
+                // Bottoms position selection
                 Field::make('select', constant('WPC2O_PRODUCT_LOGO_POSITION') . '_bottoms', __('Logo position'))
                     ->set_width(33)
                     ->set_options(
@@ -306,6 +350,7 @@ function wpc2o_wc_theme_options()
                         )
                     ),
 
+                // Bag position selection
                 Field::make('select', constant('WPC2O_PRODUCT_LOGO_POSITION') . '_bag', __('Logo position'))
                     ->set_width(33)
                     ->set_options(
@@ -326,6 +371,7 @@ function wpc2o_wc_theme_options()
                         )
                     ),
 
+                // Hat position selection
                 Field::make('select', constant('WPC2O_PRODUCT_LOGO_POSITION') . '_hat', __('Logo position'))
                     ->set_width(33)
                     ->set_options(
@@ -346,6 +392,7 @@ function wpc2o_wc_theme_options()
                         )
                     ),
 
+                // Tea towel position selection
                 Field::make('select', constant('WPC2O_PRODUCT_LOGO_POSITION') . '_tea-towel', __('Logo position'))
                     ->set_width(33)
                     ->set_options(
@@ -366,6 +413,7 @@ function wpc2o_wc_theme_options()
                         )
                     ),
 
+                // Tie position selection
                 Field::make('select', constant('WPC2O_PRODUCT_LOGO_POSITION') . '_tie', __('Logo position'))
                     ->set_width(33)
                     ->set_options(
@@ -385,6 +433,13 @@ function wpc2o_wc_theme_options()
                             ),
                         )
                     ),
+
+
+                /**
+                 * All of the below select options are conditional based on the logo position
+                 * We calculate the value selected based on the previous options
+                 * The default select option is given if the user does not select
+                 */
 
                 Field::make('select', constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_position_1', __('Logo width'))
                     ->set_width(33)
@@ -788,7 +843,12 @@ function wpc2o_wc_theme_options()
         );
 }
 
-function code_to_postion_text(int $code): string
+/**
+ * Provide the readable logo position based on the position code
+ * @param int $code 
+ * @return string 
+ */
+function wpc2o_code_to_postion_text(int $code): string
 {
     switch ($code) {
         case 1:

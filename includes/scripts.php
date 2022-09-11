@@ -1,6 +1,10 @@
 <?php
 
-function wpc2o_assets()
+/**
+ * Register our plugin scripts & styles
+ * @return void 
+ */
+function wpc2o_assets(): void
 {
     $plugin_dir = plugins_url('../', __FILE__);
 
