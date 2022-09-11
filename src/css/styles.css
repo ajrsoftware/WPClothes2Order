@@ -1,3 +1,27 @@
-/**
-*
-*/
+.product-type-selector, .product-position-selector {
+    display: grid;
+    grid-template-columns: 100%;
+}
+
+.selectProductType {
+    display: block;
+}
+
+.addLogoButton {
+    display: block !important;
+    width: fit-content;
+    margin-top: 1.25em !important;
+}
+
+.selector-label {
+    float: none !important;
+    width: auto !important;
+    margin: 0 !important;
+}
+
+.selector-header {
+    display: block;
+    font-weight: 400;
+    color: #555;
+    margin: 12px 0 8px 0;
+}

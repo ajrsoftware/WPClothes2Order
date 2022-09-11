@@ -1,5 +1,10 @@
 <?php
 
+function dataToProps($data)
+{
+    return htmlentities(json_encode($data, JSON_HEX_QUOT), ENT_QUOTES);
+}
+
 function wpc2o_api_credentials_check(): bool
 {
     if (
@@ -135,10 +140,22 @@ function wpc2o_filter_woocommerce_product_data_tabs($default_tabs)
         'label'    => __('WPC2O', 'wpc2o'),
         'target'   => 'wpc2o',
         'class'    => array('show_if_wpc2o'),
-        'priority' => 25
+        'priority' => 80
     );
 
     return $default_tabs;
+}
+
+// Add CSS - icon
+function wpc2o_wc_product_data_tab_icon()
+{
+?>
+    <style>
+        #woocommerce-product-data ul.wc-tabs li.wpc2o_options a::before {
+            content: "\f17e";
+        }
+    </style>
+<?php
 }
 
 function wpc2o_wc_action_admin_footer()
@@ -170,32 +187,34 @@ function wpc2o_wc_product_data_tab_content(): void
 {
 ?>
     <div id="wpc2o" class='panel woocommerce_options_panel'>
-        <div class="options_group">
-            <p>Ensure you enter values acording to what Clothes2Order accept
+        <div class="options-group">
+            <h3 style="margin: 12px 0 0 12px; color: #26aae2;">WPClothes2Order</h3>
+            <p><strong>Ensure you enter values acording to what Clothes2Order accept</strong>
                 <br>Please
                 <a href="<?php echo get_admin_url() . 'admin.php?page=crb_carbon_fields_container_wpclothes2order.php'; ?>" target="_blank" rel="noreferrer noopener">
                     read the logo positions and widths explained
                 </a>
-                here before continuing.
+                before continuing.
             </p>
-
+        </div>
+        <div class="options_group">
             <?php
-            woocommerce_wp_select([
+            woocommerce_wp_select(array(
                 'id' => '_wpc2o_order_method',
-                'label' => __('Send order to C2O?', 'wpc2o'),
+                'label' => __('Send orders to C2O?', 'wpc2o'),
                 'options' => array(
                     true => 'Yes',
                     false => 'No'
                 ),
+                'class' => 'select',
                 'desc_tip' => 'true',
                 'description' => __('If selected, WPC2O will attempt to automatically send successful orders to C2O, however is disabled, you will have to manually put orders through to C2O on successful order.', 'wpc2o')
-            ]);
+            ));
             ?>
-            <div class='options_group'>
-                <div data-component="ProductList">failed to load</div>
-            </div>
         </div>
-        <div id="wpc2o-button-parent" style="padding: 12px"></div>
+        <div class='options_group'>
+            <div style="padding: 12px" data-component="ProductTypeSelector" data-prop-types=<?php echo dataToProps(['tops', 'bottoms']); ?>>failed to load</div>
+        </div>
     </div>
 <?php
 }

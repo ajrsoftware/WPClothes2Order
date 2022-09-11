@@ -68,6 +68,7 @@ function wpc2o_start()
             add_filter("product_type_options", 'wpc2o_add_product_type_options');
             add_filter('woocommerce_product_data_tabs', 'wpc2o_filter_woocommerce_product_data_tabs', 10, 1);
             add_action("save_post_product", 'wpc2o_save_post_product', 10, 3);
+            add_action('admin_head', 'wpc2o_wc_product_data_tab_icon');
             add_action('admin_footer', 'wpc2o_wc_action_admin_footer');
             add_action('woocommerce_product_data_panels', 'wpc2o_wc_product_data_tab_content');
             add_filter('woocommerce_allow_marketplace_suggestions', '__return_false', 10);
