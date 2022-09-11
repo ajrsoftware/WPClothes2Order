@@ -1,9 +1,7 @@
 <?php
 
-function dataToProps($data)
-{
-    return htmlentities(json_encode($data, JSON_HEX_QUOT), ENT_QUOTES);
-}
+use Carbon_Fields\Container;
+use Carbon_Fields\Field;
 
 function wpc2o_api_credentials_check(): bool
 {
@@ -107,7 +105,9 @@ function wpc2o_wc_c2o_product_column($column, $product_id)
 {
     if ($column == 'wpc2o') {
         $meta = get_post_meta($product_id);
-        if ($meta['_wpc2o'][0] === 'yes') {
+        ray($meta);
+
+        if ($meta['__wpc2o_product_enabled'][0] === 'yes') {
             echo '<span style="color: #7ad03a;"><strong>Yes</strong></span>';
         } else {
             echo '<span style="color: red;"><strong>No</strong></span>';
@@ -121,134 +121,276 @@ function wpc2o_admin_products_c2o_column_sortable($columns)
     return $columns;
 }
 
-function wpc2o_add_product_type_options($product_type_options)
+function wpc2o_wc_widths(string $max): array
 {
-    $product_type_options["wpc2o"] = [
-        "id"            => "_wpc2o",
-        "wrapper_class" => "show_if_simple",
-        "label"         => "WPC2O",
-        "description"   => "Select if this product is a C2O product",
-        "default"       => "no",
+    $all = [
+        1 => '1cm',
+        2 => '2cm',
+        3 => '3cm',
+        4 => '4cm',
+        5 => '5cm',
+        6 => '6cm',
+        7 => '7cm',
+        8 => '8cm',
+        9 => '9cm',
+        10 => '10cm',
+        11 => '11cm',
+        12 => '12cm',
+        13 => '13cm',
+        14 => '14cm',
+        15 => '15cm',
+        16 => '16cm',
+        17 => '17cm',
+        18 => '18cm',
+        19 => '19cm',
+        20 => '20cm',
+        21 => '21cm',
+        22 => '22cm',
+        23 => '23cm',
+        24 => '24cm',
+        25 => '25cm',
+        26 => '26cm',
+        27 => '27cm',
+        28 => '28cm',
+        29 => '29cm',
+        30 => '30cm'
     ];
 
-    return $product_type_options;
+    $x = array_reverse($all);
+    $y = array_splice($x, count($x) - $max);
+    $z = array_reverse($y);
+    return $z;
 }
 
-function wpc2o_filter_woocommerce_product_data_tabs($default_tabs)
+function wpc2o_wc_theme_options()
 {
-    $default_tabs['wpc2o'] = array(
-        'label'    => __('WPC2O', 'wpc2o'),
-        'target'   => 'wpc2o',
-        'class'    => array('show_if_wpc2o'),
-        'priority' => 80
-    );
 
-    return $default_tabs;
-}
+    Container::make('post_meta', __('WPClothes2Order'))
+        ->where('post_type', '=', 'product')->add_fields(
+            array(
 
-// Add CSS - icon
-function wpc2o_wc_product_data_tab_icon()
-{
-?>
-    <style>
-        #woocommerce-product-data ul.wc-tabs li.wpc2o_options a::before {
-            content: "\f17e";
-        }
-    </style>
-<?php
-}
+                // Use this when this product is ordered to check if we should process
+                Field::make('checkbox', constant('WPC2O_PRODUCT_ENABLED'), __('Enable as C2O product?'))
+                    ->set_option_value('yes'),
 
-function wpc2o_wc_action_admin_footer()
-{
-?>
-    <script>
-        jQuery(document).ready(function($) {
-            var wpc2o_checkbox = document.querySelector('input#_wpc2o');
-            var wpc2o_tab = document.querySelectorAll('.show_if_wpc2o');
+                Field::make('checkbox', constant('WPC2O_PRODUCT_API'), __('Automically send orders to Clothes2Order'))
+                    ->set_option_value('yes')
+                    ->set_help_text('On succesful purchase, automically send the order to Clothes2Order. If disabled, you will have to inform Clothes2Order of each purchase.')
+                    ->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            )
+                        )
+                    ),
 
-            function adjust() {
-                if (wpc2o_checkbox.checked === true) {
-                    wpc2o_tab.forEach(element => element.style.display = '');
-                } else {
-                    wpc2o_tab.forEach(element => element.style.display = 'none');
-                }
-            }
+                // Logo selection
+                Field::make('image', constant('WPC2O_PRODUCT_LOGO'), __('Select logo'))
+                    ->set_required(true)
+                    ->set_help_text('Supported formats include: "jpg", "png", "gif"')
+                    ->set_width(50)
+                    ->set_type(['image'])->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            )
+                        )
+                    ),
 
-            adjust();
-            wpc2o_checkbox.addEventListener('change', function() {
-                adjust();
-            });
-        });
-    </script>
-<?php
-}
+                Field::make('select', constant('WPC2O_PRODUCT_LOGO_PRINT_TYPE'), __('Print type'))
+                    ->set_required(true)
+                    ->set_width(50)
+                    ->set_options(
+                        array(
+                            'print' => 'Print',
+                            'embroidery' => 'Embroidery',
+                            'print_1colour' => 'Print colour',
 
-function wpc2o_wc_product_data_tab_content(): void
-{
-    $product = wc_get_product();
+                        )
+                    )->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            )
+                        )
+                    ),
 
-    ray(get_post_meta($product->id));
+                // Product type select
+                Field::make('select', constant('WPC2O_PRODUCT_TYPE'), __('Product type'))
+                    ->set_required(true)
+                    ->set_width(33)
+                    ->set_options(
+                        array(
+                            'top' => 'Top',
+                            'bottoms' => 'Bottoms',
+                            'bag' => 'Bag',
+                            'hat' => 'Hat',
+                            'tea-towel' => 'Tea towel',
+                            'tie' => 'Tie',
+                        )
+                    )->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            )
+                        )
+                    ),
 
-    $current_order_method = get_post_meta($product->id, '_wpc2o_order_method')[0];
-    $current_type = get_post_meta($product->id, '_wpc2o_chosen_type')[0];
-    $current_position = get_post_meta($product->id, '_wpc2o_chosen_position')[0];
-    $current_width = get_post_meta($product->id, '_wpc2o_chosen_width')[0];
+                // Position selection
+                Field::make('select', constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top', __('Logo position'))
+                    ->set_width(33)
+                    ->set_options(
+                        array(
+                            1 => 'Right sleeve',
+                            2 => 'Right bottom',
+                            3  => 'Right chest',
+                            4 => 'Center chest',
+                            8 => 'Center back',
+                            7 => 'Left sleeve',
+                            5 => 'Left chest',
+                            6 => 'Left bottom',
+                            9 => 'Top back',
+                            12 => 'Bottom back',
+                            17 => 'Top chest',
+                            18 => 'Inside back (labels)'
+                        )
+                    )->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_TYPE'),
+                                'value' => 'top',
+                                'compare' => '=',
+                            ),
+                        )
+                    ),
 
-    ray($current_order_method);
-    ray($current_position);
-    ray($current_type);
-    ray($current_width);
+                Field::make('select', constant('WPC2O_PRODUCT_LOGO_POSITION') . '_bottoms', __('Logo position'))
+                    ->set_width(33)
+                    ->set_options(
+                        array(
+                            15 => 'Left pocket',
+                            16 => 'Right pocket',
+                        )
+                    )->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_TYPE'),
+                                'value' => 'bottoms',
+                                'compare' => '=',
+                            ),
+                        )
+                    ),
 
-?>
-    <div id="wpc2o" class='panel woocommerce_options_panel'>
-        <div class="options-group">
-            <h3 style="margin: 12px 0 0 12px; color: #26aae2;">WPClothes2Order</h3>
-            <p><strong>Ensure you enter values acording to what Clothes2Order accept</strong>
-                <br>Please
-                <a href="<?php echo get_admin_url() . 'admin.php?page=crb_carbon_fields_container_wpclothes2order.php'; ?>" target="_blank" rel="noreferrer noopener">
-                    read the logo positions and widths explained
-                </a>
-                before continuing.
-            </p>
-        </div>
-        <div class="options_group">
-            <?php
-            woocommerce_wp_select(array(
-                'id' => '_wpc2o_order_method',
-                'label' => __('Send orders to C2O?', 'wpc2o'),
-                'options' => array(
-                    true => 'Yes',
-                    false => 'No'
-                ),
-                'class' => 'select',
-                'desc_tip' => 'true',
-                'description' => __('If selected, WPC2O will attempt to automatically send successful orders to C2O, however is disabled, you will have to manually put orders through to C2O on successful order.', 'wpc2o')
-            ));
-            ?>
-        </div>
-        <div class='options_group'>
-            <div style="padding: 12px" data-component="ProductTypeSelector" data-prop-type="<?php echo $current_type ?: 'top'; ?>" data-prop-position="<?php echo $current_position ?: '1'; ?>" data-prop-width="<?php echo $current_width ?: '1'; ?>">
-                failed to load</div>
-        </div>
-    </div>
-<?php
-}
+                Field::make('select', constant('WPC2O_PRODUCT_LOGO_POSITION') . '_bag', __('Logo position'))
+                    ->set_width(33)
+                    ->set_options(
+                        array(
+                            13 => 'Front',
+                        )
+                    )->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_TYPE'),
+                                'value' => 'bag',
+                                'compare' => '=',
+                            ),
+                        )
+                    ),
 
-function wpc2o_save_post_product($post_ID, $product, $update)
-{
-    $is_c2o = isset($_POST["_wpc2o"]);
-    $order_method = $_POST['_wpc2o_order_method'];
-    $chosen_type = $_POST['_wpc2o_chosen_type'];
-    $chosen_position = $_POST['_wpc2o_chosen_position'];
-    $chosen_width = $_POST['_wpc2o_chosen_width'];
+                Field::make('select', constant('WPC2O_PRODUCT_LOGO_POSITION') . '_hat', __('Logo position'))
+                    ->set_width(33)
+                    ->set_options(
+                        array(
+                            11 => 'Front',
+                        )
+                    )->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_TYPE'),
+                                'value' => 'hat',
+                                'compare' => '=',
+                            ),
+                        )
+                    ),
 
-    update_post_meta($post_ID, "_wpc2o", $is_c2o ? "yes" : "no");
+                Field::make('select', constant('WPC2O_PRODUCT_LOGO_POSITION') . '_tea-towel', __('Logo position'))
+                    ->set_width(33)
+                    ->set_options(
+                        array(
+                            14 => 'Center',
+                        )
+                    )->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_TYPE'),
+                                'value' => 'tea-towel',
+                                'compare' => '=',
+                            ),
+                        )
+                    ),
 
-    // We will use this post meta to determine if we process on order
-    if ($is_c2o) {
-        update_post_meta($post_ID, '_wpc2o_order_method', sanitize_text_field($order_method));
-        update_post_meta($post_ID, '_wpc2o_chosen_type', sanitize_text_field($chosen_type));
-        update_post_meta($post_ID, '_wpc2o_chosen_position', sanitize_text_field($chosen_position));
-        update_post_meta($post_ID, '_wpc2o_chosen_width', sanitize_text_field($chosen_width));
-    }
+                Field::make('select', constant('WPC2O_PRODUCT_LOGO_POSITION') . '_tie', __('Logo position'))
+                    ->set_width(33)
+                    ->set_options(
+                        array(
+                            19 => 'Front',
+                        )
+                    )->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_TYPE'),
+                                'value' => 'tie',
+                                'compare' => '=',
+                            ),
+                        )
+                    ),
+
+                Field::make('select', constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_position_1', __('Logo width'))
+                    ->set_width(33)
+                    ->set_options(
+                        wpc2o_wc_widths(10)
+                    )->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
+                                'value' => '1',
+                                'compare' => '=',
+                            ),
+                        )
+                    ),
+
+            )
+        );
 }

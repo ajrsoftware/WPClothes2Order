@@ -64,17 +64,10 @@ function wpc2o_start()
             add_action('manage_product_posts_custom_column', 'wpc2o_wc_c2o_product_column', 10, 2);
             add_filter('manage_edit-product_sortable_columns', 'wpc2o_admin_products_c2o_column_sortable');
 
-            // Product options
-            add_filter("product_type_options", 'wpc2o_add_product_type_options');
-            add_filter('woocommerce_product_data_tabs', 'wpc2o_filter_woocommerce_product_data_tabs', 10, 1);
-            add_action("save_post_product", 'wpc2o_save_post_product', 10, 3);
-            add_action('admin_head', 'wpc2o_wc_product_data_tab_icon');
-            add_action('admin_footer', 'wpc2o_wc_action_admin_footer');
-            add_action('woocommerce_product_data_panels', 'wpc2o_wc_product_data_tab_content');
-            add_filter('woocommerce_allow_marketplace_suggestions', '__return_false', 10);
-
-            // wpc2o plugin option fields
+            // Plugin theme options
             add_action('carbon_fields_register_fields', 'wpc2o_theme_options');
+            // Product options
+            add_action('carbon_fields_register_fields', 'wpc2o_wc_theme_options');
 
             // register cron
 
