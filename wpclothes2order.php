@@ -38,6 +38,7 @@ require_once('includes/scripts.php');
 require_once('includes/wc_options.php');
 require_once('includes/wpc2o_options.php');
 require_once('includes/wpc2o_options_api.php');
+require_once('includes/wpc2o_options_delivery.php');
 require_once('includes/wpc2o_options_logo.php');
 require_once('includes/wpc2o_options_orders.php');
 require_once('includes/wpc2o_options_stock.php');
@@ -58,17 +59,15 @@ function wpc2o_start()
             add_action('after_setup_theme', 'wpc2o_options');
             add_filter('plugin_action_links_WPClothes2Order/wpclothes2order.php', 'wpc2o_settings_link');
 
-            // register wc product
-            wpc2o_c2o_product();
-            add_filter('product_type_selector', 'wpc2o_product_type_selector');
-            add_filter('woocommerce_product_data_tabs', 'wpc2o_wc_product_data_tab');
-            add_filter('woocommerce_product_data_tabs', 'wpc2o_wc_product_data_remove_tabs');
-            add_filter('woocommerce_allow_marketplace_suggestions', '__return_false');
-            add_action('woocommerce_product_data_panels', 'wpc2o_wc_product_data_tab_content');
-            add_action('woocommerce_process_product_meta', 'wpc2o_wc_save_product_meta');
+            // Admin columns
+            add_filter('manage_edit-product_columns', 'wpc2o_admin_products_c2o_column', 9999);
+            add_action('manage_product_posts_custom_column', 'wpc2o_wc_c2o_product_column', 10, 2);
+            add_filter('manage_edit-product_sortable_columns', 'wpc2o_admin_products_c2o_column_sortable');
 
-            // wpc2o plugin option fields
+            // Plugin theme options
             add_action('carbon_fields_register_fields', 'wpc2o_theme_options');
+            // Product options
+            add_action('carbon_fields_register_fields', 'wpc2o_wc_theme_options');
 
             // register cron
 

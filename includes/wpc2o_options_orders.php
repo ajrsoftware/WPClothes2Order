@@ -1,10 +1,18 @@
 <?php
 
+/**
+ * TODO 
+ * @return array 
+ */
 function wpc2o_order_history(): array
 {
     return array();
 }
 
+/**
+ * TODO
+ * @return string 
+ */
 function wpc2o_get_order_history_view(): string
 {
     $content = '<h2>Full order history</h2>';
