@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * TODO
+ * @return string 
+ */
 function wpc2o_get_api_view(): string
 {
     $content = '<h2>API Credentials</h2>';
@@ -12,6 +16,11 @@ function wpc2o_get_api_view(): string
     $content .= '</div>';
     return $content;
 }
+
+/**
+ * TODO
+ * @return string 
+ */
 function wpc2o_get_example_post_request_view(): string
 {
     $current_user = wp_get_current_user();
@@ -72,11 +81,20 @@ function wpc2o_get_example_post_request_view(): string
     return $data;
 }
 
+/**
+ * TODO
+ * @return null|string 
+ */
 function wpc2o_get_chosen_delivery_option(): ?string
 {
     return carbon_get_theme_option(constant("WPC2O_DELIVERY_OPTION")) ?: null;
 }
 
+/**
+ * TODO
+ * @param bool $url 
+ * @return mixed 
+ */
 function wpc2o_get_chosen_logo(bool $url)
 {
     if ($url) {
