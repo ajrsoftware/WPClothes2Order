@@ -105,10 +105,22 @@ function wpc2o_wc_c2o_product_column($column, $product_id)
 {
     if ($column == 'wpc2o') {
         $meta = get_post_meta($product_id);
-        ray($meta);
+
+        $print_type = $meta['__wpc2o_product_logo_print_type'][0];
+        $auto_orders = $meta['__wpc2o_product_api'][0];
+
+        $type = $meta['__wpc2o_product_type'][0];
+        $position = $meta['__wpc2o_product_logo_position_' . $type . ''][0];
+        $width = $meta['__wpc2o_product_logo_width_position_' . $position . ''][0] + 1;
 
         if ($meta['__wpc2o_product_enabled'][0] === 'yes') {
-            echo '<span style="color: #7ad03a;"><strong>Yes</strong></span>';
+            echo '<span style="display: block; margin: 0 0 3px 0; color: #7ad03a;"><strong>Details</strong></span>';
+            echo '<span style="display: block;"><span>Product type: ' . ucfirst($type) . '</span></span>';
+            echo '<span style="display: block;"><span>Logo position: ' . code_to_postion_text($position) . '</span></span>';
+            echo '<span style="display: block;"><span>Logo width: ' . $width . 'cm</span></span>';
+            echo '<hr/>';
+            echo '<span style="display: block;"><span>Print type: ' . ucfirst($print_type) . '</span></span>';
+            echo '<span style="display: block;"><span>Auto order: ' . ucfirst($auto_orders) . '</span></span>';
         } else {
             echo '<span style="color: red;"><strong>No</strong></span>';
         }
@@ -123,7 +135,7 @@ function wpc2o_admin_products_c2o_column_sortable($columns)
 
 function wpc2o_wc_widths(string $max): array
 {
-    $all = [
+    $all = array(
         1 => '1cm',
         2 => '2cm',
         3 => '3cm',
@@ -154,7 +166,7 @@ function wpc2o_wc_widths(string $max): array
         28 => '28cm',
         29 => '29cm',
         30 => '30cm'
-    ];
+    );
 
     $x = array_reverse($all);
     $y = array_splice($x, count($x) - $max);
@@ -201,6 +213,7 @@ function wpc2o_wc_theme_options()
 
                 Field::make('select', constant('WPC2O_PRODUCT_LOGO_PRINT_TYPE'), __('Print type'))
                     ->set_required(true)
+                    ->set_help_text('Only certain product types support certain print types, however all support "Print", if in doubt leave as "Print" option. Contact Clothes2Order for more infomation.')
                     ->set_width(50)
                     ->set_options(
                         array(
@@ -384,6 +397,10 @@ function wpc2o_wc_theme_options()
                                 'value' => true,
                             ),
                             array(
+                                'field' => constant('WPC2O_PRODUCT_TYPE'),
+                                'value' => 'top'
+                            ),
+                            array(
                                 'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
                                 'value' => '1',
                                 'compare' => '=',
@@ -391,6 +408,445 @@ function wpc2o_wc_theme_options()
                         )
                     ),
 
+                Field::make('select', constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_position_2', __('Logo width'))
+                    ->set_width(33)
+                    ->set_options(
+                        wpc2o_wc_widths(12)
+                    )->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_TYPE'),
+                                'value' => 'top'
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
+                                'value' => '2',
+                                'compare' => '=',
+                            ),
+                        )
+                    ),
+
+
+                Field::make('select', constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_position_3', __('Logo width'))
+                    ->set_width(33)
+                    ->set_options(
+                        wpc2o_wc_widths(12)
+                    )->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_TYPE'),
+                                'value' => 'top'
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
+                                'value' => '3',
+                                'compare' => '=',
+                            ),
+                        )
+                    ),
+
+                Field::make('select', constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_position_4', __('Logo width'))
+                    ->set_width(33)
+                    ->set_options(
+                        wpc2o_wc_widths(30)
+                    )->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_TYPE'),
+                                'value' => 'top'
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
+                                'value' => '4',
+                                'compare' => '=',
+                            ),
+                        )
+                    ),
+
+                Field::make('select', constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_position_5', __('Logo width'))
+                    ->set_width(33)
+                    ->set_options(
+                        wpc2o_wc_widths(12)
+                    )->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_TYPE'),
+                                'value' => 'top'
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
+                                'value' => '5',
+                                'compare' => '=',
+                            ),
+                        )
+                    ),
+
+                Field::make('select', constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_position_6', __('Logo width'))
+                    ->set_width(33)
+                    ->set_options(
+                        wpc2o_wc_widths(12)
+                    )->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_TYPE'),
+                                'value' => 'top'
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
+                                'value' => '6',
+                                'compare' => '=',
+                            ),
+                        )
+                    ),
+
+                Field::make('select', constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_position_7', __('Logo width'))
+                    ->set_width(33)
+                    ->set_options(
+                        wpc2o_wc_widths(10)
+                    )->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_TYPE'),
+                                'value' => 'top'
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
+                                'value' => '7',
+                                'compare' => '=',
+                            ),
+                        )
+                    ),
+
+                Field::make('select', constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_position_8', __('Logo width'))
+                    ->set_width(33)
+                    ->set_options(
+                        wpc2o_wc_widths(30)
+                    )->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_TYPE'),
+                                'value' => 'top'
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
+                                'value' => '8',
+                                'compare' => '=',
+                            ),
+                        )
+                    ),
+
+                Field::make('select', constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_position_9', __('Logo width'))
+                    ->set_width(33)
+                    ->set_options(
+                        wpc2o_wc_widths(30)
+                    )->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_TYPE'),
+                                'value' => 'top'
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
+                                'value' => '9',
+                                'compare' => '=',
+                            ),
+                        )
+                    ),
+
+                Field::make('select', constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_position_11', __('Logo width'))
+                    ->set_width(33)
+                    ->set_options(
+                        wpc2o_wc_widths(10)
+                    )->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_TYPE'),
+                                'value' => 'hat'
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_hat',
+                                'value' => '11',
+                                'compare' => '=',
+                            ),
+                        )
+                    ),
+
+                Field::make('select', constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_position_12', __('Logo width'))
+                    ->set_width(33)
+                    ->set_options(
+                        wpc2o_wc_widths(30)
+                    )->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_TYPE'),
+                                'value' => 'top'
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
+                                'value' => '12',
+                                'compare' => '=',
+                            ),
+                        )
+                    ),
+
+
+                Field::make('select', constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_position_13', __('Logo width'))
+                    ->set_width(33)
+                    ->set_options(
+                        wpc2o_wc_widths(30)
+                    )->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_TYPE'),
+                                'value' => 'bag'
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_bag',
+                                'value' => '13',
+                                'compare' => '=',
+                            ),
+                        )
+                    ),
+
+                Field::make('select', constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_position_14', __('Logo width'))
+                    ->set_width(33)
+                    ->set_options(
+                        wpc2o_wc_widths(30)
+                    )->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_TYPE'),
+                                'value' => 'tea-towel'
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_tea-towel',
+                                'value' => '14',
+                                'compare' => '=',
+                            ),
+                        )
+                    ),
+
+                Field::make('select', constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_position_15', __('Logo width'))
+                    ->set_width(33)
+                    ->set_options(
+                        wpc2o_wc_widths(12)
+                    )->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_TYPE'),
+                                'value' => 'bottoms'
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_bottoms',
+                                'value' => '15',
+                                'compare' => '=',
+                            ),
+                        )
+                    ),
+
+                Field::make('select', constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_position_16', __('Logo width'))
+                    ->set_width(33)
+                    ->set_options(
+                        wpc2o_wc_widths(12)
+                    )->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_TYPE'),
+                                'value' => 'bottoms'
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_bottoms',
+                                'value' => '16',
+                                'compare' => '=',
+                            ),
+                        )
+                    ),
+
+                Field::make('select', constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_position_17', __('Logo width'))
+                    ->set_width(33)
+                    ->set_options(
+                        wpc2o_wc_widths(30)
+                    )->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_TYPE'),
+                                'value' => 'top'
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
+                                'value' => '17',
+                                'compare' => '=',
+                            ),
+                        )
+                    ),
+
+                Field::make('select', constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_position_18', __('Logo width'))
+                    ->set_width(33)
+                    ->set_options(
+                        wpc2o_wc_widths(12)
+                    )->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_TYPE'),
+                                'value' => 'top'
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
+                                'value' => '18',
+                                'compare' => '=',
+                            ),
+                        )
+                    ),
+
+                Field::make('select', constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_position_19', __('Logo width'))
+                    ->set_width(33)
+                    ->set_options(
+                        wpc2o_wc_widths(5)
+                    )->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_TYPE'),
+                                'value' => 'tie'
+                            ),
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_tie',
+                                'value' => '19',
+                                'compare' => '=',
+                            ),
+                        )
+                    ),
+
             )
         );
+}
+
+function code_to_postion_text(int $code): string
+{
+    switch ($code) {
+        case 1:
+            return 'Right Sleeve';
+            break;
+        case 2:
+            return 'Bottom Right';
+            break;
+        case 3:
+            return 'Right Chest';
+            break;
+        case 4:
+            return 'Centre Chest';
+            break;
+        case 5:
+            return 'Left Chest';
+            break;
+        case 6:
+            return 'Bottom Left';
+            break;
+        case 7:
+            return 'Left Sleeve';
+            break;
+        case 8:
+            return 'Centre Back';
+            break;
+        case 9:
+            return 'Top Back';
+            break;
+            // case 10:
+            //     return '';
+            //     break;
+        case 11:
+            return 'Front of Hat';
+            break;
+        case 12:
+            return 'Bottom Back';
+            break;
+        case 13:
+            return 'Front of Bag';
+            break;
+        case 14:
+            return 'Centre Tea Towel';
+            break;
+        case 15:
+            return 'Left Pocket';
+            break;
+        case 16:
+            return 'Right Pocket';
+            break;
+        case 17:
+            return 'Top Chest';
+            break;
+        case 18:
+            return 'Inside Back (for Printed Labels)';
+            break;
+        case 19:
+            return 'Front of Tie';
+            break;
+    }
 }
