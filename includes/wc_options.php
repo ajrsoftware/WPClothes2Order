@@ -141,15 +141,14 @@ function wpc2o_wc_c2o_product_column(string $column, int $product_id): void
         $width = $meta['__wpc2o_product_logo_width_position_' . $position . ''][0] + 1;
 
         if ($meta['__wpc2o_product_enabled'][0] === 'yes') {
-            echo '<span style="display: block; margin: 0 0 3px 0; color: #7ad03a;"><strong>Details</strong></span>';
-            echo '<span style="display: block;"><span>Product type: ' . ucfirst($type) . '</span></span>';
-            echo '<span style="display: block;"><span>Logo position: ' . wpc2o_code_to_postion_text($position) . '</span></span>';
-            echo '<span style="display: block;"><span>Logo width: ' . $width . 'cm</span></span>';
-            echo '<hr/>';
-            echo '<span style="display: block;"><span>Print type: ' . ucfirst($print_type) . '</span></span>';
-            echo '<span style="display: block;"><span>Auto order: ' . ucfirst($auto_orders) . '</span></span>';
-        } else {
-            echo '<span style="color: red;"><strong>No</strong></span>';
+            echo '<button class="button-link wpc2o-expand-details" style="display: block; margin: 0 0 3px 0;">Show details</button>';
+            echo '<ul class="wpc2o-expand-details-content">';
+            echo '<li><span>Product type: ' . ucfirst($type) . '</span></li>';
+            echo '<li><span>Logo position: ' . wpc2o_code_to_postion_text($position) . '</span></li>';
+            echo '<li><span>Logo width: ' . $width . 'cm</span></li>';
+            echo '<li><span>Print type: ' . ucfirst($print_type) . '</span></li>';
+            echo '<li><span>Auto order: ' . ucfirst($auto_orders) . '</span></li>';
+            echo '</ul>';
         }
     }
 }

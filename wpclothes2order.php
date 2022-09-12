@@ -62,7 +62,6 @@ function wpc2o_start()
             // Admin columns
             add_filter('manage_edit-product_columns', 'wpc2o_admin_products_c2o_column', 9999);
             add_action('manage_product_posts_custom_column', 'wpc2o_wc_c2o_product_column', 10, 2);
-            add_filter('manage_edit-product_sortable_columns', 'wpc2o_admin_products_c2o_column_sortable');
 
             // Plugin theme options
             add_action('carbon_fields_register_fields', 'wpc2o_theme_options');
