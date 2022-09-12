@@ -132,17 +132,17 @@ function wpc2o_wc_c2o_product_column(string $column, int $product_id): void
 {
     if ($column == 'wpc2o') {
         $meta = get_post_meta($product_id);
-
-        $print_type = $meta['__wpc2o_product_logo_print_type'][0];
-        $auto_orders = $meta['__wpc2o_product_api'][0];
-
-        $type = $meta['__wpc2o_product_type'][0];
-        $position = $meta['__wpc2o_product_logo_position_' . $type . ''][0];
-        $width = $meta['__wpc2o_product_logo_width_position_' . $position . ''][0] + 1;
+        $print_type = $meta['_' . constant("WPC2O_PRODUCT_LOGO_PRINT_TYPE") . ''][0];
+        $auto_orders = $meta['_' . constant("WPC2O_PRODUCT_API") . ''][0];
+        $sku = $meta['_' . constant("WPC2O_PRODUCT_SKU") . ''][0];
+        $type = $meta['_' . constant("WPC2O_PRODUCT_TYPE") . ''][0];
+        $position = $meta['_' . constant("WPC2O_PRODUCT_LOGO_POSITION") . '_' . $type . ''][0];
+        $width = $meta['_' . constant("WPC2O_PRODUCT_LOGO_WIDTH") . '_' . $position . ''][0] + 1;
 
         if ($meta['__wpc2o_product_enabled'][0] === 'yes') {
             echo '<button class="button-link wpc2o-expand-details" style="display: block; margin: 0 0 3px 0;">Show details</button>';
             echo '<ul class="wpc2o-expand-details-content">';
+            echo '<li><span>Product SKU: ' . $sku . '</span></li>';
             echo '<li><span>Product type: ' . ucfirst($type) . '</span></li>';
             echo '<li><span>Logo position: ' . wpc2o_code_to_postion_text($position) . '</span></li>';
             echo '<li><span>Logo width: ' . $width . 'cm</span></li>';
@@ -223,7 +223,8 @@ function wpc2o_wc_theme_options(): void
 
                 // Use this when this product is ordered to check if we should process
                 Field::make('checkbox', constant('WPC2O_PRODUCT_ENABLED'), __('Enable as C2O product?'))
-                    ->set_option_value('yes'),
+                    ->set_option_value('yes')
+                    ->set_help_text('Please note, this information is not verified by Clothes2Order. Positions & sizes listed here may not be accurate, please contact Clothes2Order if you are unsure.'),
 
                 // Use this when this product is ordered to see if we post info to c2o
                 Field::make('checkbox', constant('WPC2O_PRODUCT_API'), __('Automically send orders to Clothes2Order'))
@@ -242,7 +243,7 @@ function wpc2o_wc_theme_options(): void
                 Field::make('image', constant('WPC2O_PRODUCT_LOGO'), __('Select logo'))
                     ->set_required(true)
                     ->set_help_text('Supported formats include: "jpg", "png", "gif"')
-                    ->set_width(50)
+                    ->set_width(33)
                     ->set_type(['image'])->set_conditional_logic(
                         array(
                             array(
@@ -256,7 +257,7 @@ function wpc2o_wc_theme_options(): void
                 Field::make('select', constant('WPC2O_PRODUCT_LOGO_PRINT_TYPE'), __('Print type'))
                     ->set_required(true)
                     ->set_help_text('Only certain product types support certain print types, however all support "Print", if in doubt leave as "Print" option. Contact Clothes2Order for more infomation.')
-                    ->set_width(50)
+                    ->set_width(33)
                     ->set_options(
                         array(
                             'print' => 'Print',
@@ -265,6 +266,20 @@ function wpc2o_wc_theme_options(): void
 
                         )
                     )->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            )
+                        )
+                    ),
+
+                Field::make('text', constant('WPC2O_PRODUCT_SKU'), __('Product SKU'))
+                    ->set_required(true)
+                    ->set_help_text('Please enter the SKU of the product. This SKU determines the colour (black etc), product type (top etc) & product size (S,M,L etc). If you do not know the SKU to enter, please either get in touch with Clothes2Order or download this <a href="http://c2ostock.s3.amazonaws.com/products.csv?pid=1094" target="_blank" rel="noopener noreferrer">SKU Stock information csv</a> which contains all C2O product information including SKUs.')
+                    ->set_width(33)
+                    ->set_attribute('placeholder', 'eg: 3017-3-14')
+                    ->set_conditional_logic(
                         array(
                             array(
                                 'field' => constant('WPC2O_PRODUCT_ENABLED'),

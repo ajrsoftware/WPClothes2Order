@@ -22,3 +22,4 @@ define('WPC2O_PRODUCT_TYPE', '_wpc2o_product_type');
 define('WPC2O_PRODUCT_LOGO_POSITION', '_wpc2o_product_logo_position');
 define('WPC2O_PRODUCT_LOGO_WIDTH', '_wpc2o_product_logo_width');
 define('WPC2O_PRODUCT_LOGO_PRINT_TYPE', '_wpc2o_product_logo_print_type');
+define('WPC2O_PRODUCT_SKU', '_wpc2o_product_sku');
