@@ -6,13 +6,13 @@
  */
 function wpc2o_get_api_view(): string
 {
-    $content = '<h2>API Credentials</h2>';
+    $content = '<h1>API Credentials</h1>';
     $content .= '<div style="padding: 0 12px">';
     $content .= '<p>Key: ' . get_option(constant("WPC2O_API_KEY")) . '';
     $content .= '<p>Order endpoint: ' . get_option(constant("WPC2O_API_ENDPOINT")) . '';
     $content .= '<p>Stock endpoint: ' . get_option(constant("WPC2O_API_STOCK_ENDPOINT")) . '';
     $content .= '<p>Store manager email: ' . get_option(constant("WPC2O_API_STORE_MANAGER_EMAIL")) . '';
-    $content .= '<p style="padding: 10px 0 0 0;"><a href="' . get_admin_url() . 'admin.php?page=wc-settings&tab=products&section=wpc2o">Click here</a> to update your API credentials.</p>';
+    $content .= '<p style="padding: 10px 0 0 0;"><a href="' . get_admin_url() . 'admin.php?page=wc-settings&tab=products&section=wpc2o">Update your API credentials</a>.</p>';
     $content .= '</div>';
     return $content;
 }

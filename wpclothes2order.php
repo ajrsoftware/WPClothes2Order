@@ -37,6 +37,7 @@ require_once('classes/Notices.php');
 require_once('includes/scripts.php');
 require_once('includes/wc_options.php');
 require_once('includes/wpc2o_options.php');
+require_once('includes/wpc2o_options_getting_started.php');
 require_once('includes/wpc2o_options_api.php');
 require_once('includes/wpc2o_options_delivery.php');
 require_once('includes/wpc2o_options_logo.php');
