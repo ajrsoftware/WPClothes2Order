@@ -76,7 +76,7 @@ function wpc2o_start()
             add_action('carbon_fields_register_fields', 'wpc2o_wc_theme_options');
 
             // register on place order
-            add_action('woocommerce_payment_complete', 'wpc2o_process_completed_order', 10, 1);
+            add_action('woocommerce_thankyou', 'wpc2o_process_completed_order', 10, 1);
             add_action('woocommerce_admin_order_data_after_order_details', 'wpc2o_update_order_notes', 10, 1);
 
             // register cron

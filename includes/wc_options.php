@@ -85,7 +85,7 @@ function wpc2o_options_page_settings(array $settings, string $current_section): 
         $wpc2o_settings[] = array(
             'name' => __('Test Mode', 'wpc2o'),
             'desc_tip' => __('In test mode, orders will not be sent to Clothes2Order', 'wpc2o'),
-            'id' => 'wpc2o_test_mode',
+            'id' => constant('WPC2O_API_TEST_MODE'),
             'type' => 'checkbox',
             'desc' => __('Check to enable test mode', 'wpc2o'),
         );
@@ -139,7 +139,7 @@ function wpc2o_wc_c2o_product_column(string $column, int $product_id): void
         $position = $meta['_' . constant("WPC2O_PRODUCT_LOGO_POSITION") . '_' . $type . ''][0];
         $width = $meta['_' . constant("WPC2O_PRODUCT_LOGO_WIDTH") . '_' . $position . ''][0] + 1;
 
-        if ($meta['__wpc2o_product_enabled'][0] === 'yes') {
+        if ($meta['_' . constant("WPC2O_PRODUCT_ENABLED") . ''][0] === 'yes') {
             echo '<button class="button-link wpc2o-expand-details" style="display: block; margin: 0 0 3px 0;">Show details</button>';
             echo '<ul class="wpc2o-expand-details-content">';
             echo '<li><span>Product SKU: ' . $sku . '</span></li>';
@@ -276,7 +276,7 @@ function wpc2o_wc_theme_options(): void
 
                 Field::make('text', constant('WPC2O_PRODUCT_SKU'), __('Product SKU'))
                     ->set_required(true)
-                    ->set_help_text('Please enter the SKU of the product. This SKU determines the colour (black etc), product type (top etc) & product size (S,M,L etc). If you do not know the SKU to enter, please either get in touch with Clothes2Order or download this <a href="http://c2ostock.s3.amazonaws.com/products.csv?pid=1094" target="_blank" rel="noopener noreferrer">SKU Stock information csv</a> which contains all C2O product information including SKUs.')
+                    ->set_help_text('Please enter the SKU of the product. This SKU determines the colour (black etc), product type (top etc) & product size (S,M,L etc). If you do not know the SKU to enter, please either get in touch with Clothes2Order or download this <a href="http://c2ostock.s3.amazonaws.com/products.csv" target="_blank" rel="noopener noreferrer">SKU Stock information csv</a> which contains all C2O product information including SKUs.')
                     ->set_width(33)
                     ->set_attribute('placeholder', 'eg: 3017-3-14')
                     ->set_conditional_logic(
@@ -291,6 +291,7 @@ function wpc2o_wc_theme_options(): void
                 // Product type select
                 Field::make('select', constant('WPC2O_PRODUCT_TYPE'), __('Product type'))
                     ->set_required(true)
+                    ->set_help_text('Ensure this product type matches the SKU you have provided.')
                     ->set_width(33)
                     ->set_options(
                         array(

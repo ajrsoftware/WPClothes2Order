@@ -8,7 +8,7 @@ class WPC2O_OrderRequest
      * @param string $api_post_endpoint 
      * @param string $api_key 
      * @param string $delivery_method 
-     * @param mixed $order 
+     * @param Automattic\WooCommerce\Admin\Overrides\Order $order 
      * @param WPC2O_C2O_Product[] $products 
      * @return void 
      */
@@ -17,7 +17,7 @@ class WPC2O_OrderRequest
         string $api_post_endpoint,
         string $api_key,
         string $delivery_method,
-        mixed $order,
+        Automattic\WooCommerce\Admin\Overrides\Order $order,
         array $products
     ) {
         $payload = $this->build_payload($api_key, $delivery_method, $order, $products);
@@ -28,12 +28,16 @@ class WPC2O_OrderRequest
      * Build a request payload that is specified by C2O documentation
      * @param string $api_key 
      * @param string $delivery_method 
-     * @param mixed $order 
+     * @param Automattic\WooCommerce\Admin\Overrides\Order $order 
      * @param WPC2O_C2O_Product[] $products 
-     * @return array 
+     * @return array
      */
-    private function build_payload(string $api_key, string $delivery_method,  mixed $order, array $products): array
-    {
+    private function build_payload(
+        string $api_key,
+        string $delivery_method,
+        Automattic\WooCommerce\Admin\Overrides\Order $order,
+        array $products
+    ): array {
         $payload = array(
             "api_key" => $api_key,
             'order' => array(
@@ -84,37 +88,41 @@ class WPC2O_OrderRequest
             )
         );
 
-        ray($response);
-
-        $this->response_handler(
-            json_decode($response['code']),
-            json_decode($response['body'])
-        );
+        $this->response_handler($response);
     }
 
     /**
      * Based on the response of the order reqest, handle the response and return a message
-     * @param int $status_code 
-     * @param string $message 
+     * @param array|mixed $wp_response
      * @return string 
      */
-    private function response_handler(int $status_code, string $message): string
+    private function response_handler($wp_response): string
     {
-        ray($message);
-        ray($status_code);
+        $success = true;
+        $message = '';
 
-        // C2O pass back a 200 if the order went through
-        if ($status_code === 200) {
-            return 'Sucess';
+        // WP_Error, i.e the request was not good, bad url etc
+        if ($wp_response instanceof WP_Error) {
+            $success = false;
+            $message = $wp_response->get_error_message();
         }
 
-        // If not 200, we assume it's a bad request
-        new WPC2O_Email(
-            get_option(constant('WPC2O_API_STORE_MANAGER_EMAIL')),
-            'Subject here',
-            'This is a failure message'
-        );
+        // C2O failure response
+        if ($wp_response['response']['code'] !== 200) {
+            $success = false;
+            $message = $wp_response['response']['message'];
+        }
 
-        return 'There was a problem sending this order to Clothes2Order, an email has been sent to this stores manager.';
+        if (!$success) {
+            $body = json_decode($wp_response['body'])->status->msg;
+
+            new WPC2O_Email(
+                get_option(constant('WPC2O_API_STORE_MANAGER_EMAIL')),
+                'WPC2O - Order failed: ' . $message . '',
+                $body
+            );
+        }
+
+        return $message;
     }
 }
