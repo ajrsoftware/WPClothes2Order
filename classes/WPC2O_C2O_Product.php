@@ -9,27 +9,38 @@ class WPC2O_C2O_Product
      */
     public function __construct(\WC_Order_Item $product)
     {
+        $product_id = $product->get_product_id();
+        $product = wc_get_product($product_id);
+        $quantity = '';
+        $sku = '';
+        $logo_url = '';
+        $unique_id = '';
+        $position = '';
+        $width = '';
+        $type = '';
+
+        $built_product = $this->build($sku, $quantity, $unique_id, $logo_url, $position, $width, $type);
+        return $built_product;
+    }
+
+    private function build(string $sku, string $quantity, string $unique_id, string $file, string $position, string $width, string $type): array
+    {
+        $product = array(
+            "sku" => $sku,
+            "quantity" => $quantity,
+            "logos" => array(
+                "logo" => array(
+                    array(
+                        "unique_id" => $unique_id,
+                        "file" => $file,
+                        "position" => $position,
+                        "width" => $width,
+                        "type" => $type
+                    )
+                )
+            )
+        );
+
+        return $product;
     }
 }
-//  {
-//                 "sku": "594-117-15",
-//                 "quantity": "2",
-//                 "logos": {
-//                     "logo": [
-//                         {
-//                             "unique_id": "TEST_02",
-//                             "file": "http:\/\/www.clothes2order.com\/images\/c2o_new_2013\/layout\/carousel\/15.jpg",
-//                             "position": "3",
-//                             "width": "8",
-//                             "type": "print"
-//                         },
-//                         {
-//                             "unique_id": "TEST_03",
-//                             "file": "http:\/\/www.clothes2order.com\/images\/c2o_new_2013\/layout\/carousel\/14.jpg",
-//                             "position": "5",
-//                             "width": "12",
-//                             "type": "print"
-//                         }
-//                     ]
-//                 }
-//             },

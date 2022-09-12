@@ -11,7 +11,7 @@ function wpc2o_process_completed_order(int $order_id): void
     $order = wc_get_order($order_id);
     $processed = $order->get_meta('_wpc2o_order_processed');
 
-    if ($processed) {
+    if (!$processed) {
         $products = array();
 
         foreach ($order->get_items() as $product) {

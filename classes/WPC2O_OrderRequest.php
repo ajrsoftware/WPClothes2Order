@@ -21,7 +21,7 @@ class WPC2O_OrderRequest
         array $products
     ) {
         $payload = $this->build_payload($api_key, $delivery_method, $order, $products);
-        $this->send($api_post_endpoint, $payload, $test_mode);
+        $this->send($api_post_endpoint, $payload, $test_mode, $order->get_id());
     }
 
     /**
@@ -72,9 +72,10 @@ class WPC2O_OrderRequest
      * @param string $api_post_endpoint 
      * @param array $payload 
      * @param bool $test_mode 
+     * @param int $order_id
      * @return void 
      */
-    private function send(string $api_post_endpoint, array $payload, bool $test_mode): void
+    private function send(string $api_post_endpoint, array $payload, bool $test_mode, int $order_id): void
     {
         $response = wp_remote_post(
             $api_post_endpoint,
@@ -88,15 +89,16 @@ class WPC2O_OrderRequest
             )
         );
 
-        $this->response_handler($response);
+        $this->response_handler($response, $order_id);
     }
 
     /**
      * Based on the response of the order reqest, handle the response and return a message
      * @param array|mixed $wp_response
+     * @param int $order_id
      * @return string 
      */
-    private function response_handler($wp_response): string
+    private function response_handler($wp_response, int $order_id): string
     {
         $success = true;
         $message = '';
@@ -114,11 +116,13 @@ class WPC2O_OrderRequest
         }
 
         if (!$success) {
+            $subject = 'WPC2O: Clothes2Order purchase failed for order ' . $order_id . ' - ' . $message . '';
             $body = json_decode($wp_response['body'])->status->msg;
+            $body .= '<br /><strong">Contact Clothes2Order for support.</strong>';
 
             new WPC2O_Email(
-                get_option(constant('WPC2O_API_STORE_MANAGER_EMAIL')),
-                'WPC2O - Order failed: ' . $message . '',
+                get_option(constant('WPC2O_API_STORE_MANAGER_EMAIL')) ?? get_option('admin_email'),
+                $subject,
                 $body
             );
         }
