@@ -32,7 +32,7 @@ function wpc2o_get_example_post_request_view(): string
                 "order": {
                     "order_id": "_",
                     "order_notes": "_",
-                    "delivery_method": "' . wpc2o_get_chosen_delivery_option() . '"
+                    "delivery_method": "' . '' . '"
                 },
                 "customer": {
                     "name": "' . $current_user->display_name . '",
@@ -56,15 +56,15 @@ function wpc2o_get_example_post_request_view(): string
                             "logos": {
                                 "logo": [
                                     {
-                                        "unique_id": "' . wpc2o_get_chosen_logo(false) . '_3_8",
-                                        "file": "' . wpc2o_get_chosen_logo(true)  . '",
+                                        "unique_id": "' . '' . '_3_8",
+                                        "file": "' . ''  . '",
                                         "position": "3",
                                         "width": "8",
                                         "type": "print"
                                     },
                                     {
-                                        "unique_id": "' . wpc2o_get_chosen_logo(false) . '_5_12",
-                                        "file": "' . wpc2o_get_chosen_logo(true) . '",
+                                        "unique_id": "' . '' . '_5_12",
+                                        "file": "' . '' . '",
                                         "position": "5",
                                         "width": "12",
                                         "type": "print"
@@ -79,29 +79,4 @@ function wpc2o_get_example_post_request_view(): string
     $data .= $json;
     $data .= '</code></pre>';
     return $data;
-}
-
-/**
- * TODO
- * @return null|string 
- */
-function wpc2o_get_chosen_delivery_option(): ?string
-{
-    return carbon_get_theme_option(constant("WPC2O_DELIVERY_OPTION")) ?: null;
-}
-
-/**
- * TODO
- * @param bool $url 
- * @return mixed 
- */
-function wpc2o_get_chosen_logo(bool $url)
-{
-    if ($url) {
-        return wp_get_attachment_image_src(
-            carbon_get_theme_option(constant("WPC2O_LOGO"))
-        )['0'];
-    }
-
-    return carbon_get_theme_option(constant("WPC2O_LOGO"));
 }

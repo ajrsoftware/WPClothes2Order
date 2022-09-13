@@ -14,13 +14,14 @@ function wpc2o_process_completed_order(int $order_id): void
     if (!$processed) {
         $products = array();
 
-        foreach ($order->get_items() as $product) {
-            $meta = get_post_meta($product->get_product_id());
+        foreach ($order->get_items() as $order_item) {
+            $meta = get_post_meta($order_item->get_product_id());
             $is_wpc2o_product = $meta['_' . constant("WPC2O_PRODUCT_ENABLED") . ''][0] === 'yes';
             $is_auto_order_enabled = $meta['_' . constant("WPC2O_PRODUCT_API") . ''][0];
 
             if ($is_wpc2o_product && $is_auto_order_enabled) {
-                $products[] = new WPC2O_C2O_Product($product);
+                $formatted_product = new WPC2O_C2O_Product();
+                $products[] = $formatted_product->build($order_item);
             }
         }
 
@@ -30,21 +31,12 @@ function wpc2o_process_completed_order(int $order_id): void
             $api_key = get_option(constant("WPC2O_API_KEY"));
             $delivery_method = carbon_get_theme_option(constant("WPC2O_DELIVERY_OPTION"));
 
-            $response_message = new WPC2O_OrderRequest($test_mode, $api_post_endpoint, $api_key, $delivery_method, $order, $products);
+            $order_request = new WPC2O_OrderRequest();
+            $response_message = $order_request->send($api_post_endpoint, $test_mode, $api_key, $delivery_method, $order, $products);
             $order->add_order_note($response_message);
         }
 
         $order->update_meta_data('_wpc2o_order_processed', true);
         $order->save();
     }
-}
-
-/**
- * TODO
- * @param mixed $order 
- * @return void 
- */
-function wpc2o_update_order_notes($order): void
-{
-    //
 }

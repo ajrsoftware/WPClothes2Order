@@ -1,27 +1,48 @@
 <?php
 
+use Automattic\WooCommerce\Admin\Overrides\Order;
+
 class WPC2O_OrderRequest
 {
     /**
-     * Every instance of this class will attempt to send off an order request to C2O
-     * @param bool $test_mode 
+     * Attempt a WP remote post using our build payload
      * @param string $api_post_endpoint 
+     * @param array $payload 
+     * @param bool $test_mode 
      * @param string $api_key 
      * @param string $delivery_method 
-     * @param Automattic\WooCommerce\Admin\Overrides\Order $order 
-     * @param WPC2O_C2O_Product[] $products 
-     * @return void 
+     * @param Order $order 
+     * @param array $products 
+     * @return string 
      */
-    public function __construct(
-        bool $test_mode,
+    public function send(
         string $api_post_endpoint,
+        bool $test_mode,
         string $api_key,
         string $delivery_method,
         Automattic\WooCommerce\Admin\Overrides\Order $order,
         array $products
-    ) {
+    ): string {
+        $headers = array(
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+        );
+
+        if ($test_mode) {
+            $headers += array('Test-Mode' => 'true');
+        }
+
         $payload = $this->build_payload($api_key, $delivery_method, $order, $products);
-        $this->send($api_post_endpoint, $payload, $test_mode, $order->get_id());
+
+        $response = wp_remote_post(
+            $api_post_endpoint,
+            array(
+                'headers' => $headers,
+                'body' => wp_json_encode($payload),
+            )
+        );
+
+        return $this->response_handler($response, $order->get_id());
     }
 
     /**
@@ -42,7 +63,7 @@ class WPC2O_OrderRequest
             "api_key" => $api_key,
             'order' => array(
                 'order_id' => strval($order->get_id()),
-                'order_notes' => $order->get_customer_order_notes(),
+                'order_notes' => $order->get_customer_order_notes() ?: '',
                 'delivery_method' => $delivery_method
             ),
             'customer' => array(
@@ -68,31 +89,6 @@ class WPC2O_OrderRequest
     }
 
     /**
-     * Attempt a WP remote post using our build payload
-     * @param string $api_post_endpoint 
-     * @param array $payload 
-     * @param bool $test_mode 
-     * @param int $order_id
-     * @return void 
-     */
-    private function send(string $api_post_endpoint, array $payload, bool $test_mode, int $order_id): void
-    {
-        $response = wp_remote_post(
-            $api_post_endpoint,
-            array(
-                'headers' => array(
-                    'Content-Type' => 'application/json',
-                    'Accept' => 'application/json',
-                    'Test-Mode' => $test_mode,
-                ),
-                'body' => wp_json_encode($payload),
-            )
-        );
-
-        $this->response_handler($response, $order_id);
-    }
-
-    /**
      * Based on the response of the order reqest, handle the response and return a message
      * @param array|mixed $wp_response
      * @param int $order_id
@@ -112,7 +108,10 @@ class WPC2O_OrderRequest
         // C2O failure response
         if ($wp_response['response']['code'] !== 200) {
             $success = false;
-            $message = $wp_response['response']['message'];
+            $response_message = $wp_response['response']['message'];
+            $response_body_message = json_decode($wp_response['body'])->status->msg;
+            $response_body_message = $response_body_message ? ' - ' . $response_body_message : '';
+            $message = $response_message . $response_body_message;
         }
 
         if (!$success) {
