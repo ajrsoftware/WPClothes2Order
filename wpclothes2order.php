@@ -1,22 +1,18 @@
 <?php
 
 /**
- * Plugin Name:  WPClothes2Order
- * Description:  Unofficial WooCommerce Plugin for <a href="https://www.clothes2order.com/">Clothes2Order</a>
- * Version:      1.0.0
- * Plugin URI:   https://www.wpclothes2order.com
- * Author:       Ashley Redman
- * Author URI:   https://github.com/AshleyRedman
- * Text Domain:  wpc2o
- * Domain Path:
- * Requires at least: 6.0.0
- * Requires PHP: 7.4
- *
- * @package   wpclothes2order
- * @link      https://www.wpclothes2order.com
- * @author    Ashley Redman <ash.redman@outlook.com>
- * @copyright 2022 Ashley Redman
- * @license   GPL v2 or later
+ * Plugin Name:         WPClothes2Order
+ * Plugin URI:          https://wpclothes2order.com/download
+ * Description:         Unofficial WooCommerce Plugin for <a href="https://www.clothes2order.com/">Clothes2Order</a>
+ * Version:             1.0.0
+ * Plugin URI:          https://www.wpclothes2order.com
+ * Author:              Ashley Redman
+ * Author URI:          https://github.com/AshleyRedman
+ * License              GPL v3 or later
+ * Text Domain:         wpc2o
+ * Domain Path:         /languages
+ * Requires at least:   6.0.0
+ * Requires PHP:        7.4
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,21 +30,21 @@ defined('ABSPATH') || exit;
 require_once('vendor/autoload.php');
 require_once('includes/constants.php');
 
-require_once('classes/WPC2O_Notices.php');
-require_once('classes/WPC2O_Email.php');
-require_once('classes/WPC2O_OrderRequest.php');
-require_once('classes/WPC2O_C2O_Product.php');
+require_once('classes/class-wpc2o-notice.php');
+require_once('classes/class-wpc2o-email.php');
+require_once('classes/class-wpc2o-orderrequest.php');
+require_once('classes/class-wpc2o-c2o-product.php');
 
 require_once('includes/scripts.php');
-require_once('includes/wc_options.php');
-require_once('includes/wpc2o_options.php');
-require_once('includes/wpc2o_options_getting_started.php');
-require_once('includes/wpc2o_options_api.php');
-require_once('includes/wpc2o_options_delivery.php');
-require_once('includes/wpc2o_options_logo.php');
-require_once('includes/wpc2o_options_orders.php');
-require_once('includes/wpc2o_options_stock.php');
-require_once('includes/wpc2o_orders.php');
+require_once('includes/wc-options.php');
+require_once('includes/wpc2o-options.php');
+require_once('includes/wpc2o-options-getting-started.php');
+require_once('includes/wpc2o-options-api.php');
+require_once('includes/wpc2o-options-delivery.php');
+require_once('includes/wpc2o-options-logo.php');
+require_once('includes/wpc2o-options-orders.php');
+require_once('includes/wpc2o-options-stock.php');
+require_once('includes/wpc2o-orders.php');
 
 add_action('plugins_loaded', 'wpc2o_start');
 
