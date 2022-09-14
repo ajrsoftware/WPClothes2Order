@@ -8,6 +8,7 @@ define("WPC2O_API_KEY", "_wpc2o_api_key");
 define("WPC2O_API_ENDPOINT", "_wpc2o_endpoint");
 define("WPC2O_API_STOCK_ENDPOINT", "_wpc2o_stock_endpoint");
 define("WPC2O_API_STORE_MANAGER_EMAIL", "_wpc2o_manager_email");
+define("WPC2O_API_TEST_MODE", "_wpc2o_test_mode");
 
 // Plugin option values
 define("WPC2O_DELIVERY_OPTION", "_wpc2o_delivery_options_selection");
@@ -22,3 +23,4 @@ define('WPC2O_PRODUCT_TYPE', '_wpc2o_product_type');
 define('WPC2O_PRODUCT_LOGO_POSITION', '_wpc2o_product_logo_position');
 define('WPC2O_PRODUCT_LOGO_WIDTH', '_wpc2o_product_logo_width');
 define('WPC2O_PRODUCT_LOGO_PRINT_TYPE', '_wpc2o_product_logo_print_type');
+define('WPC2O_PRODUCT_SKU', '_wpc2o_product_sku');

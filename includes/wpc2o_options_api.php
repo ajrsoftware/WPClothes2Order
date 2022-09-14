@@ -6,13 +6,13 @@
  */
 function wpc2o_get_api_view(): string
 {
-    $content = '<h2>API Credentials</h2>';
+    $content = '<h1>API Credentials</h1>';
     $content .= '<div style="padding: 0 12px">';
     $content .= '<p>Key: ' . get_option(constant("WPC2O_API_KEY")) . '';
     $content .= '<p>Order endpoint: ' . get_option(constant("WPC2O_API_ENDPOINT")) . '';
     $content .= '<p>Stock endpoint: ' . get_option(constant("WPC2O_API_STOCK_ENDPOINT")) . '';
     $content .= '<p>Store manager email: ' . get_option(constant("WPC2O_API_STORE_MANAGER_EMAIL")) . '';
-    $content .= '<p style="padding: 10px 0 0 0;"><a href="' . get_admin_url() . 'admin.php?page=wc-settings&tab=products&section=wpc2o">Click here</a> to update your API credentials.</p>';
+    $content .= '<p style="padding: 10px 0 0 0;"><a href="' . get_admin_url() . 'admin.php?page=wc-settings&tab=products&section=wpc2o">Update your API credentials</a>.</p>';
     $content .= '</div>';
     return $content;
 }
@@ -32,7 +32,7 @@ function wpc2o_get_example_post_request_view(): string
                 "order": {
                     "order_id": "_",
                     "order_notes": "_",
-                    "delivery_method": "' . wpc2o_get_chosen_delivery_option() . '"
+                    "delivery_method": "' . '' . '"
                 },
                 "customer": {
                     "name": "' . $current_user->display_name . '",
@@ -56,15 +56,15 @@ function wpc2o_get_example_post_request_view(): string
                             "logos": {
                                 "logo": [
                                     {
-                                        "unique_id": "' . wpc2o_get_chosen_logo(false) . '_3_8",
-                                        "file": "' . wpc2o_get_chosen_logo(true)  . '",
+                                        "unique_id": "' . '' . '_3_8",
+                                        "file": "' . ''  . '",
                                         "position": "3",
                                         "width": "8",
                                         "type": "print"
                                     },
                                     {
-                                        "unique_id": "' . wpc2o_get_chosen_logo(false) . '_5_12",
-                                        "file": "' . wpc2o_get_chosen_logo(true) . '",
+                                        "unique_id": "' . '' . '_5_12",
+                                        "file": "' . '' . '",
                                         "position": "5",
                                         "width": "12",
                                         "type": "print"
@@ -79,29 +79,4 @@ function wpc2o_get_example_post_request_view(): string
     $data .= $json;
     $data .= '</code></pre>';
     return $data;
-}
-
-/**
- * TODO
- * @return null|string 
- */
-function wpc2o_get_chosen_delivery_option(): ?string
-{
-    return carbon_get_theme_option(constant("WPC2O_DELIVERY_OPTION")) ?: null;
-}
-
-/**
- * TODO
- * @param bool $url 
- * @return mixed 
- */
-function wpc2o_get_chosen_logo(bool $url)
-{
-    if ($url) {
-        return wp_get_attachment_image_src(
-            carbon_get_theme_option(constant("WPC2O_LOGO"))
-        )['0'];
-    }
-
-    return carbon_get_theme_option(constant("WPC2O_LOGO"));
 }
