@@ -1,6 +1,6 @@
 <?php
 
-class Notices
+class WPC2O_Notice
 {
     protected string $servierty;
     protected string $message;

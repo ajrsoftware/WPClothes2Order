@@ -33,15 +33,22 @@ defined('ABSPATH') || exit;
 
 require_once('vendor/autoload.php');
 require_once('includes/constants.php');
-require_once('classes/Notices.php');
+
+require_once('classes/WPC2O_Notices.php');
+require_once('classes/WPC2O_Email.php');
+require_once('classes/WPC2O_OrderRequest.php');
+require_once('classes/WPC2O_C2O_Product.php');
+
 require_once('includes/scripts.php');
 require_once('includes/wc_options.php');
 require_once('includes/wpc2o_options.php');
+require_once('includes/wpc2o_options_getting_started.php');
 require_once('includes/wpc2o_options_api.php');
 require_once('includes/wpc2o_options_delivery.php');
 require_once('includes/wpc2o_options_logo.php');
 require_once('includes/wpc2o_options_orders.php');
 require_once('includes/wpc2o_options_stock.php');
+require_once('includes/wpc2o_orders.php');
 
 add_action('plugins_loaded', 'wpc2o_start');
 
@@ -62,20 +69,21 @@ function wpc2o_start()
             // Admin columns
             add_filter('manage_edit-product_columns', 'wpc2o_admin_products_c2o_column', 9999);
             add_action('manage_product_posts_custom_column', 'wpc2o_wc_c2o_product_column', 10, 2);
-            add_filter('manage_edit-product_sortable_columns', 'wpc2o_admin_products_c2o_column_sortable');
 
             // Plugin theme options
             add_action('carbon_fields_register_fields', 'wpc2o_theme_options');
             // Product options
             add_action('carbon_fields_register_fields', 'wpc2o_wc_theme_options');
 
-            // register cron
-
             // register on place order
+            add_action('woocommerce_thankyou', 'wpc2o_process_completed_order', 10, 1);
+            add_action('woocommerce_admin_order_data_after_order_details', 'wpc2o_update_order_notes', 10, 1);
+
+            // register cron
         } else {
-            new Notices('error', 'Missing WPClothes2Order API credentials. Please add them <a href="' . get_admin_url() . 'admin.php?page=wc-settings&tab=products&section=wpc2o">here</a>', false);
+            new WPC2O_Notice('error', 'Missing WPClothes2Order API credentials. Please add them <a href="' . get_admin_url() . 'admin.php?page=wc-settings&tab=products&section=wpc2o">here</a>', false);
         }
     } else {
-        new Notices('error', 'Woocommerce is required to use WPClothes2Order!', false);
+        new WPC2O_Notice('error', 'Woocommerce is required to use WPClothes2Order!', false);
     }
 }

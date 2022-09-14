@@ -6,7 +6,7 @@
  */
 function wpc2o_get_logo_view(): string
 {
-    $content = '<h2>Logo options</h2>';
+    $content = '<h1>Logo options</h1>';
     $content .= '<div style="padding: 0 12px">';
     $content .= '<p>Clothes2Order offer six <strong>types</strong> of products, they are:</p>';
     $content .= '<ul style="list-style-type: disc; padding-left: 16px;">';
@@ -17,7 +17,7 @@ function wpc2o_get_logo_view(): string
     $content .= '<li>Tie</li>';
     $content .= '<li>Tops</li>';
     $content .= '</ul>';
-    $content .= '<p>For more information, please see the <a href="https://www.clothes2order.com/docs/position-codes">C2O position docs</a>.</p>';
+    $content .= '<p>For more information, please see the <a href="https://www.clothes2order.com/docs/position-codes" target="_blank" rel="noopener noreferrer">C2O position docs</a>.</p>';
     $content .= '</div>';
 
     return $content;
@@ -29,12 +29,14 @@ function wpc2o_get_logo_view(): string
  */
 function wpc2o_get_logo_position_detail_view(): string
 {
-    $content = '<h4>Positions and widths explained</h4>';
+    $content = '<h2>Positions and widths explained</h2>';
     $content .= '<div style="padding: 0 12px">';
     $content .= '<p>Depending on what <strong>type</strong> of product you select, depends on what positions of logos are available, for example:</p>';
     $content .= '<p>If you are selling a <i>bag</i>, then you can only place a logo on the <u>front</u> of the bag. <br>';
     $content .= 'However if you are selling a pair of trousers, then you can place the logo either on the <u>left pocket</u>, or the <u>right pocket</u>. There is no <u>front</u>.</p>';
-    $content .= '<h5>Below are all the current logo positions relevant to their product type:</h5>';
+    $content .= 'So when creating a product and you have selected it to be a WPC2O product, you <strong>must</strong> provide the product <u>type</u>, <u>position</u> and <u>width</u>.<br>';
+    $content .= 'Widths are shown in centimeters, for example logo position <i>Right sleeve</i> for a <i>Top</i> can have a logo width between <u>1cm - 10cm</u>.</p>';
+    $content .= '<h4>Below are all the current logo positions relevant to their product type:</h4>';
 
     $content .= '<table>';
     $content .= '<thead>';
@@ -191,10 +193,6 @@ function wpc2o_get_logo_position_detail_view(): string
 
     $content .= '</thead>';
     $content .= '</table>';
-    $content .= '<br>';
-
-    $content .= '<p>So when creating a product and you have selected it to be a WPC2O product, you <strong>must</strong> provide the product <u>type</u>, <u>position</u> and <u>width</u>.</p>';
-    $content .= '<p>Widths are shown in centimeters, for example logo position <i>Right sleeve</i> for a <i>Top</i> can have a logo width between <u>1cm - 10cm</u>.</p>';
 
     $content .= '</div>';
     return $content;

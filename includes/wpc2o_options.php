@@ -25,15 +25,17 @@ function wpc2o_theme_options(): void
         ->set_page_menu_position(58)
         ->set_icon(wpc2o_build_icon())
 
+        ->add_tab(__('Getting started'), array(
+            Field::make('html', 'wpc2o_getting_started')
+                ->set_html(wpc2o_getting_started_view())
+        ))
+
         // Logo tab
         ->add_tab(__('Logo'), array(
             Field::make('html', 'wpc2o_logo_title')
                 ->set_html(wpc2o_get_logo_view()),
-            Field::make('image', constant("WPC2O_LOGO"), __('Upload your logo'))
-                ->set_type(['image']),
             Field::make('html', 'wpc2o_logo_position_detail')
                 ->set_html(wpc2o_get_logo_position_detail_view())
-
         ))
 
         // Delivery tab
@@ -51,7 +53,7 @@ function wpc2o_theme_options(): void
         ))
 
         // Stock tab
-        ->add_tab(__('C2O Stock sync'), [
+        ->add_tab(__('Stock sync'), [
             Field::make('html', 'wpc2o_stock_sync')
                 ->set_html(wpc2o_get_stock_view())
         ])
