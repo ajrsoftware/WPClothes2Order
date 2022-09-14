@@ -1,4 +1,6 @@
-# WPClothes2Order
+![WPC2O](assets/readme-banner.png)
+
+---
 
 -   Contributors: [Ashley Redman](https://github.com/AshleyRedman), [Reuben Porter](https://github.com/ReubenPorter)
 -   Tags: woocommerce, clothes2order
