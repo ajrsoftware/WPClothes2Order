@@ -2,6 +2,12 @@
 
 use Automattic\WooCommerce\Admin\Overrides\Order;
 
+/**
+ * WPC2O_Notice File Doc Comment
+ *
+ * @category WPC2O_Notice
+ * @package  WPClothes2Order
+ */
 class WPC2O_OrderRequest
 {
     /**
