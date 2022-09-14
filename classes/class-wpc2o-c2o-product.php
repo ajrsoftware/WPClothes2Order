@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * WPC2O_C2O_Product File Doc Comment
+ *
+ * @category WPC2O_C2O_Product
+ * @package  WPClothes2Order
+ */
 class WPC2O_C2O_Product
 {
     /**

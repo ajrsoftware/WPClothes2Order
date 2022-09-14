@@ -4,6 +4,7 @@
  * TODO
  * @return string 
  */
+
 function wpc2o_getting_started_view(): string
 {
     $content = '<h1>Getting started</h1>';

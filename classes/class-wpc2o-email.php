@@ -1,7 +1,14 @@
 <?php
 
+/**
+ * WPC2O_Email File Doc Comment
+ *
+ * @category WPC2O_Email
+ * @package  WPClothes2Order
+ */
 class WPC2O_Email
 {
+
     /**
      * Every new instance of this class will attempt to build a new WPC2O email
      */
