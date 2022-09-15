@@ -6,7 +6,7 @@
  */
 function wpc2o_get_logo_view(): string
 {
-    $content = '<h1>Logo options</h1>';
+    $content  = '<h1>Logo options</h1>';
     $content .= '<div style="padding: 0 12px">';
     $content .= '<p>Clothes2Order offer six <strong>types</strong> of products, they are:</p>';
     $content .= '<ul style="list-style-type: disc; padding-left: 16px;">';
@@ -29,7 +29,7 @@ function wpc2o_get_logo_view(): string
  */
 function wpc2o_get_logo_position_detail_view(): string
 {
-    $content = '<h2>Positions and widths explained</h2>';
+    $content  = '<h2>Positions and widths explained</h2>';
     $content .= '<div style="padding: 0 12px">';
     $content .= '<p>Depending on what <strong>type</strong> of product you select, depends on what positions of logos are available, for example:</p>';
     $content .= '<p>If you are selling a <i>bag</i>, then you can only place a logo on the <u>front</u> of the bag. <br>';
