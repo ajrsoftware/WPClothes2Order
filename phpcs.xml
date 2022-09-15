@@ -2,22 +2,38 @@
 <ruleset name="WordPress Coding Standards for WPC2O">
 <config name="installed_paths" value="vendor/wp-coding-standards/wpcs" />
 	<rule ref="vendor/wp-coding-standards/wpcs/WordPress-Core">
-		<exclude name="Generic.Commenting.DocComment.MissingShort" />
-		<exclude name="WordPress.PHP.DisallowShortTernary" />
-        <exclude name="Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed" />
-        <exclude name="Generic.Commenting.DocComment.SpacingBeforeTags" />
-        <exclude name="PEAR.Functions.FunctionCallSignature.SpaceAfterOpenBracket" />
-        <exclude name="Squiz.Commenting.FunctionComment.SpacingAfter" />
-        <exclude name="Generic.Functions.OpeningFunctionBraceKernighanRitchie.BraceOnNewLine" />
-        <exclude name="PEAR.Functions.FunctionCallSignature.SpaceBeforeCloseBracket" />
-        <exclude name="WordPress.WhiteSpace.ControlStructureSpacing.NoSpaceAfterOpenParenthesis" />
-        <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingAfterOpen" />
-        <exclude name="Generic.Classes.OpeningBraceSameLine.BraceOnNewLine" />
-        <exclude name="WordPress.WhiteSpace.ControlStructureSpacing.NoSpaceBeforeCloseParenthesis" />
-        <exclude name="Squiz.Commenting.FileComment.SpacingAfterComment" />
-        <exclude name="Squiz.Commenting.FileComment.SpacingAfterOpen" />
-        <exclude name="Generic.WhiteSpace.ScopeIndent.IncorrectExact" />
+        
         <exclude name="Generic.WhiteSpace.ScopeIndent.Incorrect" />
+		<exclude name="Generic.Commenting.DocComment.MissingShort" />
+        <exclude name="Generic.WhiteSpace.ScopeIndent.IncorrectExact" />
+        <exclude name="Generic.Commenting.DocComment.SpacingBeforeTags" />
+        <exclude name="Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed" />
+        <exclude name="Generic.Classes.OpeningBraceSameLine.BraceOnNewLine" />
+        <exclude name="Generic.Functions.OpeningFunctionBraceKernighanRitchie.BraceOnNewLine" />
+
+        <exclude name="PEAR.Functions.FunctionCallSignature.SpaceAfterOpenBracket" />
+        <exclude name="PEAR.Functions.FunctionCallSignature.SpaceBeforeCloseBracket" />
+
+        <exclude name="Squiz.Commenting.FunctionComment.SpacingAfter" />
+        <exclude name="Squiz.Commenting.FileComment.SpacingAfterOpen" />
+        <exclude name="Squiz.Commenting.FileComment.SpacingAfterComment" />
+		<exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingAfterOpen" />
+        
+        <exclude name="WordPress.PHP.DisallowShortTernary" />
+        <exclude name="WordPress.PHP.YodaConditions.NotYoda" />
+        <exclude name="WordPress.WP.I18n.MissingArgDomainDefault" />
+        <exclude name="WordPress.Files.FileName.InvalidClassFileName" />
+        <exclude name="WordPress.WP.I18n.NonSingularStringLiteralText" />
+        <exclude name="WordPress.WhiteSpace.OperatorSpacing.NoSpaceAfter" />
+        <exclude name="WordPress.WhiteSpace.OperatorSpacing.NoSpaceBefore" />
+        <exclude name="WordPress.Arrays.ArrayDeclarationSpacing.NoSpaceAfterArrayOpener" />
+        <exclude name="WordPress.Arrays.ArrayDeclarationSpacing.NoSpaceBeforeArrayCloser" />
+        <exclude name="WordPress.Arrays.ArrayKeySpacingRestrictions.NoSpacesAroundArrayKeys" />
+        <exclude name="WordPress.Arrays.ArrayKeySpacingRestrictions.NoSpacesAroundArrayKeysr" />
+        <exclude name="WordPress.WhiteSpace.ControlStructureSpacing.NoSpaceAfterOpenParenthesis" />
+        <exclude name="WordPress.WhiteSpace.ControlStructureSpacing.NoSpaceBeforeCloseParenthesis" />
+        <exclude name="WordPress.WhiteSpace.ControlStructureSpacing.ExtraSpaceAfterCloseParenthesis" />
+        
 	</rule>
 
 	<rule ref="vendor/wp-coding-standards/wpcs/WordPress-Extra" />
@@ -30,7 +46,6 @@
 			</property>
 		</properties>
 	</rule>
-
 	<rule ref="WordPress.WP.GlobalVariablesOverride.Prohibited">
 		<exclude-pattern>tests/*</exclude-pattern>
 	</rule>
@@ -40,38 +55,31 @@
 	<rule ref="WordPress.Files.FileName.NotHyphenatedLowercase">
 		<exclude-pattern>classes/*</exclude-pattern>
 	</rule>
-
-	<!-- Enforce PascalCase file names in src/ only. -->
-	<rule ref="Squiz.Classes.ClassFileName">
-		<include-pattern>classes/*</include-pattern>
-	</rule>
-
-	<!-- Allow NotHyphenatedLowercase for TestCase class -->
 	<rule ref="WordPress.Files.FileName.NotHyphenatedLowercase">
 		<exclude-pattern>tests/php/TestCase.php</exclude-pattern>
 		<exclude-pattern>tests/php/DataProvider.php</exclude-pattern>
 	</rule>
 
-	<!-- Limit max. consecutive blank lines to 1 instead of 2. -->
+
+	<rule ref="Squiz.Classes.ClassFileName">
+		<include-pattern>classes/*</include-pattern>
+	</rule>
 	<rule ref="Squiz.WhiteSpace.FunctionSpacing">
         <exclude name="Squiz.Commenting.FileComment.Missing" />
         <exclude name="Squiz.WhiteSpace.SuperfluousWhitespace.EndLine" />
 		<properties>
 			<property name="spacing" value="1"/>
+            <property name="spacingAfterLast" value="0"/>
 			<property name="spacingBeforeFirst" value="1"/>
-			<property name="spacingAfterLast" value="0"/>
 		</properties>
 	</rule>
 
 	<arg value="s"/>
-	<arg name="extensions" value="php"/>
-	<file>.</file>
-
-	<!-- Strip the filepaths down to the relevant bit. -->
-	<arg name="basepath" value="./"/>
-
-	<!-- Check up to 20 files simultaneously. -->
+    <arg name="basepath" value="./"/>
 	<arg name="parallel" value="20"/>
+	<arg name="extensions" value="php"/>
+	
+    <file>.</file>
 
 	<exclude-pattern>*/node_modules/*</exclude-pattern>
 	<exclude-pattern>*/vendor/*</exclude-pattern>

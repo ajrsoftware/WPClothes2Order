@@ -25,52 +25,73 @@ function wpc2o_theme_options(): void
         ->set_page_menu_position(58)
         ->set_icon(wpc2o_build_icon())
 
-        ->add_tab(__('Getting started'), array(
-            Field::make('html', 'wpc2o_getting_started')
-                ->set_html(wpc2o_getting_started_view())
-        ))
+        ->add_tab(
+            __('Getting started'),
+            array(
+				Field::make('html', 'wpc2o_getting_started')
+					->set_html(wpc2o_getting_started_view()),
+            )
+        )
 
         // Logo tab
-        ->add_tab(__('Logo'), array(
-            Field::make('html', 'wpc2o_logo_title')
-                ->set_html(wpc2o_get_logo_view()),
-            Field::make('html', 'wpc2o_logo_position_detail')
-                ->set_html(wpc2o_get_logo_position_detail_view())
-        ))
+        ->add_tab(
+            __('Logo'),
+            array(
+				Field::make('html', 'wpc2o_logo_title')
+					->set_html(wpc2o_get_logo_view()),
+				Field::make('html', 'wpc2o_logo_position_detail')
+					->set_html(wpc2o_get_logo_position_detail_view()),
+            )
+        )
 
         // Delivery tab
-        ->add_tab(__('Delivery options'), array(
-            Field::make('html', 'wpc2o_delivery_title')
-                ->set_html(wpc2o_get_delivery_view()),
-            Field::make('radio', constant("WPC2O_DELIVERY_OPTION"), __('Select your prefered devliery option'))
-                ->add_options(array('standard' => __('Standard')))
-        ))
+        ->add_tab(
+            __('Delivery options'),
+            array(
+				Field::make('html', 'wpc2o_delivery_title')
+					->set_html(wpc2o_get_delivery_view()),
+				Field::make('radio', constant('WPC2O_DELIVERY_OPTION'), __('Select your prefered devliery option'))
+					->add_options(array( 'standard' => __('Standard') )),
+            )
+        )
 
         // Order tab
-        ->add_tab(__('Order history'), array(
-            Field::make('html', 'wpc2o_order_history')
-                ->set_html(wpc2o_get_order_history_view())
-        ))
+        ->add_tab(
+            __('Order history'),
+            array(
+				Field::make('html', 'wpc2o_order_history')
+					->set_html(wpc2o_get_order_history_view()),
+            )
+        )
 
         // Stock tab
-        ->add_tab(__('Stock sync'), [
-            Field::make('html', 'wpc2o_stock_sync')
-                ->set_html(wpc2o_get_stock_view())
-        ])
+        ->add_tab(
+            __('Stock sync'),
+            array(
+				Field::make('html', 'wpc2o_stock_sync')
+					->set_html(wpc2o_get_stock_view()),
+            )
+        )
 
         // API tab
-        ->add_tab(__('API'), array(
-            Field::make('html', 'wpc2o_api_credentials')
-                ->set_html(wpc2o_get_api_view()),
-            Field::make('html', 'wpc2o_api_example')
-                ->set_html(wpc2o_get_example_post_request_view())
-        ))
+        ->add_tab(
+            __('API'),
+            array(
+				Field::make('html', 'wpc2o_api_credentials')
+					->set_html(wpc2o_get_api_view()),
+				Field::make('html', 'wpc2o_api_example')
+					->set_html(wpc2o_get_example_post_request_view()),
+            )
+        )
 
         // Help & support tab
-        ->add_tab(__('Help & support'), array(
-            Field::make('html', 'wpc2o_help_support')
-                ->set_html('<h1>Help & support</h1><p style="padding: 0 1px;">For any queries, please <a href="https://github.com/AshleyRedman/WPClothes2Order/issues" target="_blank" rel="noopener noreferrer">open a new GitHub issue</a> on the open repository.</p>')
-        ));
+        ->add_tab(
+            __('Help & support'),
+            array(
+				Field::make('html', 'wpc2o_help_support')
+					->set_html('<h1>Help & support</h1><p style="padding: 0 1px;">For any queries, please <a href="https://github.com/AshleyRedman/WPClothes2Order/issues" target="_blank" rel="noopener noreferrer">open a new GitHub issue</a> on the open repository.</p>'),
+            )
+        );
 }
 
 /**

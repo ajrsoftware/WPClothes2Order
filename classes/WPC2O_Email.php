@@ -12,8 +12,7 @@ class WPC2O_Email
     /**
      * Every new instance of this class will attempt to build a new WPC2O email
      */
-    public function __construct(string $to, string $subject, string $message)
-    {
+    public function __construct(string $to, string $subject, string $message) {
         $this->send($to, $subject, $this->body($message));
     }
 
@@ -26,7 +25,7 @@ class WPC2O_Email
      */
     private function send(string $to, string $subject, string $message): void
     {
-        wp_mail($to, $subject, $message, ['Content-Type: text/html; charset=UTF-8']);
+        wp_mail($to, $subject, $message, array( 'Content-Type: text/html; charset=UTF-8' ));
     }
 
     /**
@@ -36,7 +35,7 @@ class WPC2O_Email
      */
     private function body(string $message): string
     {
-        $body = '<div>';
+        $body  = '<div>';
         $body .= '<p>' . $message . '</p>';
         $body .= '</div>';
 

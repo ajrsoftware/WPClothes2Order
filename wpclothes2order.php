@@ -27,29 +27,28 @@
 
 defined('ABSPATH') || exit;
 
-require_once('vendor/autoload.php');
-require_once('includes/constants.php');
+require_once 'vendor/autoload.php';
+require_once 'includes/constants.php';
 
-require_once('classes/class-wpc2o-notice.php');
-require_once('classes/class-wpc2o-email.php');
-require_once('classes/class-wpc2o-orderrequest.php');
-require_once('classes/class-wpc2o-c2o-product.php');
+require_once 'classes/class-wpc2o-notice.php';
+require_once 'classes/class-wpc2o-email.php';
+require_once 'classes/class-wpc2o-orderrequest.php';
+require_once 'classes/class-wpc2o-c2o-product.php';
 
-require_once('includes/scripts.php');
-require_once('includes/wc-options.php');
-require_once('includes/wpc2o-options.php');
-require_once('includes/wpc2o-options-getting-started.php');
-require_once('includes/wpc2o-options-api.php');
-require_once('includes/wpc2o-options-delivery.php');
-require_once('includes/wpc2o-options-logo.php');
-require_once('includes/wpc2o-options-orders.php');
-require_once('includes/wpc2o-options-stock.php');
-require_once('includes/wpc2o-orders.php');
+require_once 'includes/scripts.php';
+require_once 'includes/wc-options.php';
+require_once 'includes/wpc2o-options.php';
+require_once 'includes/wpc2o-options-getting-started.php';
+require_once 'includes/wpc2o-options-api.php';
+require_once 'includes/wpc2o-options-delivery.php';
+require_once 'includes/wpc2o-options-logo.php';
+require_once 'includes/wpc2o-options-orders.php';
+require_once 'includes/wpc2o-options-stock.php';
+require_once 'includes/wpc2o-orders.php';
 
 add_action('plugins_loaded', 'wpc2o_start');
 
-function wpc2o_start()
-{
+function wpc2o_start() {
     if (class_exists('Woocommerce')) {
         add_filter('woocommerce_get_sections_products', 'wpc2o_options_page');
         add_filter('woocommerce_get_settings_products', 'wpc2o_options_page_settings', 10, 2);

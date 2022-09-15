@@ -10,6 +10,7 @@ use Automattic\WooCommerce\Admin\Overrides\Order;
  */
 class WPC2O_OrderRequest
 {
+
     /**
      * Attempt a WP remote post using our build payload
      * @param string $api_post_endpoint 
@@ -31,7 +32,7 @@ class WPC2O_OrderRequest
     ): string {
         $headers = array(
             'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
+            'Accept'       => 'application/json',
         );
 
         if ($test_mode) {
@@ -44,7 +45,7 @@ class WPC2O_OrderRequest
             $api_post_endpoint,
             array(
                 'headers' => $headers,
-                'body' => wp_json_encode($payload),
+                'body'    => wp_json_encode($payload),
             )
         );
 
@@ -66,28 +67,28 @@ class WPC2O_OrderRequest
         array $products
     ): array {
         $payload = array(
-            "api_key" => $api_key,
-            'order' => array(
-                'order_id' => strval($order->get_id()),
-                'order_notes' => $order->get_customer_order_notes() ?: '',
-                'delivery_method' => $delivery_method
+            'api_key'  => $api_key,
+            'order'    => array(
+                'order_id'        => strval($order->get_id()),
+                'order_notes'     => $order->get_customer_order_notes() ?: '',
+                'delivery_method' => $delivery_method,
             ),
             'customer' => array(
-                'name' => $order->get_billing_first_name() . '' . $order->get_billing_last_name(),
-                'email' => $order->get_billing_email(),
+                'name'      => $order->get_billing_first_name() . '' . $order->get_billing_last_name(),
+                'email'     => $order->get_billing_email(),
                 'telephone' => $order->get_billing_phone(),
             ),
-            'address' => array(
-                'delivery_name' => $order->get_billing_first_name() . '' . $order->get_billing_last_name(),
-                'company_name' => $order->get_billing_company(),
+            'address'  => array(
+                'delivery_name'  => $order->get_billing_first_name() . '' . $order->get_billing_last_name(),
+                'company_name'   => $order->get_billing_company(),
                 'address_line_1' => $order->get_billing_address_1(),
                 'address_line_2' => $order->get_billing_address_2(),
-                'city' => $order->get_billing_city(),
-                'postcode' => $order->get_billing_postcode(),
-                'country' => $order->get_billing_country()
+                'city'           => $order->get_billing_city(),
+                'postcode'       => $order->get_billing_postcode(),
+                'country'        => $order->get_billing_country(),
             ),
             'products' => array(
-                'product' => $products
+                'product' => $products,
             ),
         );
 
@@ -113,17 +114,17 @@ class WPC2O_OrderRequest
 
         // C2O failure response
         if ($wp_response['response']['code'] !== 200) {
-            $success = false;
-            $response_message = $wp_response['response']['message'];
+            $success               = false;
+            $response_message      = $wp_response['response']['message'];
             $response_body_message = json_decode($wp_response['body'])->status->msg;
             $response_body_message = $response_body_message ? ' - ' . $response_body_message : '';
-            $message = $response_message . $response_body_message;
+            $message               = $response_message . $response_body_message;
         }
 
         if (!$success) {
             $subject = 'WPC2O: Clothes2Order purchase failed for order ' . $order_id . ' - ' . $message . '';
-            $body = json_decode($wp_response['body'])->status->msg;
-            $body .= '<br /><strong">Contact Clothes2Order for support.</strong>';
+            $body    = json_decode($wp_response['body'])->status->msg;
+            $body   .= '<br /><strong">Contact Clothes2Order for support.</strong>';
 
             new WPC2O_Email(
                 get_option(constant('WPC2O_API_STORE_MANAGER_EMAIL')) ?? get_option('admin_email'),

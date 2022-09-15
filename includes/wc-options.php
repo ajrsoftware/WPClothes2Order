@@ -11,10 +11,10 @@ use Carbon_Fields\Field;
 function wpc2o_api_credentials_check(): bool
 {
     if (
-        get_option(constant("WPC2O_API_KEY")) &&
-        get_option(constant("WPC2O_API_ENDPOINT")) &&
-        get_option(constant("WPC2O_API_STOCK_ENDPOINT")) &&
-        get_option(constant("WPC2O_API_STORE_MANAGER_EMAIL"))
+        get_option(constant('WPC2O_API_KEY')) &&
+        get_option(constant('WPC2O_API_ENDPOINT')) &&
+        get_option(constant('WPC2O_API_STOCK_ENDPOINT')) &&
+        get_option(constant('WPC2O_API_STORE_MANAGER_EMAIL'))
     ) {
         return true;
     }
@@ -47,51 +47,52 @@ function wpc2o_options_page_settings(array $settings, string $current_section): 
             'name' => __('WPClothes2Order Settings', 'wpc2o'),
             'type' => 'title',
             'desc' => __('The following options are used to configure the Clothes2Order connection & WooCommerce settings.', 'wpc2o'),
-            'id' => 'wpc2o'
+            'id'   => 'wpc2o',
         );
 
         $wpc2o_settings[] = array(
-            'name' => __('API Key (required)', 'wpc2o'),
+            'name'     => __('API Key (required)', 'wpc2o'),
             'desc_tip' => __('This is the unique API key provided by Clothes2Order', 'wpc2o'),
-            'id' => constant("WPC2O_API_KEY"),
-            'type' => 'password',
-            'desc' => __('API key provided by Clothes2Order', 'wpc2o')
+            'id'       => constant('WPC2O_API_KEY'),
+            'type'     => 'password',
+            'desc'     => __('API key provided by Clothes2Order', 'wpc2o'),
         );
 
         $wpc2o_settings[] = array(
-            'name' => __('Order API Endpoint (required)', 'wpc2o'),
+            'name'     => __('Order API Endpoint (required)', 'wpc2o'),
             'desc_tip' => __('This is the unique URI that is used to communicate with Clothes2Order', 'wpc2o'),
-            'id' => constant("WPC2O_API_ENDPOINT"),
-            'type' => 'text',
-            'desc' => __('Order endpoint URL provided by Clothes2Order', 'wpc2o'),
+            'id'       => constant('WPC2O_API_ENDPOINT'),
+            'type'     => 'text',
+            'desc'     => __('Order endpoint URL provided by Clothes2Order', 'wpc2o'),
         );
 
         $wpc2o_settings[] = array(
-            'name' => __('Stock API Endpoint (required)', 'wpc2o'),
+            'name'     => __('Stock API Endpoint (required)', 'wpc2o'),
             'desc_tip' => __('This is the unique URI that is used to retrieve the Clothes2Order stock', 'wpc2o'),
-            'id' => constant("WPC2O_API_STOCK_ENDPOINT"),
-            'type' => 'text',
-            'desc' => __('Stock endpoint URL provided by Clothes2Order', 'wpc2o'),
+            'id'       => constant('WPC2O_API_STOCK_ENDPOINT'),
+            'type'     => 'text',
+            'desc'     => __('Stock endpoint URL provided by Clothes2Order', 'wpc2o'),
         );
 
         $wpc2o_settings[] = array(
-            'name' => __('Store manager email (required)', 'wpc2o'),
+            'name'     => __('Store manager email (required)', 'wpc2o'),
             'desc_tip' => __('Please enter an email address', 'wpc2o'),
-            'id' => constant("WPC2O_API_STORE_MANAGER_EMAIL"),
-            'type' => 'email',
-            'desc' => __('This address will receive failed order email notifications', 'wpc2o'),
+            'id'       => constant('WPC2O_API_STORE_MANAGER_EMAIL'),
+            'type'     => 'email',
+            'desc'     => __('This address will receive failed order email notifications', 'wpc2o'),
         );
 
         $wpc2o_settings[] = array(
-            'name' => __('Test Mode', 'wpc2o'),
+            'name'     => __('Test Mode', 'wpc2o'),
             'desc_tip' => __('In test mode, orders will not be sent to Clothes2Order', 'wpc2o'),
-            'id' => constant('WPC2O_API_TEST_MODE'),
-            'type' => 'checkbox',
-            'desc' => __('Check to enable test mode', 'wpc2o'),
+            'id'       => constant('WPC2O_API_TEST_MODE'),
+            'type'     => 'checkbox',
+            'desc'     => __('Check to enable test mode', 'wpc2o'),
         );
 
         $settings_c2o[] = array(
-            'type' => 'sectionend', 'id' => 'wpc2o'
+            'type' => 'sectionend',
+            'id'   => 'wpc2o',
         );
 
         return $wpc2o_settings;
@@ -113,7 +114,7 @@ function wpc2o_admin_products_c2o_column(array $columns): array
         3,
         true
     ) + array(
-        'wpc2o' => 'WPC2O'
+        'wpc2o' => 'WPC2O',
     ) + array_slice(
         $columns,
         3,
@@ -130,24 +131,24 @@ function wpc2o_admin_products_c2o_column(array $columns): array
  */
 function wpc2o_wc_c2o_product_column(string $column, int $product_id): void
 {
-    if ($column == 'wpc2o') {
-        $meta = get_post_meta($product_id);
-        $print_type = $meta['_' . constant("WPC2O_PRODUCT_LOGO_PRINT_TYPE") . ''][0];
-        $auto_orders = $meta['_' . constant("WPC2O_PRODUCT_API") . ''][0];
-        $sku = $meta['_' . constant("WPC2O_PRODUCT_SKU") . ''][0];
-        $type = $meta['_' . constant("WPC2O_PRODUCT_TYPE") . ''][0];
-        $position = $meta['_' . constant("WPC2O_PRODUCT_LOGO_POSITION") . '_' . $type . ''][0];
-        $width = $meta['_' . constant("WPC2O_PRODUCT_LOGO_WIDTH") . '_' . $position . ''][0] + 1;
+    if ($column === 'wpc2o') {
+        $meta        = get_post_meta($product_id);
+        $print_type  = $meta['_' . constant('WPC2O_PRODUCT_LOGO_PRINT_TYPE') . ''][0];
+        $auto_orders = $meta['_' . constant('WPC2O_PRODUCT_API') . ''][0];
+        $sku         = $meta['_' . constant('WPC2O_PRODUCT_SKU') . ''][0];
+        $type        = $meta['_' . constant('WPC2O_PRODUCT_TYPE') . ''][0];
+        $position    = $meta['_' . constant('WPC2O_PRODUCT_LOGO_POSITION') . '_' . $type . ''][0];
+        $width       = $meta['_' . constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_' . $position . ''][0] + 1;
 
-        if ($meta['_' . constant("WPC2O_PRODUCT_ENABLED") . ''][0] === 'yes') {
+        if ($meta['_' . constant('WPC2O_PRODUCT_ENABLED') . ''][0] === 'yes') {
             echo '<button class="button-link wpc2o-expand-details" style="display: block; margin: 0 0 3px 0;">Show details</button>';
             echo '<ul class="wpc2o-expand-details-content">';
-            echo '<li><span>Product SKU: ' . $sku . '</span></li>';
-            echo '<li><span>Product type: ' . ucfirst($type) . '</span></li>';
-            echo '<li><span>Logo position: ' . wpc2o_code_to_postion_text($position) . '</span></li>';
-            echo '<li><span>Logo width: ' . $width . 'cm</span></li>';
-            echo '<li><span>Print type: ' . ucfirst($print_type) . '</span></li>';
-            echo '<li><span>Auto order: ' . ucfirst($auto_orders) . '</span></li>';
+            echo '<li><span>Product SKU: ' . esc_html($sku) . '</span></li>';
+            echo '<li><span>Product type: ' . esc_html(ucfirst($type)) . '</span></li>';
+            echo '<li><span>Logo position: ' . esc_html(wpc2o_code_to_postion_text($position)) . '</span></li>';
+            echo '<li><span>Logo width: ' . esc_html($width) . 'cm</span></li>';
+            echo '<li><span>Print type: ' . esc_html(ucfirst($print_type)) . '</span></li>';
+            echo '<li><span>Auto order: ' . esc_html(ucfirst($auto_orders)) . '</span></li>';
             echo '</ul>';
         }
     }
@@ -172,15 +173,15 @@ function wpc2o_admin_products_c2o_column_sortable(array $columns): array
 function wpc2o_wc_widths(string $max): array
 {
     $all = array(
-        1 => '1cm',
-        2 => '2cm',
-        3 => '3cm',
-        4 => '4cm',
-        5 => '5cm',
-        6 => '6cm',
-        7 => '7cm',
-        8 => '8cm',
-        9 => '9cm',
+        1  => '1cm',
+        2  => '2cm',
+        3  => '3cm',
+        4  => '4cm',
+        5  => '5cm',
+        6  => '6cm',
+        7  => '7cm',
+        8  => '8cm',
+        9  => '9cm',
         10 => '10cm',
         11 => '11cm',
         12 => '12cm',
@@ -201,7 +202,7 @@ function wpc2o_wc_widths(string $max): array
         27 => '27cm',
         28 => '28cm',
         29 => '29cm',
-        30 => '30cm'
+        30 => '30cm',
     );
 
     $x = array_reverse($all);
@@ -235,7 +236,7 @@ function wpc2o_wc_theme_options(): void
                             array(
                                 'field' => constant('WPC2O_PRODUCT_ENABLED'),
                                 'value' => true,
-                            )
+                            ),
                         )
                     ),
 
@@ -244,12 +245,12 @@ function wpc2o_wc_theme_options(): void
                     ->set_required(true)
                     ->set_help_text('Supported formats include: "jpg", "png", "gif"')
                     ->set_width(33)
-                    ->set_type(['image'])->set_conditional_logic(
+                    ->set_type(array('image'))->set_conditional_logic(
                         array(
                             array(
                                 'field' => constant('WPC2O_PRODUCT_ENABLED'),
                                 'value' => true,
-                            )
+                            ),
                         )
                     ),
 
@@ -260,8 +261,8 @@ function wpc2o_wc_theme_options(): void
                     ->set_width(33)
                     ->set_options(
                         array(
-                            'print' => 'Print',
-                            'embroidery' => 'Embroidery',
+                            'print'         => 'Print',
+                            'embroidery'    => 'Embroidery',
                             'print_1colour' => 'Print colour',
 
                         )
@@ -270,7 +271,7 @@ function wpc2o_wc_theme_options(): void
                             array(
                                 'field' => constant('WPC2O_PRODUCT_ENABLED'),
                                 'value' => true,
-                            )
+                            ),
                         )
                     ),
 
@@ -284,7 +285,7 @@ function wpc2o_wc_theme_options(): void
                             array(
                                 'field' => constant('WPC2O_PRODUCT_ENABLED'),
                                 'value' => true,
-                            )
+                            ),
                         )
                     ),
 
@@ -295,19 +296,19 @@ function wpc2o_wc_theme_options(): void
                     ->set_width(33)
                     ->set_options(
                         array(
-                            'top' => 'Top',
-                            'bottoms' => 'Bottoms',
-                            'bag' => 'Bag',
-                            'hat' => 'Hat',
+                            'top'       => 'Top',
+                            'bottoms'   => 'Bottoms',
+                            'bag'       => 'Bag',
+                            'hat'       => 'Hat',
                             'tea-towel' => 'Tea towel',
-                            'tie' => 'Tie',
+                            'tie'       => 'Tie',
                         )
                     )->set_conditional_logic(
                         array(
                             array(
                                 'field' => constant('WPC2O_PRODUCT_ENABLED'),
                                 'value' => true,
-                            )
+                            ),
                         )
                     ),
 
@@ -316,18 +317,18 @@ function wpc2o_wc_theme_options(): void
                     ->set_width(33)
                     ->set_options(
                         array(
-                            1 => 'Right sleeve',
-                            2 => 'Right bottom',
+                            1  => 'Right sleeve',
+                            2  => 'Right bottom',
                             3  => 'Right chest',
-                            4 => 'Center chest',
-                            8 => 'Center back',
-                            7 => 'Left sleeve',
-                            5 => 'Left chest',
-                            6 => 'Left bottom',
-                            9 => 'Top back',
+                            4  => 'Center chest',
+                            8  => 'Center back',
+                            7  => 'Left sleeve',
+                            5  => 'Left chest',
+                            6  => 'Left bottom',
+                            9  => 'Top back',
                             12 => 'Bottom back',
                             17 => 'Top chest',
-                            18 => 'Inside back (labels)'
+                            18 => 'Inside back (labels)',
                         )
                     )->set_conditional_logic(
                         array(
@@ -336,8 +337,8 @@ function wpc2o_wc_theme_options(): void
                                 'value' => true,
                             ),
                             array(
-                                'field' => constant('WPC2O_PRODUCT_TYPE'),
-                                'value' => 'top',
+                                'field'   => constant('WPC2O_PRODUCT_TYPE'),
+                                'value'   => 'top',
                                 'compare' => '=',
                             ),
                         )
@@ -358,8 +359,8 @@ function wpc2o_wc_theme_options(): void
                                 'value' => true,
                             ),
                             array(
-                                'field' => constant('WPC2O_PRODUCT_TYPE'),
-                                'value' => 'bottoms',
+                                'field'   => constant('WPC2O_PRODUCT_TYPE'),
+                                'value'   => 'bottoms',
                                 'compare' => '=',
                             ),
                         )
@@ -379,8 +380,8 @@ function wpc2o_wc_theme_options(): void
                                 'value' => true,
                             ),
                             array(
-                                'field' => constant('WPC2O_PRODUCT_TYPE'),
-                                'value' => 'bag',
+                                'field'   => constant('WPC2O_PRODUCT_TYPE'),
+                                'value'   => 'bag',
                                 'compare' => '=',
                             ),
                         )
@@ -400,8 +401,8 @@ function wpc2o_wc_theme_options(): void
                                 'value' => true,
                             ),
                             array(
-                                'field' => constant('WPC2O_PRODUCT_TYPE'),
-                                'value' => 'hat',
+                                'field'   => constant('WPC2O_PRODUCT_TYPE'),
+                                'value'   => 'hat',
                                 'compare' => '=',
                             ),
                         )
@@ -421,8 +422,8 @@ function wpc2o_wc_theme_options(): void
                                 'value' => true,
                             ),
                             array(
-                                'field' => constant('WPC2O_PRODUCT_TYPE'),
-                                'value' => 'tea-towel',
+                                'field'   => constant('WPC2O_PRODUCT_TYPE'),
+                                'value'   => 'tea-towel',
                                 'compare' => '=',
                             ),
                         )
@@ -442,13 +443,12 @@ function wpc2o_wc_theme_options(): void
                                 'value' => true,
                             ),
                             array(
-                                'field' => constant('WPC2O_PRODUCT_TYPE'),
-                                'value' => 'tie',
+                                'field'   => constant('WPC2O_PRODUCT_TYPE'),
+                                'value'   => 'tie',
                                 'compare' => '=',
                             ),
                         )
                     ),
-
 
                 /**
                  * All of the below select options are conditional based on the logo position
@@ -468,11 +468,11 @@ function wpc2o_wc_theme_options(): void
                             ),
                             array(
                                 'field' => constant('WPC2O_PRODUCT_TYPE'),
-                                'value' => 'top'
+                                'value' => 'top',
                             ),
                             array(
-                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
-                                'value' => '1',
+                                'field'   => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
+                                'value'   => '1',
                                 'compare' => '=',
                             ),
                         )
@@ -490,16 +490,15 @@ function wpc2o_wc_theme_options(): void
                             ),
                             array(
                                 'field' => constant('WPC2O_PRODUCT_TYPE'),
-                                'value' => 'top'
+                                'value' => 'top',
                             ),
                             array(
-                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
-                                'value' => '2',
+                                'field'   => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
+                                'value'   => '2',
                                 'compare' => '=',
                             ),
                         )
                     ),
-
 
                 Field::make('select', constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_position_3', __('Logo width'))
                     ->set_width(33)
@@ -513,11 +512,11 @@ function wpc2o_wc_theme_options(): void
                             ),
                             array(
                                 'field' => constant('WPC2O_PRODUCT_TYPE'),
-                                'value' => 'top'
+                                'value' => 'top',
                             ),
                             array(
-                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
-                                'value' => '3',
+                                'field'   => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
+                                'value'   => '3',
                                 'compare' => '=',
                             ),
                         )
@@ -535,11 +534,11 @@ function wpc2o_wc_theme_options(): void
                             ),
                             array(
                                 'field' => constant('WPC2O_PRODUCT_TYPE'),
-                                'value' => 'top'
+                                'value' => 'top',
                             ),
                             array(
-                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
-                                'value' => '4',
+                                'field'   => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
+                                'value'   => '4',
                                 'compare' => '=',
                             ),
                         )
@@ -557,11 +556,11 @@ function wpc2o_wc_theme_options(): void
                             ),
                             array(
                                 'field' => constant('WPC2O_PRODUCT_TYPE'),
-                                'value' => 'top'
+                                'value' => 'top',
                             ),
                             array(
-                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
-                                'value' => '5',
+                                'field'   => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
+                                'value'   => '5',
                                 'compare' => '=',
                             ),
                         )
@@ -579,11 +578,11 @@ function wpc2o_wc_theme_options(): void
                             ),
                             array(
                                 'field' => constant('WPC2O_PRODUCT_TYPE'),
-                                'value' => 'top'
+                                'value' => 'top',
                             ),
                             array(
-                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
-                                'value' => '6',
+                                'field'   => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
+                                'value'   => '6',
                                 'compare' => '=',
                             ),
                         )
@@ -601,11 +600,11 @@ function wpc2o_wc_theme_options(): void
                             ),
                             array(
                                 'field' => constant('WPC2O_PRODUCT_TYPE'),
-                                'value' => 'top'
+                                'value' => 'top',
                             ),
                             array(
-                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
-                                'value' => '7',
+                                'field'   => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
+                                'value'   => '7',
                                 'compare' => '=',
                             ),
                         )
@@ -623,11 +622,11 @@ function wpc2o_wc_theme_options(): void
                             ),
                             array(
                                 'field' => constant('WPC2O_PRODUCT_TYPE'),
-                                'value' => 'top'
+                                'value' => 'top',
                             ),
                             array(
-                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
-                                'value' => '8',
+                                'field'   => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
+                                'value'   => '8',
                                 'compare' => '=',
                             ),
                         )
@@ -645,11 +644,11 @@ function wpc2o_wc_theme_options(): void
                             ),
                             array(
                                 'field' => constant('WPC2O_PRODUCT_TYPE'),
-                                'value' => 'top'
+                                'value' => 'top',
                             ),
                             array(
-                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
-                                'value' => '9',
+                                'field'   => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
+                                'value'   => '9',
                                 'compare' => '=',
                             ),
                         )
@@ -667,11 +666,11 @@ function wpc2o_wc_theme_options(): void
                             ),
                             array(
                                 'field' => constant('WPC2O_PRODUCT_TYPE'),
-                                'value' => 'hat'
+                                'value' => 'hat',
                             ),
                             array(
-                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_hat',
-                                'value' => '11',
+                                'field'   => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_hat',
+                                'value'   => '11',
                                 'compare' => '=',
                             ),
                         )
@@ -689,16 +688,15 @@ function wpc2o_wc_theme_options(): void
                             ),
                             array(
                                 'field' => constant('WPC2O_PRODUCT_TYPE'),
-                                'value' => 'top'
+                                'value' => 'top',
                             ),
                             array(
-                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
-                                'value' => '12',
+                                'field'   => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
+                                'value'   => '12',
                                 'compare' => '=',
                             ),
                         )
                     ),
-
 
                 Field::make('select', constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_position_13', __('Logo width'))
                     ->set_width(33)
@@ -712,11 +710,11 @@ function wpc2o_wc_theme_options(): void
                             ),
                             array(
                                 'field' => constant('WPC2O_PRODUCT_TYPE'),
-                                'value' => 'bag'
+                                'value' => 'bag',
                             ),
                             array(
-                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_bag',
-                                'value' => '13',
+                                'field'   => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_bag',
+                                'value'   => '13',
                                 'compare' => '=',
                             ),
                         )
@@ -734,11 +732,11 @@ function wpc2o_wc_theme_options(): void
                             ),
                             array(
                                 'field' => constant('WPC2O_PRODUCT_TYPE'),
-                                'value' => 'tea-towel'
+                                'value' => 'tea-towel',
                             ),
                             array(
-                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_tea-towel',
-                                'value' => '14',
+                                'field'   => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_tea-towel',
+                                'value'   => '14',
                                 'compare' => '=',
                             ),
                         )
@@ -756,11 +754,11 @@ function wpc2o_wc_theme_options(): void
                             ),
                             array(
                                 'field' => constant('WPC2O_PRODUCT_TYPE'),
-                                'value' => 'bottoms'
+                                'value' => 'bottoms',
                             ),
                             array(
-                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_bottoms',
-                                'value' => '15',
+                                'field'   => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_bottoms',
+                                'value'   => '15',
                                 'compare' => '=',
                             ),
                         )
@@ -778,11 +776,11 @@ function wpc2o_wc_theme_options(): void
                             ),
                             array(
                                 'field' => constant('WPC2O_PRODUCT_TYPE'),
-                                'value' => 'bottoms'
+                                'value' => 'bottoms',
                             ),
                             array(
-                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_bottoms',
-                                'value' => '16',
+                                'field'   => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_bottoms',
+                                'value'   => '16',
                                 'compare' => '=',
                             ),
                         )
@@ -800,11 +798,11 @@ function wpc2o_wc_theme_options(): void
                             ),
                             array(
                                 'field' => constant('WPC2O_PRODUCT_TYPE'),
-                                'value' => 'top'
+                                'value' => 'top',
                             ),
                             array(
-                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
-                                'value' => '17',
+                                'field'   => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
+                                'value'   => '17',
                                 'compare' => '=',
                             ),
                         )
@@ -822,11 +820,11 @@ function wpc2o_wc_theme_options(): void
                             ),
                             array(
                                 'field' => constant('WPC2O_PRODUCT_TYPE'),
-                                'value' => 'top'
+                                'value' => 'top',
                             ),
                             array(
-                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
-                                'value' => '18',
+                                'field'   => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_top',
+                                'value'   => '18',
                                 'compare' => '=',
                             ),
                         )
@@ -844,11 +842,11 @@ function wpc2o_wc_theme_options(): void
                             ),
                             array(
                                 'field' => constant('WPC2O_PRODUCT_TYPE'),
-                                'value' => 'tie'
+                                'value' => 'tie',
                             ),
                             array(
-                                'field' => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_tie',
-                                'value' => '19',
+                                'field'   => constant('WPC2O_PRODUCT_LOGO_POSITION') . '_tie',
+                                'value'   => '19',
                                 'compare' => '=',
                             ),
                         )
@@ -865,63 +863,62 @@ function wpc2o_wc_theme_options(): void
  */
 function wpc2o_code_to_postion_text(int $code): string
 {
+    $value = '';
     switch ($code) {
         case 1:
-            return 'Right Sleeve';
+            $value = 'Right Sleeve';
             break;
         case 2:
-            return 'Bottom Right';
+            $value = 'Bottom Right';
             break;
         case 3:
-            return 'Right Chest';
+            $value = 'Right Chest';
             break;
         case 4:
-            return 'Centre Chest';
+            $value = 'Centre Chest';
             break;
         case 5:
-            return 'Left Chest';
+            $value = 'Left Chest';
             break;
         case 6:
-            return 'Bottom Left';
+            $value = 'Bottom Left';
             break;
         case 7:
-            return 'Left Sleeve';
+            $value = 'Left Sleeve';
             break;
         case 8:
-            return 'Centre Back';
+            $value = 'Centre Back';
             break;
         case 9:
-            return 'Top Back';
+            $value = 'Top Back';
             break;
-            // case 10:
-            //     return '';
-            //     break;
         case 11:
-            return 'Front of Hat';
+            $value = 'Front of Hat';
             break;
         case 12:
-            return 'Bottom Back';
+            $value = 'Bottom Back';
             break;
         case 13:
-            return 'Front of Bag';
+            $value = 'Front of Bag';
             break;
         case 14:
-            return 'Centre Tea Towel';
+            $value = 'Centre Tea Towel';
             break;
         case 15:
-            return 'Left Pocket';
+            $value = 'Left Pocket';
             break;
         case 16:
-            return 'Right Pocket';
+            $value = 'Right Pocket';
             break;
         case 17:
-            return 'Top Chest';
+            $value = 'Top Chest';
             break;
         case 18:
-            return 'Inside Back (for Printed Labels)';
+            $value = 'Inside Back (for Printed Labels)';
             break;
         case 19:
-            return 'Front of Tie';
+            $value = 'Front of Tie';
             break;
     }
+    return $value;
 }
