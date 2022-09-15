@@ -21,8 +21,8 @@ class WPC2O_Notice
      */
     public function __construct(string $servierty, string $message, bool $dissmissible)
     {
-        $this->servierty = $servierty;
-        $this->message = $message;
+        $this->servierty    = $servierty;
+        $this->message      = $message;
         $this->dissmissible = $dissmissible;
         add_action('admin_notices', array($this, 'wpc2o_build'));
     }
@@ -34,8 +34,8 @@ class WPC2O_Notice
     public function wpc2o_build(): void
     {
 ?>
-        <div class="notice notice-<?php echo $this->servierty; ?> <?php $this->dissmissible ?: 'is-dismissible'; ?>">
-            <p><?php _e($this->message, 'wpc2o'); ?></p>
+        <div class="notice notice-<?php echo esc_html($this->servierty); ?> <?php esc_html($this->dissmissible) ?: 'is-dismissible'; ?>">
+            <p><?php esc_html_e($this->message, 'wpc2o'); ?></p>
         </div>
 <?php
     }

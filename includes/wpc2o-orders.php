@@ -8,30 +8,30 @@
  */
 function wpc2o_process_completed_order(int $order_id): void
 {
-    $order = wc_get_order($order_id);
+    $order     = wc_get_order($order_id);
     $processed = $order->get_meta('_wpc2o_order_processed');
 
-    if (!$processed) {
+    if ( ! $processed) {
         $products = array();
 
         foreach ($order->get_items() as $order_item) {
-            $meta = get_post_meta($order_item->get_product_id());
-            $is_wpc2o_product = $meta['_' . constant("WPC2O_PRODUCT_ENABLED") . ''][0] === 'yes';
-            $is_auto_order_enabled = $meta['_' . constant("WPC2O_PRODUCT_API") . ''][0];
+            $meta                  = get_post_meta($order_item->get_product_id());
+            $is_wpc2o_product      = $meta[ '_' . constant('WPC2O_PRODUCT_ENABLED') . '' ][0] === 'yes';
+            $is_auto_order_enabled = $meta[ '_' . constant('WPC2O_PRODUCT_API') . '' ][0];
 
             if ($is_wpc2o_product && $is_auto_order_enabled) {
                 $formatted_product = new WPC2O_C2O_Product();
-                $products[] = $formatted_product->build($order_item);
+                $products[]        = $formatted_product->build($order_item);
             }
         }
 
         if (count($products) > 0) {
-            $test_mode = get_option(constant("WPC2O_API_TEST_MODE"));
-            $api_post_endpoint = get_option(constant("WPC2O_API_ENDPOINT"));
-            $api_key = get_option(constant("WPC2O_API_KEY"));
-            $delivery_method = carbon_get_theme_option(constant("WPC2O_DELIVERY_OPTION"));
+            $test_mode         = get_option(constant('WPC2O_API_TEST_MODE'));
+            $api_post_endpoint = get_option(constant('WPC2O_API_ENDPOINT'));
+            $api_key           = get_option(constant('WPC2O_API_KEY'));
+            $delivery_method   = carbon_get_theme_option(constant('WPC2O_DELIVERY_OPTION'));
 
-            $order_request = new WPC2O_OrderRequest();
+            $order_request    = new WPC2O_OrderRequest();
             $response_message = $order_request->send($api_post_endpoint, $test_mode, $api_key, $delivery_method, $order, $products);
             $order->add_order_note($response_message);
         }
