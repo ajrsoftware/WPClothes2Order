@@ -1,4 +1,4 @@
-name: PHPcs
+name: phpcs
 on: [push]
 
 jobs:
@@ -7,19 +7,18 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
-            - uses: actions/checkout@v2
-              with:
-                  fetch-depth: 0 # important!
+              uses: actions/checkout@v2
 
-            # we may use whatever way to install phpcs, just specify the path on the next step
-            # however, curl seems to be the fastest
-            - name: Install PHP_CodeSniffer
-              run: |
-                  curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
-                  php phpcs.phar --version
-
-            - uses: thenabeel/action-phpcs@v8
+            - name: Setup PHP Action
+              uses: shivammathur/setup-php@2.21.2
               with:
-                  files: '**.php' # you may customize glob as needed
-                  phpcs_path: php phpcs.phar
-                  standard: phpcs.xml
+                  php-version: '7.4'
+                  tools: composer:v2, phpcs
+
+            - name: Install dependencies
+              working-directory: ./
+              run: composer install
+
+            - name: Run phpcs
+              working-directory: ./
+              run: vendor/bin/phpcs
