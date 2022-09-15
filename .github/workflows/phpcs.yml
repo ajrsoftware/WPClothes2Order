@@ -9,15 +9,12 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v2
 
-            - uses: 'ramsey/composer-install@v2'
+            - name: Setup PHP Action
+              uses: shivammathur/setup-php@2.21.2
               with:
-                  ignore-cache: 'yes'
+                  php-version: '7.4'
+                  tools: composer:v2, phpcs
 
-            - name: Install dependencies
+            - name: Run phpcs
               working-directory: ./
-              run: composer install
-
-            - name: PHP Code Style (phpcs)
-              uses: chindit/actions-phpcs@master
-              with:
-                  dir: /
+              run: vendor/bin/phpcs
