@@ -28,7 +28,7 @@
 defined('ABSPATH') || exit;
 
 require_once 'vendor/autoload.php';
-require_once 'includes/constants.php';
+require_once 'includes/constant.php';
 
 require_once 'classes/WPC2O_C2O_Product.php';
 require_once 'classes/WPC2O_Email.php';
