@@ -132,15 +132,17 @@ function wpc2o_admin_products_c2o_column(array $columns): array
 function wpc2o_wc_c2o_product_column(string $column, int $product_id): void
 {
     if ($column === 'wpc2o') {
-        $meta        = get_post_meta($product_id);
-        $print_type  = $meta['_' . constant('WPC2O_PRODUCT_LOGO_PRINT_TYPE') . ''][0];
-        $auto_orders = $meta['_' . constant('WPC2O_PRODUCT_API') . ''][0];
-        $sku         = $meta['_' . constant('WPC2O_PRODUCT_SKU') . ''][0];
-        $type        = $meta['_' . constant('WPC2O_PRODUCT_TYPE') . ''][0];
-        $position    = $meta['_' . constant('WPC2O_PRODUCT_LOGO_POSITION') . '_' . $type . ''][0];
-        $width       = $meta['_' . constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_' . $position . ''][0] + 1;
+        $meta = get_post_meta($product_id);
 
         if ($meta['_' . constant('WPC2O_PRODUCT_ENABLED') . ''][0] === 'yes') {
+
+            $print_type  = $meta['_' . constant('WPC2O_PRODUCT_LOGO_PRINT_TYPE') . ''][0];
+            $auto_orders = $meta['_' . constant('WPC2O_PRODUCT_API') . ''][0];
+            $sku         = $meta['_' . constant('WPC2O_PRODUCT_SKU') . ''][0];
+            $type        = $meta['_' . constant('WPC2O_PRODUCT_TYPE') . ''][0];
+            $position    = $meta['_' . constant('WPC2O_PRODUCT_LOGO_POSITION') . '_' . $type . ''][0];
+            $width       = $meta['_' . constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_' . $position . ''][0] + 1;
+
             echo '<button class="button-link wpc2o-expand-details" style="display: block; margin: 0 0 3px 0;">Show details</button>';
             echo '<ul class="wpc2o-expand-details-content">';
             echo '<li><span>Product SKU: ' . esc_html($sku) . '</span></li>';
