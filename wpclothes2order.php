@@ -62,9 +62,13 @@ function wpc2o_start()
             add_action('after_setup_theme', 'wpc2o_options');
             add_filter('plugin_action_links_WPClothes2Order/wpclothes2order.php', 'wpc2o_settings_link');
 
-            // Admin columns
+            // Admin products columns
             add_filter('manage_edit-product_columns', 'wpc2o_admin_products_c2o_column', 9999);
             add_action('manage_product_posts_custom_column', 'wpc2o_wc_c2o_product_column', 10, 2);
+
+            // Admin orders columns
+            add_filter('manage_edit-shop_order_columns', 'wpc2o_admin_orders_c2o_column', 9999);
+            add_action('manage_shop_order_posts_custom_column', 'wpc2o_wc_c2o_order_column', 10, 2);
 
             // Plugin theme options
             add_action('carbon_fields_register_fields', 'wpc2o_theme_options');

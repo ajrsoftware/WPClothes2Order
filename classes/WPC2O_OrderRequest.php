@@ -49,7 +49,7 @@ class WPC2O_OrderRequest
             )
         );
 
-        return $this->response_handler($response, $order->get_id());
+        return $this->response_handler($response, $order);
     }
 
     /**
@@ -66,6 +66,14 @@ class WPC2O_OrderRequest
         Automattic\WooCommerce\Admin\Overrides\Order $order,
         array $products
     ): array {
+
+        $name = '';
+        if ($order->get_shipping_first_name() && $order->get_shipping_last_name()) {
+            $name = $order->get_shipping_first_name() . '' . $order->get_shipping_last_name();
+        } else {
+            $name = $order->get_billing_first_name() . '' . $order->get_billing_last_name();
+        }
+
         $payload = array(
             'api_key'  => $api_key,
             'order'    => array(
@@ -74,18 +82,18 @@ class WPC2O_OrderRequest
                 'delivery_method' => $delivery_method,
             ),
             'customer' => array(
-                'name'      => $order->get_billing_first_name() . '' . $order->get_billing_last_name(),
+                'name'      => $name,
                 'email'     => $order->get_billing_email(),
                 'telephone' => $order->get_billing_phone(),
             ),
             'address'  => array(
-                'delivery_name'  => $order->get_billing_first_name() . '' . $order->get_billing_last_name(),
-                'company_name'   => $order->get_billing_company(),
-                'address_line_1' => $order->get_billing_address_1(),
-                'address_line_2' => $order->get_billing_address_2(),
-                'city'           => $order->get_billing_city(),
-                'postcode'       => $order->get_billing_postcode(),
-                'country'        => $order->get_billing_country(),
+                'delivery_name'  => $name,
+                'company_name'   => $order->get_shipping_company() ?: $order->get_billing_company(),
+                'address_line_1' => $order->get_shipping_address_1() ?: $order->get_billing_address_1(),
+                'address_line_2' => $order->get_shipping_address_2() ?: $order->get_billing_address_2(),
+                'city'           => $order->get_shipping_city() ?: $order->get_billing_city(),
+                'postcode'       => $order->get_shipping_postcode() ?: $order->get_billing_postcode(),
+                'country'        => $order->get_shipping_country() ?: $order->get_billing_country(),
             ),
             'products' => array(
                 'product' => $products,
@@ -98,11 +106,13 @@ class WPC2O_OrderRequest
     /**
      * Based on the response of the order reqest, handle the response and return a message
      * @param array|mixed $wp_response
-     * @param int $order_id
+     * @param Automattic\WooCommerce\Admin\Overrides\Order $order,
      * @return string 
      */
-    private function response_handler($wp_response, int $order_id): string
-    {
+    private function response_handler(
+        $wp_response,
+        Automattic\WooCommerce\Admin\Overrides\Order $order
+    ): string {
         $success = true;
         $message = '';
 
@@ -122,7 +132,7 @@ class WPC2O_OrderRequest
         }
 
         if (!$success) {
-            $subject = 'WPC2O: Clothes2Order purchase failed for order ' . $order_id . ' - ' . $message . '';
+            $subject = 'WPC2O: Clothes2Order purchase failed for order ' . $order->get_id() . ' - ' . $message . '';
             $body    = json_decode($wp_response['body'])->status->msg;
             $body   .= '<br /><strong">Contact Clothes2Order for support.</strong>';
 
@@ -131,8 +141,14 @@ class WPC2O_OrderRequest
                 $subject,
                 $body
             );
+
+            $order->update_meta_data('_wpc2o_order_c2o_result', false);
+        } else {
+            $order->update_meta_data('_wpc2o_order_c2o_result', true);
         }
 
-        return $message;
+        $order->save();
+
+        return 'Clothes2Order order request response: ' . $message;
     }
 }
