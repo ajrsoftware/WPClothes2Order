@@ -166,6 +166,48 @@ function wpc2o_admin_products_c2o_column_sortable(array $columns): array
 }
 
 /**
+ * Relocate our admin column
+ * @param array $columns 
+ * @return array 
+ */
+function wpc2o_admin_orders_c2o_column(array $columns): array
+{
+    return array_slice(
+        $columns,
+        0,
+        3,
+        true
+    ) + array(
+        'wpc2o' => 'WPC2O',
+    ) + array_slice(
+        $columns,
+        3,
+        count($columns) - 3,
+        true
+    );
+}
+
+/**
+ * Setup the admin column
+ * @param array $column 
+ * @param int $product_id 
+ * @return void 
+ */
+function wpc2o_wc_c2o_order_column(string $column, int $order_id): void
+{
+    if ($column === 'wpc2o') {
+        $order = wc_get_order($order_id);
+        if ($order->get_meta('_wpc2o_order_processed')) {
+            if ($order->get_meta('_wpc2o_order_c2o_result')) {
+                echo '<mark class="order-status status-completed"><span>Order successful</span></mark>';
+            } else {
+                echo '<mark class="order-status status-failed"><span>Order failed</span></mark>';
+            }
+        }
+    }
+}
+
+/**
  * Get widths array
  * @param string $max 
  * @return array 
