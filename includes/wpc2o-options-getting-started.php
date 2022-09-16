@@ -21,7 +21,7 @@ function wpc2o_getting_started_view(): string
     $content .= '<li>Please review all documentation on this page as well as the other tabs to ensure understanding of the purpose of this plugin so you know if it is right for your use case.</li>';
     $content .= '<li>Ensure the <a href="' . get_admin_url() . 'admin.php?page=wc-settings&tab=products&section=wpc2o">API credentials</a> you have entered are correct. Incorrect details will mean any attempt to use the <u>auto ordering</u> feature will fail.</li>';
     $content .= '<li>Add a new / Edit a WooCommerce Product.</li>';
-    $content .= '<li>You will be a new meta section titled with <u>WPClothes2order</u>.</li>';
+    $content .= '<li>There will be a new meta section titled with <u>WPClothes2order</u>.</li>';
     $content .= '<li>Select the option to enable this product as a Clothes2Order product.</li>';
     $content .= '<li>Once selected, you will then see a range of other available options which you need to complete.</li>';
     $content .= '<li>Once all fields are completed appropriately, the product is now setup for ready to be sent to Clothes2Order when it is purchased.</li>';

@@ -40,28 +40,34 @@ function wpc2o_get_order_history_view(): string
     } else {
         $content .= '<table class="wp-list-table widefat fixed striped table-view-list posts"><thead>';
         $content .= '<tr>';
-        $content .= '<th class="manage-column column-order_number column-primary">ID</th>';
-        $content .= '<th class="manage-column column-order_number column-primary">Status</th>';
+        $content .= '<th style="width: 80px;" class="manage-column column-order_number column-primary">ID</th>';
+        $content .= '<th style="width: 160px;" class="manage-column column-order_number column-primary">Status</th>';
+        $content .= '<th class="manage-column column-order_number column-primary">Order name</th>';
         $content .= '<th class="manage-column column-order_number column-primary">Date</th>';
         $content .= '<th class="manage-column column-order_number column-primary">Clothes2Order response</th>';
-        $content .= '<th class="manage-column column-order_number column-primary">Customer payment type</th>';
+        $content .= '<th class="manage-column column-order_number column-primary">Billing email</th>';
+        $content .= '<th class="manage-column column-order_number column-primary">Payment method</th>';
         $content .= '</tr';
         $content .= '</thead>';
         $content .= '<tbody>';
 
         foreach ($orders as $order) {
-            $meta         = get_post_meta($order->ID);
-            $time         = get_the_date('c') . '" itemprop="datePublished">' . get_the_date('dS M Y', $order);
-            $c2o_result   = $meta['_wpc2o_order_c2o_result'][0];
-            $c2o_status   = $c2o_result ? '<span style="padding: 4px; color: green;">Order successful</span>' : '<span style="padding: 4px; color: red;">Order failed</span>';
-            $payment_type = $meta['_payment_method_title'][0];
-            $content     .= '<tr>';
-            $content     .= '<td><a href="' . get_admin_url() . 'post.php?post=' . $order->ID . '&action=edit" >' . $order->ID . '</a></td>';
-            $content     .= '<td>' . $order->post_status . '</td>';
-            $content     .= '<td><time datetime="' . $time . '</time></td>';
-            $content     .= '<td>' . $c2o_status . '</td>';
-            $content     .= '<td>' . $payment_type . '</td>';
-            $content     .= '</tr>';
+            $meta          = get_post_meta($order->ID);
+            $time          = get_the_date('c') . '" itemprop="datePublished">' . get_the_date('dS M Y', $order);
+            $c2o_result    = $meta['_wpc2o_order_c2o_result'][0];
+            $c2o_status    = $c2o_result ? '<span style="padding: 4px; color: green;">Order successful</span>' : '<span style="padding: 4px; color: red;">Order failed</span>';
+            $billing_email = $meta['_billing_email'][0];
+            $payment_type  = $meta['_payment_method_title'][0];
+
+            $content .= '<tr>';
+            $content .= '<td><a href="' . get_admin_url() . 'post.php?post=' . $order->ID . '&action=edit" >' . $order->ID . '</a></td>';
+            $content .= '<td>' . $order->post_status . '</td>';
+            $content .= '<td>' . $order->post_title . '</td>';
+            $content .= '<td><time datetime="' . $time . '</time></td>';
+            $content .= '<td>' . $c2o_status . '</td>';
+            $content .= '<td><a href="mailto:' . $billing_email . '" target="_blank" rel="noopener noreferrer">' . $billing_email . '</a></td>';
+            $content .= '<td>' . $payment_type . '</td>';
+            $content .= '</td>';
         }
 
         $content .= '</tbody></table>';
