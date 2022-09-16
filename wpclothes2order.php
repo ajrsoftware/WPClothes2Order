@@ -34,6 +34,7 @@ require_once 'classes/WPC2O_C2O_Product.php';
 require_once 'classes/WPC2O_Email.php';
 require_once 'classes/WPC2O_OrderRequest.php';
 require_once 'classes/WPC2O_Notice.php';
+require_once 'classes/WPC2O_Stock_Sync.php';
 
 require_once 'includes/scripts.php';
 require_once 'includes/wc-options.php';
@@ -45,6 +46,7 @@ require_once 'includes/wpc2o-options-logo.php';
 require_once 'includes/wpc2o-options-orders.php';
 require_once 'includes/wpc2o-options-stock.php';
 require_once 'includes/wpc2o-orders.php';
+require_once 'includes/register_rest_fields.php';
 
 add_action('plugins_loaded', 'wpc2o_start');
 
@@ -78,6 +80,9 @@ function wpc2o_start()
             // register on place order
             add_action('woocommerce_thankyou', 'wpc2o_process_completed_order', 10, 1);
             add_action('woocommerce_admin_order_data_after_order_details', 'wpc2o_update_order_notes', 10, 1);
+
+            // register rest fields
+            add_action('rest_api_init', 'wpc2o_register_rest_fields');
 
             // register cron
         } else {
