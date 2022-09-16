@@ -132,15 +132,17 @@ function wpc2o_admin_products_c2o_column(array $columns): array
 function wpc2o_wc_c2o_product_column(string $column, int $product_id): void
 {
     if ($column === 'wpc2o') {
-        $meta        = get_post_meta($product_id);
-        $print_type  = $meta['_' . constant('WPC2O_PRODUCT_LOGO_PRINT_TYPE') . ''][0];
-        $auto_orders = $meta['_' . constant('WPC2O_PRODUCT_API') . ''][0];
-        $sku         = $meta['_' . constant('WPC2O_PRODUCT_SKU') . ''][0];
-        $type        = $meta['_' . constant('WPC2O_PRODUCT_TYPE') . ''][0];
-        $position    = $meta['_' . constant('WPC2O_PRODUCT_LOGO_POSITION') . '_' . $type . ''][0];
-        $width       = $meta['_' . constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_' . $position . ''][0] + 1;
+        $meta = get_post_meta($product_id);
 
         if ($meta['_' . constant('WPC2O_PRODUCT_ENABLED') . ''][0] === 'yes') {
+
+            $print_type  = $meta['_' . constant('WPC2O_PRODUCT_LOGO_PRINT_TYPE') . ''][0];
+            $auto_orders = $meta['_' . constant('WPC2O_PRODUCT_API') . ''][0];
+            $sku         = $meta['_' . constant('WPC2O_PRODUCT_SKU') . ''][0];
+            $type        = $meta['_' . constant('WPC2O_PRODUCT_TYPE') . ''][0];
+            $position    = $meta['_' . constant('WPC2O_PRODUCT_LOGO_POSITION') . '_' . $type . ''][0];
+            $width       = $meta['_' . constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_' . $position . ''][0] + 1;
+
             echo '<button class="button-link wpc2o-expand-details" style="display: block; margin: 0 0 3px 0;">Show details</button>';
             echo '<ul class="wpc2o-expand-details-content">';
             echo '<li><span>Product SKU: ' . esc_html($sku) . '</span></li>';
@@ -163,6 +165,48 @@ function wpc2o_admin_products_c2o_column_sortable(array $columns): array
 {
     $columns['wpc2o'] = 'wpc2o';
     return $columns;
+}
+
+/**
+ * Relocate our admin column
+ * @param array $columns 
+ * @return array 
+ */
+function wpc2o_admin_orders_c2o_column(array $columns): array
+{
+    return array_slice(
+        $columns,
+        0,
+        3,
+        true
+    ) + array(
+        'wpc2o' => 'WPC2O',
+    ) + array_slice(
+        $columns,
+        3,
+        count($columns) - 3,
+        true
+    );
+}
+
+/**
+ * Setup the admin column
+ * @param array $column 
+ * @param int $product_id 
+ * @return void 
+ */
+function wpc2o_wc_c2o_order_column(string $column, int $order_id): void
+{
+    if ($column === 'wpc2o') {
+        $order = wc_get_order($order_id);
+        if ($order->get_meta('_wpc2o_order_processed')) {
+            if ($order->get_meta('_wpc2o_order_c2o_result')) {
+                echo '<mark class="order-status status-completed"><span>Order successful</span></mark>';
+            } else {
+                echo '<mark class="order-status status-failed"><span>Order failed</span></mark>';
+            }
+        }
+    }
 }
 
 /**
