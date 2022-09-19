@@ -1,133 +1,215 @@
 <?php
 
+/**
+ * WPC2O_Stock_Sync File Doc Comment
+ * 
+ * @category WPC2O_C2O_Stock_Sync
+ * @package WPClothes2Order
+ */
 class WPC2O_Stock_Sync
 {
     private string $stock_endpoint;
     private int $request_timeout;
-    private bool $sslverify;
+    private string $file_name;
 
-    public function __construct(string $stock_endpoint, int $request_timeout, bool $sslverify)
+    /**
+     * Setup a new stock sync properties
+     * @param string $stock_endpoint 
+     * @param int $request_timeout 
+     * @return void 
+     */
+    public function __construct(string $stock_endpoint, int $request_timeout)
     {
-        $this->stock_endpoint = $stock_endpoint;
+        $this->stock_endpoint  = $stock_endpoint;
         $this->request_timeout = $request_timeout;
-        $this->sslverify = $sslverify;
-    }
-
-    public function sync()
-    {
-        $all_batches = $this->format_c2o_data_to_batchable_chunks($this->pull_c2o_stock_csv());
-
-        ray($all_batches);
-
-        // // handle each batch
-        // foreach ($all_batches as $batch) {
-
-        //     // handle each row in this batch
-        //     foreach ($batch as $row) {
-
-        //         $item = explode('","', $row);
-        //         $ugly_sku = array_key_exists(5, $item) ? $item[5] : null; // [5] is the SKU header
-        //         $sku = str_replace(['"'], '', $ugly_sku);
-        //         $ugly_stock_level = array_key_exists(7, $item) ? $item[7] : null; // [7] is the in stock header
-        //         $stock_level = str_replace(['"'], '', $ugly_stock_level);
-
-        //         if (in_array($sku, $this->products_to_sync())) {
-
-        //             $product = $this->get_product_by_wpc2o_sku($sku);
-
-        //             $product_id = wc_get_product_id_by_sku($sku);
-
-        //             // $product = wc_get_product($product_id);
-        //             wc_delete_product_transients($product_id);
-        //             if (intval($stock_level) == 1) {
-        //                 update_post_meta($product_id, '_stock_status', 'instock');
-        //             }
-        //         }
-        //     }
-        // }
     }
 
     /**
-     * Find products by WPC2O sku
-     * @param string $sku 
-     * @return \WC_Product[]
+     * Perform a C2O to WPC2O stock sync
      */
-    private function get_product_by_wpc2o_sku(string $sku): array
+    public function sync()
     {
+        // Get all WPC2O enabled products
+        $wp_product_posts = $this->products_to_sync();
 
-        return [];
-    }
-
-    private function format_c2o_data_to_batchable_chunks(array $data): array
-    {
-        $rows = explode("\n", $data['body']);
-        ray($rows);
-        array_shift($rows);
-        return array_chunk($rows, 1000);
-    }
-
-    private function pull_c2o_stock_csv(): array
-    {
-        $csv = fopen($this->stock_endpoint, "r");
-
-        $line = 1;
-        // Iterate over every line of the file
-        while (($raw_string = fgets($csv) && $line < 10) !== false) {
-
-            $rows = explode("\n", $raw_string);
-
-            ray($rows);
-
-
-            // ray($raw_string);
-
-            // $row = str_getcsv($raw_string);
-
-
-            // into an array: ['1', 'a', 'b', 'c']
-            // And do what you need to do with every line
-            // ray($row);
-            $line++;
+        // If no enabled products, early return
+        if (count($wp_product_posts) <= 0) {
+            return 'No products to sync';
         }
 
-        fclose($csv);
+        $skus_to_sync = array();
 
-        return [];
+        // Build up an array of skus in the WC store that need to be updated
+        foreach ($wp_product_posts as $post) {
+            $meta           = get_post_meta($post->ID);
+            $sku            = $meta['_' . constant('WPC2O_PRODUCT_SKU') . ''][0];
+            $skus_to_sync[] = $sku;
+        }
 
-        // $data = wp_remote_get($this->stock_endpoint, array(
-        //     'timeout' => $this->request_timeout,
-        //     'sslverify' => $this->sslverify
-        // ));
+        // create a new filename for the csv at this current time
+        $this->create_file_name();
 
-        // if ($data instanceof WP_Error) {
-        //     ray($data->errors);
-        // }
+        // Download the csv
+        $download_status = $this->download_url_to_file($this->stock_endpoint, $this->download_path() . $this->file_name);
 
-        // return $data;
+        // handle when the download fails
+        if (!$download_status) {
+            return 'There was a problem downloading the Clothes2Order CSV. If this problem persist, please see the help and support page of this plugin.';
+        }
+
+        // Collect the csv in batches of arrays, easier to process
+        $batches = $this->read_products_csv_to_batches($this->download_path() . $this->file_name);
+
+        $c2o_skus = array();
+        foreach ($batches as $batch) {
+            foreach ($batch as $row) {
+                if (in_array($row[5], $skus_to_sync, true)) {
+                    $c2o_skus[] = $row;
+                }
+            }
+        }
+
+        if (count($c2o_skus) <= 0) {
+            return 'No Clothes2Order SKUs you have assigned to your products, nothing to sync.';
+        }
+
+        foreach ($c2o_skus as $c2o_sku) {
+
+            $enabled_field = '_' . constant('WPC2O_PRODUCT_ENABLED') . '';
+            $enabled_value = 'yes';
+            $sku_field     = '_' . constant('WPC2O_PRODUCT_SKU') . '';
+
+            $args = array(
+                'post_type'   => 'product',
+                'numberposts' => -1,
+                'post_status' => 'publish',
+                'meta_query'  => array(
+                    array(
+                        'key'     => $enabled_field,
+                        'value'   => $enabled_value,
+                        'compare' => '=',
+                    ),
+                    array(
+                        'key'     => $sku_field,
+                        'value'   => $c2o_sku[5],
+                        'compare' => '=',
+                    ),
+                ),
+            );
+
+            $query = new WP_Query($args);
+
+            foreach ($query->posts as $post) {
+
+                $enabled_to_manage_stock_level_field = '_' . constant('WPC2O_AUTO_STOCK_LEVELS') . '';
+                $enabled_to_manage_stock_level_value = 'yes';
+
+                if ($enabled_to_manage_stock_level_field === $enabled_to_manage_stock_level_value) {
+                    if ($c2o_sku[7] === '') {
+                        update_post_meta($post->ID, '_stock_status', 'outofstock');
+                        wc_update_product_stock($post->ID, 0, 'set', true);
+                    }
+
+                    if ($c2o_sku[7] === '1') {
+                        update_post_meta($post->ID, '_stock_status', 'instock');
+                        wc_update_product_stock($post->ID, intval($c2o_sku[8]), 'set', true);
+                    }
+                } else {
+                    if ($c2o_sku[7] === '') {
+                        update_post_meta($post->ID, '_stock_status', 'outofstock');
+                    }
+
+                    if ($c2o_sku[7] === '1') {
+                        update_post_meta($post->ID, '_stock_status', 'instock');
+                    }
+                }
+            }
+        }
+
+        return 'Stocks levels have been updated to sync with Clothes2Order.';
+    }
+
+    /**
+     * Return the absolute url of the wp file dir where the products csv should live
+     * @return string 
+     */
+    private function download_path(): string
+    {
+        return 'wp-content/plugins/WPClothes2Order/downloads/';
+    }
+
+    /**
+     * Attempt to download the C2O products csv
+     * @param string $url 
+     * @param string $out_file_name 
+     * @return bool 
+     */
+    private function download_url_to_file(string $url, string $out_file_name): bool
+    {
+        $options = array(
+            CURLOPT_FILE    => fopen($out_file_name, 'w'),
+            CURLOPT_TIMEOUT => $this->request_timeout,
+            CURLOPT_URL     => $url,
+        );
+
+        $ch = curl_init();
+        curl_setopt_array($ch, $options);
+        curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($httpcode !== 200) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Generate a new filename for the products csv
+     * @return void 
+     */
+    private function create_file_name(): void
+    {
+        $this->file_name = 'products' . time() . '.csv';
+    }
+
+    private function read_products_csv_to_batches($fileparam): array
+    {
+        $file_array = array();
+
+        $file = fopen($fileparam, 'r');
+        while (($line = fgetcsv($file)) !== false) {
+            $file_array[] = $line;
+        }
+
+        array_shift($file_array);
+
+        $batches = array_chunk($file_array, 800);
+
+        return $batches;
     }
 
     private function products_to_sync(): array
     {
-        $products = [];
+        $enabled_field = '_' . constant('WPC2O_PRODUCT_ENABLED') . '';
+        $enabled_value = 'yes';
 
-        // if (taxonomy_exists('product_cat')) {
-        //     if (term_exists('clothing', 'product_cat')) {
-        //         $products = wc_get_products([
-        //             'post_status' => 'publish',
-        //             'category' => 'clothing',
-        //         ]);
-        //         $skus_in_system = [];
-        //         foreach ($products as $product) {
-        //             if ($product->is_type('variable')) {
-        //                 $variations = $product->get_available_variations();
-        //                 foreach ($variations as $variation) {
-        //                     $skus_in_system[] = $variation['sku'];
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
+        $args = array(
+            'post_type'   => 'product',
+            'numberposts' => -1,
+            'post_status' => 'publish',
+            'meta_query'  => array(
+                array(
+                    'key'     => $enabled_field,
+                    'value'   => $enabled_value,
+                    'compare' => '=',
+                ),
+            ),
+        );
 
-        return $products;
+        $query = new WP_Query($args);
+
+        return $query->posts;
     }
 }

@@ -20,6 +20,14 @@
 		<exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingAfterOpen" />
         
         <exclude name="WordPress.PHP.DisallowShortTernary" />
+        <exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fopen" />
+        <exclude name="WordPress.WP.AlternativeFunctions.curl_curl_init" />
+        <exclude name="WordPress.WP.AlternativeFunctions.curl_curl_setopt_array" />
+        <exclude name="WordPress.WP.AlternativeFunctions.curl_curl_exec" />
+        <exclude name="WordPress.WP.AlternativeFunctions.curl_curl_getinfo" />
+        <exclude name="WordPress.WP.AlternativeFunctions.curl_curl_close" />
+        <exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fopen" />
+
         <exclude name="WordPress.PHP.YodaConditions.NotYoda" />
         <exclude name="WordPress.WP.I18n.MissingArgDomainDefault" />
         <exclude name="WordPress.Files.FileName.InvalidClassFileName" />

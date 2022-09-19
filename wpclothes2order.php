@@ -46,7 +46,7 @@ require_once 'includes/wpc2o-options-logo.php';
 require_once 'includes/wpc2o-options-orders.php';
 require_once 'includes/wpc2o-options-stock.php';
 require_once 'includes/wpc2o-orders.php';
-require_once 'includes/register_rest_fields.php';
+require_once 'includes/register-rest-fields.php';
 
 add_action('plugins_loaded', 'wpc2o_start');
 
