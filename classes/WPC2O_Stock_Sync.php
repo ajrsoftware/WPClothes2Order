@@ -101,10 +101,9 @@ class WPC2O_Stock_Sync
 
             foreach ($query->posts as $post) {
 
-                $enabled_to_manage_stock_level_field = '_' . constant('WPC2O_AUTO_STOCK_LEVELS') . '';
-                $enabled_to_manage_stock_level_value = 'yes';
+                $has_enabled_to_manage_stock_level = carbon_get_theme_option(constant('WPC2O_AUTO_STOCK_LEVELS'));
 
-                if ($enabled_to_manage_stock_level_field === $enabled_to_manage_stock_level_value) {
+                if ($has_enabled_to_manage_stock_level) {
                     if ($c2o_sku[7] === '') {
                         update_post_meta($post->ID, '_stock_status', 'outofstock');
                         wc_update_product_stock($post->ID, 0, 'set', true);
