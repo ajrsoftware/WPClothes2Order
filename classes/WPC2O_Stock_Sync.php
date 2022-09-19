@@ -179,7 +179,7 @@ class WPC2O_Stock_Sync
         $file_array = array();
 
         $file = fopen($fileparam, 'r');
-        while (($line = fgetcsv($file)) !== false) {
+        while (( $line = fgetcsv($file) ) !== false) {
             $file_array[] = $line;
         }
 

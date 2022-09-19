@@ -27,6 +27,7 @@
         <exclude name="WordPress.WP.AlternativeFunctions.curl_curl_getinfo" />
         <exclude name="WordPress.WP.AlternativeFunctions.curl_curl_close" />
         <exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fopen" />
+        <exclude name="WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition" />
 
         <exclude name="WordPress.PHP.YodaConditions.NotYoda" />
         <exclude name="WordPress.WP.I18n.MissingArgDomainDefault" />
