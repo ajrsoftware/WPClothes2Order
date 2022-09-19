@@ -27,5 +27,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 event.preventDefault();
                 navigator.clipboard.writeText(element.innerText);
             });
+
+        document
+            .getElementById('wpc2o-manual-stock-sync-trigger')
+            ?.addEventListener('submit', (event) => {
+                event.preventDefault();
+
+                const button = document.getElementById(
+                    'wpc2o-manual-stock-sync-trigger-button'
+                ) as HTMLButtonElement | null;
+
+                if (button) {
+                    button.disabled = true;
+                }
+
+                console.log('Trigger sync');
+            });
     }
 });

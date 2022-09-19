@@ -73,10 +73,12 @@ function wpc2o_theme_options(): void
                 Field::make('radio', constant('WPC2O_AUTO_STOCK_LEVELS'), __('Manage stock levels?'))
                     ->add_options(
                         array(
-							true  => __('Yes, automatically update my stores stock levels for Clothes2Order enabled products when syncing their status.'),
-							false => __('No, I will not be using stock management and/or I do not wish to use this feature.'),
-						)
+                            true  => __('Yes, automatically update my stores stock levels for Clothes2Order enabled products when syncing their status.'),
+                            false => __('No, I will not be using stock management and/or I do not wish to use this feature.'),
+                        )
                     ),
+                Field::make('html', 'wpc2o_manual_stock_sync_trigger_view')
+                    ->set_html(wpc2o_manual_stock_sync_trigger_view()),
             )
         )
 
