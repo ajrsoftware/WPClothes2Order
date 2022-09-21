@@ -28,15 +28,16 @@
 defined('ABSPATH') || exit;
 
 require_once 'vendor/autoload.php';
-require_once 'includes/constant.php';
+require_once 'includes/wpc2o-constant.php';
 
 require_once 'classes/WPC2O_C2O_Product.php';
 require_once 'classes/WPC2O_Email.php';
 require_once 'classes/WPC2O_OrderRequest.php';
 require_once 'classes/WPC2O_Notice.php';
+require_once 'classes/WPC2O_Stock_Sync.php';
 
-require_once 'includes/scripts.php';
-require_once 'includes/wc-options.php';
+require_once 'includes/wpc2o-scripts.php';
+require_once 'includes/wpc2o-wc-options.php';
 require_once 'includes/wpc2o-options.php';
 require_once 'includes/wpc2o-options-getting-started.php';
 require_once 'includes/wpc2o-options-api.php';
@@ -45,6 +46,9 @@ require_once 'includes/wpc2o-options-logo.php';
 require_once 'includes/wpc2o-options-orders.php';
 require_once 'includes/wpc2o-options-stock.php';
 require_once 'includes/wpc2o-orders.php';
+require_once 'includes/wpc2o-cron.php';
+require_once 'includes/wpc2o-register-rest-fields.php';
+require_once 'includes/wpc2o-deactivate.php';
 
 add_action('plugins_loaded', 'wpc2o_start');
 
@@ -79,7 +83,19 @@ function wpc2o_start()
             add_action('woocommerce_thankyou', 'wpc2o_process_completed_order', 10, 1);
             add_action('woocommerce_admin_order_data_after_order_details', 'wpc2o_update_order_notes', 10, 1);
 
+            // register rest fields
+            add_action('rest_api_init', 'wpc2o_register_rest_fields');
+
             // register cron
+            add_filter('cron_schedules', 'wpc2o_add_cron_interval');
+
+            // GMT + 1 hour = BST
+            if (!wp_next_scheduled('wpc2o_cron_hook')) {
+                wp_schedule_event(strtotime('17:30:00'), 'wpc2o_everday_at_four_thirty_am', 'wpc2o_cron_hook');
+            }
+            add_action('wpc2o_cron_hook', 'wpc2o_stock_sync_cron');
+
+            register_deactivation_hook(__FILE__, 'wpc2o_deactivate');
         } else {
             new WPC2O_Notice('error', 'Missing WPClothes2Order API credentials. Please add them <a href="' . get_admin_url() . 'admin.php?page=wc-settings&tab=products&section=wpc2o">here</a>', false);
         }

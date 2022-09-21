@@ -17,6 +17,7 @@ define('WPC2O_API_TEST_MODE', '_wpc2o_test_mode');
 /** Plugin option values */
 define('WPC2O_DELIVERY_OPTION', '_wpc2o_delivery_options_selection');
 define('WPC2O_LOGO', '_wpc2o_default_logo_selection');
+define('WPC2O_AUTO_STOCK_LEVELS', '_wpc2o_enable_auto_stock_levels');
 
 /** Plugin WC options */
 define('WPC2O_PRODUCT_ENABLED', '_wpc2o_product_enabled');

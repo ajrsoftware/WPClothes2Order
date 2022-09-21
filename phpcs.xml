@@ -21,13 +21,21 @@
         
         <exclude name="WordPress.PHP.DisallowShortTernary" />
         <exclude name="WordPress.PHP.YodaConditions.NotYoda" />
+        <exclude name="WordPress.WP.CronInterval.ChangeDetected" />
         <exclude name="WordPress.WP.I18n.MissingArgDomainDefault" />
         <exclude name="WordPress.Files.FileName.InvalidClassFileName" />
         <exclude name="WordPress.WP.I18n.NonSingularStringLiteralText" />
+        <exclude name="WordPress.WP.AlternativeFunctions.curl_curl_init" />
+        <exclude name="WordPress.WP.AlternativeFunctions.curl_curl_exec" />
         <exclude name="WordPress.WhiteSpace.OperatorSpacing.NoSpaceAfter" />
+        <exclude name="WordPress.WP.AlternativeFunctions.curl_curl_close" />
         <exclude name="WordPress.WhiteSpace.OperatorSpacing.NoSpaceBefore" />
+        <exclude name="WordPress.WP.AlternativeFunctions.curl_curl_getinfo" />
+        <exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fopen" />
+        <exclude name="WordPress.WP.AlternativeFunctions.curl_curl_setopt_array" />
         <exclude name="WordPress.Arrays.ArrayDeclarationSpacing.NoSpaceAfterArrayOpener" />
         <exclude name="WordPress.Arrays.ArrayDeclarationSpacing.NoSpaceBeforeArrayCloser" />
+        <exclude name="WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition" />
         <exclude name="WordPress.Arrays.ArrayKeySpacingRestrictions.NoSpacesAroundArrayKeys" />
         <exclude name="WordPress.Arrays.ArrayKeySpacingRestrictions.NoSpacesAroundArrayKeysr" />
         <exclude name="WordPress.WhiteSpace.ControlStructureSpacing.NoSpaceAfterOpenParenthesis" />
