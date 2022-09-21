@@ -22,8 +22,6 @@ function wpc2o_add_cron_interval(array $schedules): array
 function wpc2o_stock_sync_cron(): array
 {
     $stock_sync = new WPC2O_Stock_Sync(get_option(constant('WPC2O_API_STOCK_ENDPOINT')), 3600);
-    $message    = $stock_sync->sync();
-    return array(
-        'response' => $message,
-    );
+    $response   = $stock_sync->sync();
+    return $response;
 }

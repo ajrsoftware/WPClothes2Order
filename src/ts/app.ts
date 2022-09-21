@@ -1,5 +1,7 @@
 import hljs from 'highlight.js/lib/core';
 import json from 'highlight.js/lib/languages/json';
+import { sync } from './stock-sync';
+
 hljs.registerLanguage('json', json);
 
 document.querySelectorAll('.wpc2o-expand-details').forEach((element) => {
@@ -30,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document
             .getElementById('wpc2o-manual-stock-sync-trigger')
-            ?.addEventListener('submit', (event) => {
+            ?.addEventListener('submit', async (event) => {
                 event.preventDefault();
 
                 const button = document.getElementById(
@@ -41,7 +43,30 @@ document.addEventListener('DOMContentLoaded', () => {
                     button.disabled = true;
                 }
 
-                console.log('Trigger sync');
+                const messageEl = document.createElement('span');
+                messageEl.id = 'wpc2o-manual-stock-sync-message';
+                messageEl.style.display = 'block';
+                messageEl.style.marginBottom = '16px';
+                messageEl.innerText =
+                    'Sync in progress... please do NOT close this page.';
+                messageEl.style.color = '#3858e9';
+                messageEl.style.fontWeight = '500';
+
+                button?.after(messageEl);
+
+                const messageNode = document.getElementById(
+                    'wpc2o-manual-stock-sync-message'
+                );
+
+                const response = await sync();
+
+                if (messageNode && response) {
+                    const color = response.status ? 'green' : 'red';
+                    messageEl.style.color = color;
+                    messageNode.innerText = response.message;
+                }
+
+                if (button) button.disabled = false;
             });
     }
 });

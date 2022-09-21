@@ -27,14 +27,17 @@ class WPC2O_Stock_Sync
     /**
      * Perform a C2O to WPC2O stock sync
      */
-    public function sync()
+    public function sync(): array
     {
         // Get all WPC2O enabled products
         $wp_product_posts = $this->products_to_sync();
 
         // If no enabled products, early return
         if (count($wp_product_posts) <= 0) {
-            return 'No products to sync';
+            return array(
+                'status'  => false,
+                'message' => 'No products to sync',
+            );
         }
 
         $skus_to_sync = array();
@@ -54,7 +57,10 @@ class WPC2O_Stock_Sync
 
         // handle when the download fails
         if (!$download_status) {
-            return 'There was a problem downloading the Clothes2Order CSV. If this problem persist, please see the help and support page of this plugin.';
+            return array(
+                'status'  => false,
+                'message' => 'There was a problem downloading the Clothes2Order CSV. If this problem persist, please see the help and support page of this plugin.',
+            );
         }
 
         // Collect the csv in batches of arrays, easier to process
@@ -70,7 +76,10 @@ class WPC2O_Stock_Sync
         }
 
         if (count($c2o_skus) <= 0) {
-            return 'No Clothes2Order SKUs you have assigned to your products, nothing to sync.';
+            return array(
+                'status'  => false,
+                'message' => 'No Clothes2Order SKUs you have assigned to your products, nothing to sync.',
+            );
         }
 
         foreach ($c2o_skus as $c2o_sku) {
@@ -125,7 +134,10 @@ class WPC2O_Stock_Sync
             }
         }
 
-        return 'Stocks levels have been updated to sync with Clothes2Order.';
+        return array(
+            'status'  => true,
+            'message' => 'Stocks levels have been updated to sync with Clothes2Order.',
+        );
     }
 
     /**

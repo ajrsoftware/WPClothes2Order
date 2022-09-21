@@ -11,7 +11,7 @@ function wpc2o_register_rest_fields(): void
         '/stock-sync',
         array(
             'methods'             => 'GET',
-            'callback'            => 'wpc2o_stock_sync',
+            'callback'            => 'wpc2o_stock_sync_cron',
             'permission_callback' => '__return_true',
         )
     );
