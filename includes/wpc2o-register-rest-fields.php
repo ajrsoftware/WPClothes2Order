@@ -11,13 +11,7 @@ function wpc2o_register_rest_fields(): void
         '/stock-sync',
         array(
             'methods'             => 'GET',
-            'callback'            => function () {
-                $stock_sync = new WPC2O_Stock_Sync(get_option(constant('WPC2O_API_STOCK_ENDPOINT')), 3600);
-                $message = $stock_sync->sync();
-                return array(
-                    'response' => $message,
-                );
-            },
+            'callback'            => 'wpc2o_stock_sync',
             'permission_callback' => '__return_true',
         )
     );
