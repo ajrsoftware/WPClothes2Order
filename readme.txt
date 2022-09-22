@@ -1,5 +1,5 @@
 === WPClothes2Order ===
-Contributors: [Ashley Redman](https://github.com/AshleyRedman), [Reuben Porter](https://github.com/ReubenPorter)
+Contributors: ashleyredman
 Tags: woocommerce, clothes2order
 Requires at least: 5.8
 Tested up to: 6.0.0
@@ -8,25 +8,38 @@ Stable tag: 1.0.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
+WooCommerce Plugin for Clothes2Order
+
 == Description ==
 
-Unofficial WooCommerce Plugin for Clothes2Order
+A WordPress plugin thats extends your WooCommerce store to integrate with the Clothes2Order drop shipping service.
 
 = Minimum Requirements =
 
 * PHP 7.4 or greater is recommended
 * MySQL 5.7 or greater is recommended
 
+== Installation and use ==
+
 [See our getting started guide (Coming soon)](https://www.wpclothes2order.com/getting-started)
+
+== Changelog ==
 
 [See changelog for all versions](https://github.com/AshleyRedman/WPClothes2Order/releases).
 
-= Development =
+== Help and support ==
 
-We have created a test environment using [Docker](https://www.docker.com/) to allow easy & open development of this project.
-For more information, [please see here](https://github.com/AshleyRedman/WPClothes2Order-test-env).
+[Submit a new issue on our repository](https://github.com/AshleyRedman/WPClothes2Order/issues)
 
-= Important information =
+== Screenshots ==
+
+1-Settings. screenshot-1.png
+2-Settings. screenshot-2.png
+3-Settings. screenshot-3.png
+4-Products. screenshot-4.png
+5-Products. screenshot-5.png
+
+== Important information ==
 
 Please note, this is an **unoffical** Clothes2Order plugin.
 We are no way connected to the service & provide this plugin for free.
