@@ -16,7 +16,7 @@ jobs:
 
             - name: Install dependencies
               working-directory: ./
-              run: npm ci
+              run: npm i
 
             - name: Run prettier check
               working-directory: ./
@@ -36,7 +36,7 @@ jobs:
 
             - name: Install dependencies
               working-directory: ./
-              run: npm ci
+              run: npm i
 
             - name: Run lint
               working-directory: ./
