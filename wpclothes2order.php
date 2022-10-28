@@ -11,7 +11,7 @@
  * License              GPL v3 or later
  * Text Domain:         wpc2o
  * Domain Path:         /languages
- * Requires at least:   6.0.0
+ * Requires at least:   5.8
  * Requires PHP:        7.4
  * 
  * This program is free software; you can redistribute it and/or modify
