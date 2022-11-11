@@ -35,7 +35,7 @@ class WPC2O_Notice
     {
 ?>
         <div class="notice notice-<?php echo esc_html($this->servierty); ?> <?php esc_html($this->dissmissible) ?: 'is-dismissible'; ?>">
-            <p><?php esc_html_e($this->message, 'wpc2o'); ?></p>
+            <p><?php echo $this->message; ?></p>
         </div>
 <?php
     }

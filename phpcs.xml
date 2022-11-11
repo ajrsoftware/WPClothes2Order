@@ -26,6 +26,7 @@
         <exclude name="WordPress.Files.FileName.InvalidClassFileName" />
         <exclude name="WordPress.WP.I18n.NonSingularStringLiteralText" />
         <exclude name="WordPress.WP.AlternativeFunctions.curl_curl_init" />
+        <exclude name="WordPress.Security.EscapeOutput.OutputNotEscaped" />
         <exclude name="WordPress.WP.AlternativeFunctions.curl_curl_exec" />
         <exclude name="WordPress.WhiteSpace.OperatorSpacing.NoSpaceAfter" />
         <exclude name="WordPress.WP.AlternativeFunctions.curl_curl_close" />

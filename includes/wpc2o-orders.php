@@ -31,6 +31,13 @@ function wpc2o_process_completed_order(int $order_id): void
             $api_key           = get_option(constant('WPC2O_API_KEY'));
             $delivery_method   = carbon_get_theme_option(constant('WPC2O_DELIVERY_OPTION'));
 
+            if ($test_mode === 'yes') {
+                $test_mode = true;
+            }
+            if ($test_mode === 'no') {
+                $test_mode = false;
+            }
+
             $order_request = new WPC2O_OrderRequest();
             $order->add_order_note('Order request has been sent to Clothes2Order, waiting for their response...');
             $response_message = $order_request->send($api_post_endpoint, $test_mode, $api_key, $delivery_method, $order, $products);
