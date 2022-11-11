@@ -9,6 +9,7 @@ function wpc2o_get_api_view(): string
     $content           = '<h1>API Credentials</h1>';
     $content          .= '<div style="padding:6px 0;">';
     $content          .= '<ol style="margin-left: 16px;">';
+    $content          .= '<li>Test mode: <strong>' . get_option(constant('WPC2O_API_TEST_MODE')) . '</strong></li>';
     $content          .= '<li>Key: <strong>' . get_option(constant('WPC2O_API_KEY')) . '</strong></li>';
     $content          .= '<li>Order endpoint: <strong>' . get_option(constant('WPC2O_API_ENDPOINT')) . '</strong></li>';
     $content          .= '<li>Stock endpoint: <strong>' . get_option(constant('WPC2O_API_STOCK_ENDPOINT')) . '</strong></li>';
