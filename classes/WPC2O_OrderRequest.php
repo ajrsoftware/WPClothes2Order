@@ -49,11 +49,13 @@ class WPC2O_OrderRequest
             )
         );
 
-        return array('message' => $this->response_handler($response, $order), 'payload' => array(
-            'endpoint' => $api_post_endpoint,
-            'headers' => wp_json_encode($headers, JSON_PRETTY_PRINT),
-            'body' => wp_json_encode($payload, JSON_PRETTY_PRINT),
-        ));
+        return array(
+            'message' => $this->response_handler($response, $order), 'payload' => array(
+                'endpoint' => $api_post_endpoint,
+                'headers'  => wp_json_encode($headers, JSON_PRETTY_PRINT),
+                'body'     => wp_json_encode($payload, JSON_PRETTY_PRINT),
+            )
+        );
     }
 
     /**
