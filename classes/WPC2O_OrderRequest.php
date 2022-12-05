@@ -20,7 +20,7 @@ class WPC2O_OrderRequest
      * @param string $delivery_method 
      * @param Order $order 
      * @param array $products 
-     * @return string 
+     * @return array 
      */
     public function send(
         string $api_post_endpoint,
@@ -29,7 +29,7 @@ class WPC2O_OrderRequest
         string $delivery_method,
         Automattic\WooCommerce\Admin\Overrides\Order $order,
         array $products
-    ): string {
+    ): array {
         $headers = array(
             'Content-Type' => 'application/json',
             'Accept'       => 'application/json',
@@ -41,8 +41,6 @@ class WPC2O_OrderRequest
 
         $payload = $this->build_payload($api_key, $delivery_method, $order, $products);
 
-        // TODO here
-
         $response = wp_remote_post(
             $api_post_endpoint,
             array(
@@ -51,7 +49,11 @@ class WPC2O_OrderRequest
             )
         );
 
-        return $this->response_handler($response, $order);
+        return array('message' => $this->response_handler($response, $order), 'payload' => array(
+            'endpoint' => $api_post_endpoint,
+            'headers' => wp_json_encode($headers, JSON_PRETTY_PRINT),
+            'body' => wp_json_encode($payload, JSON_PRETTY_PRINT),
+        ));
     }
 
     /**

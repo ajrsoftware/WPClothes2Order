@@ -70,3 +70,44 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    document
+        .querySelectorAll('.wpc2o-view-payload-modal-content')
+        .forEach((element) => hljs.highlightElement(element as HTMLElement));
+
+    document
+        .querySelectorAll('.wpc2o-view-order-payload')
+        .forEach((element) => {
+            element?.addEventListener('click', (event) => {
+                event.preventDefault();
+                const modal = element.nextElementSibling;
+                if (modal) modal.classList.toggle('open');
+            });
+        });
+
+    document
+        .querySelectorAll('.wpc2o-view-payload-modal-close')
+        .forEach((element) => {
+            element.addEventListener('click', (event) => {
+                event.preventDefault();
+                document
+                    .querySelectorAll('.wpc2o-view-payload-modal.open')
+                    .forEach((modal) => modal.classList.toggle('open'));
+            });
+        });
+
+    document
+        .querySelectorAll('.wpc2o-view-payload-modal-copy')
+        .forEach((element) => {
+            element.addEventListener('click', (event) => {
+                event.preventDefault();
+                const currentModal = document.querySelector(
+                    '.wpc2o-view-payload-modal.open .wpc2o-view-payload-modal-content'
+                ) as HTMLElement;
+
+                if (currentModal)
+                    navigator.clipboard.writeText(currentModal.innerText);
+            });
+        });
+});

@@ -7,7 +7,7 @@
 -   Requires at least: 5.8
 -   Tested up to: 6.1
 -   Requires PHP: 7.4
--   Stable tag: 1.0.4
+-   Stable tag: 1.0.5
 -   License: GPLv3
 -   License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -22,7 +22,7 @@ Unofficial WooCommerce Plugin for Clothes2Order
 
 ## Getting started
 
-[See our getting started guide (Coming soon)](https://www.wpclothes2order.com/getting-started)
+[See our getting started guide](https://www.wpclothes2order.com/getting-started)
 
 [See changelog for all versions](https://github.com/AshleyRedman/WPClothes2Order/releases).
 
