@@ -4,7 +4,7 @@ Tags: woocommerce, clothes2order
 Requires at least: 5.8
 Tested up to: 6.1
 Requires PHP: 7.4
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -21,7 +21,7 @@ A WordPress plugin thats extends your WooCommerce store to integrate with the Cl
 
 == Installation and use ==
 
-[See our getting started guide (Coming soon)](https://www.wpclothes2order.com/getting-started)
+[See our getting started guide](https://www.wpclothes2order.com/getting-started)
 
 == Changelog ==
 
