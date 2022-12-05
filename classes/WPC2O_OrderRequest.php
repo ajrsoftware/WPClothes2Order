@@ -41,6 +41,8 @@ class WPC2O_OrderRequest
 
         $payload = $this->build_payload($api_key, $delivery_method, $order, $products);
 
+        // TODO here
+
         $response = wp_remote_post(
             $api_post_endpoint,
             array(
