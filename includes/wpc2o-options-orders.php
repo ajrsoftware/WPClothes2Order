@@ -85,8 +85,9 @@ function wpc2o_get_order_history_view(): string
  */
 function wpc2o_view_order_payload($order)
 {
-    $record = get_post_meta($order->ID, '_wpc2o_order_api_payload', true);
-    $content = '<div class="wpc2o-view-payload-modal-inner">';
+    $record  = get_post_meta($order->ID, '_wpc2o_order_api_payload', true);
+
+    $content  = '<div class="wpc2o-view-payload-modal-inner">';
     $content .= '<button class="wpc2o-view-payload-modal-copy button">Copy to clipboard</button>';
     $content .= '<button class="wpc2o-view-payload-modal-close button button-primary">Close</button>';
     $content .= '<div>Endpoint: ' . $record['endpoint'] . '</div>';
@@ -96,5 +97,6 @@ function wpc2o_view_order_payload($order)
     $content .= $record['body'];
     $content .= '</code></pre>';
     $content .= '</div>';
+
     return $content;
 }
