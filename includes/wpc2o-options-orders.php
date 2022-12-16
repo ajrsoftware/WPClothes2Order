@@ -85,14 +85,18 @@ function wpc2o_get_order_history_view(): string
  */
 function wpc2o_view_order_payload($order)
 {
-    $record = get_post_meta($order->ID, '_wpc2o_order_api_payload', true);
+    $record   = get_post_meta($order->ID, '_wpc2o_order_api_payload', true);
+    $response = get_post_meta($order->ID, '_wpc2o_order_api_response', true);
 
     $content  = '<div class="wpc2o-view-payload-modal-inner">';
     $content .= '<button class="wpc2o-view-payload-modal-copy button">Copy to clipboard</button>';
     $content .= '<button class="wpc2o-view-payload-modal-close button button-primary">Close</button>';
     $content .= '<div>Endpoint: ' . $record['endpoint'] . '</div>';
     $content .= '<div>Headers: ' . $record['headers'] . '<div>';
-    $content .= '<div>Payload:<div>';
+    $content .= '<div>Response code: ' . $response['code'] . '<div>';
+    $content .= '<div>Response message: ' . $response['message'] . '<div>';
+    $content .= '<div>Response body: ' . htmlspecialchars($response['body']) . '<div>';
+    $content .= '<div>Payload sent:<div>';
     $content .= '<pre class="wpc2o-view-payload-modal-content"><code>';
     $content .= $record['body'];
     $content .= '</code></pre>';
