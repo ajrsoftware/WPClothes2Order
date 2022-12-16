@@ -146,7 +146,7 @@ class WPC2O_Stock_Sync
      */
     private function download_path(): string
     {
-        return 'wp-content/plugins/WPClothes2Order/downloads/';
+        return 'wp-content/plugins/wpclothes2order/downloads/';
     }
 
     /**
@@ -157,8 +157,9 @@ class WPC2O_Stock_Sync
      */
     private function download_url_to_file(string $url, string $out_file_name): bool
     {
+        $file    = fopen($out_file_name, 'w');
         $options = array(
-            CURLOPT_FILE    => fopen($out_file_name, 'w'),
+            CURLOPT_FILE    => $file,
             CURLOPT_TIMEOUT => $this->request_timeout,
             CURLOPT_URL     => $url,
         );
@@ -168,6 +169,7 @@ class WPC2O_Stock_Sync
         curl_exec($ch);
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
+        fclose($file);
 
         if ($httpcode !== 200) {
             return false;
@@ -193,6 +195,7 @@ class WPC2O_Stock_Sync
         while (( $line = fgetcsv($file) ) !== false) {
             $file_array[] = $line;
         }
+        fclose($file);
 
         array_shift($file_array);
 

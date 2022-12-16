@@ -43,6 +43,7 @@ function wpc2o_process_completed_order(int $order_id): void
             $response = $order_request->send($api_post_endpoint, $test_mode, $api_key, $delivery_method, $order, $products);
             $order->add_order_note($response['message']);
             $order->update_meta_data('_wpc2o_order_api_payload', $response['payload']);
+            $order->update_meta_data('_wpc2o_order_api_response', $response['response']);
         }
 
         $order->update_meta_data('_wpc2o_order_processed', true);

@@ -33,6 +33,7 @@
         <exclude name="WordPress.WhiteSpace.OperatorSpacing.NoSpaceBefore" />
         <exclude name="WordPress.WP.AlternativeFunctions.curl_curl_getinfo" />
         <exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fopen" />
+        <exclude name="WordPress.WP.AlternativeFunctions.file_system_read_fclose" />
         <exclude name="WordPress.WP.AlternativeFunctions.curl_curl_setopt_array" />
         <exclude name="WordPress.Arrays.ArrayDeclarationSpacing.NoSpaceAfterArrayOpener" />
         <exclude name="WordPress.Arrays.ArrayDeclarationSpacing.NoSpaceBeforeArrayCloser" />
