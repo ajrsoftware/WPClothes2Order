@@ -33,18 +33,18 @@ function wpc2o_get_api_view(): string
                     "delivery_method": "WPC2O_DELIVERY_OPTION_HERE"
                 },
                 "customer": {
-                    "name": "' . $current_user->display_name . '",
-                    "email": "' . $current_user->user_email . '",
-                    "telephone": "' . $current_user_meta['shipping_phone'][0] . '"
+                    "name": "John Doe",
+                    "email": "john@doe.com",
+                    "telephone": ""
                 },
                 "address": {
-                    "delivery_name": "' . $current_user_meta['shipping_first_name'][0] . ' ' . $current_user_meta['shipping_last_name'][0] . '",
-                    "company_name": "' . $current_user_meta['shipping_company'][0] . '",
-                    "address_line_1": "' . $current_user_meta['shipping_address_1'][0] . '",
-                    "address_line_2": "' . $current_user_meta['shipping_address_2'][0] . '",
-                    "city": "' . $current_user_meta['shipping_city'][0] . '",
-                    "postcode": "' . $current_user_meta['shipping_postcode'][0] . '",
-                    "country": "' . $current_user_meta['shipping_country'][0] . '"
+                    "delivery_name": "John Doe",
+                    "company_name": "Company 123",
+                    "address_line_1": "123 Example street",
+                    "address_line_2": "",
+                    "city": "London",
+                    "postcode": "NG12 345",
+                    "country": "GB"
                 },
                 "products": {
                     "product": [

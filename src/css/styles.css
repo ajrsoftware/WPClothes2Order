@@ -30,6 +30,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 800px;
 }
 
 .wpc2o-view-payload-modal-inner {
