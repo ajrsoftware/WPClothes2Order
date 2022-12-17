@@ -89,10 +89,10 @@ function wpc2o_view_order_payload($order)
     $response = get_post_meta($order->ID, '_wpc2o_order_api_response', true);
 
     $endpoint = is_array($record) ? $record['endpoint'] : '';
-    $headers = is_array($record) ? $record['headers'] : '';
-    $code = is_array($response) ? $response['code'] : '';
-    $message = is_array($response) ? $response['message'] : '';
-    $body = is_array($response) ? htmlspecialchars($response['body']) : '';
+    $headers  = is_array($record) ? $record['headers'] : '';
+    $code     = is_array($response) ? $response['code'] : '';
+    $message  = is_array($response) ? $response['message'] : '';
+    $body     = is_array($response) ? htmlspecialchars($response['body']) : '';
 
     $content  = '<div class="wpc2o-view-payload-modal-inner">';
     $content .= '<button class="wpc2o-view-payload-modal-copy button">Copy to clipboard</button>';
