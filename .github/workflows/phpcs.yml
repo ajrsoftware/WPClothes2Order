@@ -1,8 +1,17 @@
 name: phpcs
-on: [push]
+on:
+    push:
+        branches:
+            - '*'
+    pull_request:
+        types:
+            - opened
+            - synchronize
+            - ready_for_review
 
 jobs:
-    phpcs:
+    # PHP 7.4
+    phpcs-7_4:
         timeout-minutes: 10
         runs-on: ubuntu-latest
         steps:
@@ -13,6 +22,48 @@ jobs:
               uses: shivammathur/setup-php@2.21.2
               with:
                   php-version: '7.4'
+                  tools: composer:v2, phpcs
+
+            - name: Install dependencies
+              working-directory: ./
+              run: composer install
+
+            - name: Run phpcs
+              working-directory: ./
+              run: vendor/bin/phpcs
+    # PHP 8.0
+    phpcs-8_0:
+        timeout-minutes: 10
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            - name: Setup PHP Action
+              uses: shivammathur/setup-php@2.21.2
+              with:
+                  php-version: '8.0'
+                  tools: composer:v2, phpcs
+
+            - name: Install dependencies
+              working-directory: ./
+              run: composer install
+
+            - name: Run phpcs
+              working-directory: ./
+              run: vendor/bin/phpcs
+    # PHP 8.1
+    phpcs-8_1:
+        timeout-minutes: 10
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            - name: Setup PHP Action
+              uses: shivammathur/setup-php@2.21.2
+              with:
+                  php-version: '8.1'
                   tools: composer:v2, phpcs
 
             - name: Install dependencies
