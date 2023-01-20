@@ -1,0 +1,73 @@
+name: '🐛 Bug Report'
+description: 'Bug report for WPClothes2Order'
+title: '(bug): '
+labels: ['bug']
+body:
+    # Overview
+    - type: textarea
+      attributes:
+          label: Breif overview of issue
+          description: |
+              Briefly explain the issue you wish to report.
+              Please be as detailed as possible & include any screenshots that may be useful to help reproduce this issue.
+          placeholder: |
+              e.g Issue updating stock.
+      validations:
+          required: true
+
+    # Date
+    - type: input
+      attributes:
+          label: Plugin version
+          description: |
+              e.g `1.0.8`
+      validations:
+          required: true
+
+    # Frequency
+    - type: dropdown
+      attributes:
+          label: Where did you download the plugin from?
+          options:
+              - Through plugins screen
+              - WordPress Org
+              - Github release
+              - Github Core
+      validations:
+          required: true
+
+    # Browser
+    - type: dropdown
+      attributes:
+          label: Please tell us the browser you were using when this issue occured?
+          description: |
+              Google Chrome, Firefox etc...
+          options:
+              - Google Chrome (Windows)
+              - Google Chrome (Mac)
+              - Firefox (Windows)
+              - Firefox (Mac)
+              - Microsoft Edge (Mac)
+              - Microsoft Edge (Windows)
+              - Safari (Mac)
+              - Other (Please let us know in the 'extra information' section below)
+      validations:
+          required: true
+
+    # Account
+    - type: input
+      attributes:
+          label: PHP Version
+          description: |
+              Ensure your PHP version is 7.4 +
+      validations:
+          required: true
+
+    # Extra information
+    - type: textarea
+      attributes:
+          label: Extra information
+          description: |
+              If there is anything else you think it worth letting us know, please provide it here.
+      validations:
+          required: false
