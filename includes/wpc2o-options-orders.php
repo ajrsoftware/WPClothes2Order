@@ -88,10 +88,10 @@ function wpc2o_view_order_payload($order)
     $record   = get_post_meta($order->ID, '_wpc2o_order_api_payload', true);
     $response = get_post_meta($order->ID, '_wpc2o_order_api_response', true);
 
-    $endpoint = is_array($record) ? $record['endpoint'] : '';
-    $headers  = is_array($record) ? $record['headers'] : '';
+    $endpoint         = is_array($record) ? $record['endpoint'] : '';
+    $headers          = is_array($record) ? $record['headers'] : '';
     $formated_headers = is_array($headers) ? implode($headers) : $headers;
-    $record_body = is_array($record) ? $record['body'] : '';
+    $record_body      = is_array($record) ? $record['body'] : '';
 
     $code     = is_array($response) ? $response['code'] : '';
     $message  = is_array($response) ? $response['message'] : '';
