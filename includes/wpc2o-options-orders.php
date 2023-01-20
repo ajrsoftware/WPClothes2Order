@@ -93,9 +93,9 @@ function wpc2o_view_order_payload($order)
     $formated_headers = is_array($headers) ? implode($headers) : $headers;
     $record_body      = is_array($record) ? $record['body'] : '';
 
-    $code     = is_array($response) ? $response['code'] : '';
-    $message  = is_array($response) ? $response['message'] : '';
-    $body     = is_array($response) ? htmlspecialchars($response['body']) : '';
+    $code    = is_array($response) ? $response['code'] : '';
+    $message = is_array($response) ? $response['message'] : '';
+    $body    = is_array($response) ? htmlspecialchars($response['body']) : '';
 
     $content  = '<div class="wpc2o-view-payload-modal-inner">';
     $content .= '<button class="wpc2o-view-payload-modal-copy button">Copy to clipboard</button>';
