@@ -80,7 +80,7 @@ function wpc2o_start()
             add_action('carbon_fields_register_fields', 'wpc2o_wc_theme_options');
 
             // register on place order
-            add_action('woocommerce_thankyou', 'wpc2o_process_completed_order', 10, 1);
+            add_action('woocommerce_checkout_order_processed', 'wpc2o_process_completed_order', 10, 1);
 
             // register rest fields
             add_action('rest_api_init', 'wpc2o_register_rest_fields');

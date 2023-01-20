@@ -90,6 +90,9 @@ function wpc2o_view_order_payload($order)
 
     $endpoint = is_array($record) ? $record['endpoint'] : '';
     $headers  = is_array($record) ? $record['headers'] : '';
+    $formated_headers = is_array($headers) ? implode($headers) : $headers;
+    $record_body = is_array($record) ? $record['body'] : '';
+
     $code     = is_array($response) ? $response['code'] : '';
     $message  = is_array($response) ? $response['message'] : '';
     $body     = is_array($response) ? htmlspecialchars($response['body']) : '';
@@ -98,13 +101,13 @@ function wpc2o_view_order_payload($order)
     $content .= '<button class="wpc2o-view-payload-modal-copy button">Copy to clipboard</button>';
     $content .= '<button class="wpc2o-view-payload-modal-close button button-primary">Close</button>';
     $content .= '<div>Endpoint: ' . $endpoint . '</div>';
-    $content .= '<div>Headers: ' . $headers . '<div>';
+    $content .= '<div>Headers: ' . $formated_headers . '<div>';
     $content .= '<div>Response code: ' . $code . '<div>';
     $content .= '<div>Response message: ' . $message . '<div>';
     $content .= '<div>Response body: ' . $body . '<div>';
     $content .= '<div>Payload sent:<div>';
     $content .= '<pre class="wpc2o-view-payload-modal-content"><code>';
-    $content .= $record['body'];
+    $content .= $record_body;
     $content .= '</code></pre>';
     $content .= '</div>';
 
