@@ -4,7 +4,7 @@
  * Plugin Name:         WPClothes2Order
  * Plugin URI:          https://wpclothes2order.com/download
  * Description:         Unofficial WooCommerce Plugin for <a href="https://www.clothes2order.com/">Clothes2Order</a>
- * Version:             1.0.8
+ * Version:             1.0.9
  * Plugin URI:          https://www.wpclothes2order.com
  * Author:              Ashley Redman
  * Author URI:          https://github.com/AshleyRedman
@@ -80,7 +80,7 @@ function wpc2o_start()
             add_action('carbon_fields_register_fields', 'wpc2o_wc_theme_options');
 
             // register on place order
-            add_action('woocommerce_thankyou', 'wpc2o_process_completed_order', 10, 1);
+            add_action('woocommerce_checkout_order_processed', 'wpc2o_process_completed_order', 10, 1);
 
             // register rest fields
             add_action('rest_api_init', 'wpc2o_register_rest_fields');
