@@ -1,7 +1,4 @@
 {
-    "require": {
-        "htmlburger/carbon-fields": "^3.3"
-    },
     "require-dev": {
         "phpcompatibility/phpcompatibility-wp": "^2.1",
         "wp-coding-standards/wpcs": "^2.3"
@@ -15,5 +12,8 @@
         "psr-4": {
             "WPC2O\\": "classes/"
         }
+    },
+    "require": {
+        "htmlburger/carbon-fields": "^3.5"
     }
 }
