@@ -73,3 +73,24 @@ jobs:
             - name: Run phpcs
               working-directory: ./
               run: vendor/bin/phpcs
+    # PHP 8.2
+    phpcs-8_2:
+        timeout-minutes: 10
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            - name: Setup PHP Action
+              uses: shivammathur/setup-php@2.21.2
+              with:
+                  php-version: '8.2'
+                  tools: composer:v2, phpcs
+
+            - name: Install dependencies
+              working-directory: ./
+              run: composer install
+
+            - name: Run phpcs
+              working-directory: ./
+              run: vendor/bin/phpcs
