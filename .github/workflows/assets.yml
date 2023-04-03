@@ -2,42 +2,33 @@ name: Assets
 on: [push]
 
 jobs:
-    prettier:
+    ci:
         timeout-minutes: 10
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
 
-            - name: Setup Node 14.x Environment
-              uses: actions/setup-node@v2
+            - name: Install Node.js
+              uses: actions/setup-node@v3
               with:
-                  node-version: '18.*'
+                  node-version: 19
+
+            - uses: pnpm/action-setup@v2
+              name: Install pnpm
+              id: pnpm-install
+              with:
+                  version: 8
+                  run_install: false
 
             - name: Install dependencies
-              working-directory: ./
-              run: npm i
+              run: pnpm install
 
-            - name: Run prettier check
-              working-directory: ./
-              run: npm run format:check
+            - name: Prettier
+              run: pnpm format:check
 
-    eslint:
-        timeout-minutes: 10
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v2
+            - name: ES lint
+              run: pnpm lint:check
 
-            - name: Setup Node 14.x Environment
-              uses: actions/setup-node@v2
-              with:
-                  node-version: '18.*'
-
-            - name: Install dependencies
-              working-directory: ./
-              run: npm i
-
-            - name: Run lint
-              working-directory: ./
-              run: npm run lint:check
+            - name: NCU
+              run: pnpm packages:check
