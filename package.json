@@ -24,7 +24,8 @@
         "format:check": "prettier --check src/",
         "lint:check": "eslint src/",
         "lint:php": "vendor/bin/phpcs",
-        "format:php": "vendor/bin/phpcbf"
+        "format:php": "vendor/bin/phpcbf",
+        "packages:check": "ncu"
     },
     "devDependencies": {
         "@typescript-eslint/eslint-plugin": "^5.57.1",
