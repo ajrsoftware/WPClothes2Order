@@ -6,3 +6,4 @@ vendor
 node_modules
 downloads/*.csv
 package-lock.json
+pnpm-lock.yaml

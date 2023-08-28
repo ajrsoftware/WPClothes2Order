@@ -1,0 +1,8 @@
+{
+    "reject": [],
+    "upgrade": false,
+    "format": ["group"],
+    "packageManager": "npm",
+    "cache": true,
+    "verbose": false
+}
