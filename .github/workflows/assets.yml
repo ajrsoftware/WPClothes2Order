@@ -14,21 +14,17 @@ jobs:
               with:
                   node-version: 19
 
-            - uses: pnpm/action-setup@v2
-              name: Install pnpm
-              id: pnpm-install
-              with:
-                  version: 8
-                  run_install: false
-
             - name: Install dependencies
-              run: pnpm install --no-frozen-lockfile
+              run: npm i
 
             - name: Prettier
-              run: pnpm format:check
+              run: npm run format:check
+
+            - name: TypeScript
+              run: npm run types
 
             - name: ES lint
-              run: pnpm lint:check
+              run: npm run lint:check
 
             - name: NCU
-              run: pnpm packages:check
+              run: npm run packages:check
