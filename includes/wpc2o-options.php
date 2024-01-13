@@ -42,7 +42,7 @@ function wpc2o_theme_options(): void
                 Field::make('html', 'wpc2o_logo_position_detail')
                     ->set_html(wpc2o_get_logo_position_detail_view()),
                 Field::make('html', 'wpc2o_logo_artwork_detail')
-                    ->set_html(wpc2o_logo_artwork_detail_view())
+                    ->set_html(wpc2o_logo_artwork_detail_view()),
             )
         )
 
@@ -56,10 +56,10 @@ function wpc2o_theme_options(): void
                     ->add_options(
                         array(
                             'standard' => __('Standard'),
-                            '4day' => __('4day'),
-                            'express' => __('Express')
+                            '4day'     => __('4day'),
+                            'express'  => __('Express')
                         )
-                    )
+                    ),
             )
         )
 

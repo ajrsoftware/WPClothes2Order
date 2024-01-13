@@ -7,14 +7,14 @@
 function wpc2o_order_history()
 {
     $args = array(
-        'meta_key'      => '_wpc2o_order_processed',
-        'meta_value'    => '1',
-        'meta_compare'  => '=',
-        'return'        => 'ids'
+        'meta_key'     => '_wpc2o_order_processed',
+        'meta_value'   => '1',
+        'meta_compare' => '=',
+        'return'       => 'ids',
     );
 
     $orders = wc_get_orders($args);
-    $posts = [];
+    $posts  = array();
 
     foreach ($orders as $id) {
         $posts[] = new WC_Order($id);
