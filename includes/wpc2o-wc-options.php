@@ -141,7 +141,7 @@ function wpc2o_wc_c2o_product_column(string $column, int $product_id): void
             $sku         = $meta['_' . constant('WPC2O_PRODUCT_SKU') . ''][0];
             $type        = $meta['_' . constant('WPC2O_PRODUCT_TYPE') . ''][0];
             $position    = $meta['_' . constant('WPC2O_PRODUCT_LOGO_POSITION') . '_' . $type . ''][0];
-            $width       = $meta['_' . constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_' . $position . ''][0] + 1;
+            $width       = $meta['_' . constant('WPC2O_PRODUCT_LOGO_WIDTH') . "_position" . '_' . $position . ''][0] + 1;
 
             echo '<button class="button-link wpc2o-expand-details" style="display: block; margin: 0 0 3px 0;">Show details</button>';
             echo '<ul class="wpc2o-expand-details-content">';
@@ -285,10 +285,10 @@ function wpc2o_wc_theme_options(): void
                     ),
 
                 // Logo selection
-                Field::make('image', constant('WPC2O_PRODUCT_LOGO'), __('Select logo'))
-                    ->set_required(true)
+                Field::make('image', constant('WPC2O_PRODUCT_LOGO'), __('Select artwork'))
+                    ->set_required(false)
                     ->set_help_text('Supported formats include: "jpg", "png", "gif"')
-                    ->set_width(33)
+                    ->set_width(15)
                     ->set_type(array('image'))->set_conditional_logic(
                         array(
                             array(
@@ -298,11 +298,27 @@ function wpc2o_wc_theme_options(): void
                         )
                     ),
 
+                Field::make('text', constant('WPC2O_PRODUCT_LOGO_URL'), __('External artwork URL'))
+                    ->set_required(false)
+                    ->set_help_text('External image URL to use instead of selected image<p>Supported formats include: "jpg", "png", "gif"</p>')
+                    ->set_attribute('type', 'url')
+                    ->set_width(20)
+                    ->set_conditional_logic(
+                        array(
+                            array(
+                                'field' => constant('WPC2O_PRODUCT_ENABLED'),
+                                'value' => true,
+                            ),
+                        )
+                    ),
+
+
+
                 // Print type
                 Field::make('select', constant('WPC2O_PRODUCT_LOGO_PRINT_TYPE'), __('Print type'))
                     ->set_required(true)
                     ->set_help_text('Only certain product types support certain print types, however all support "Print", if in doubt leave as "Print" option. Contact Clothes2Order for more infomation.')
-                    ->set_width(33)
+                    ->set_width(20)
                     ->set_options(
                         array(
                             'print'         => 'Print',
@@ -322,7 +338,7 @@ function wpc2o_wc_theme_options(): void
                 Field::make('text', constant('WPC2O_PRODUCT_SKU'), __('Product SKU'))
                     ->set_required(true)
                     ->set_help_text('Please enter the SKU of the product. This SKU determines the colour (black etc), product type (top etc) & product size (S,M,L etc). If you do not know the SKU to enter, please either get in touch with Clothes2Order or download this <a href="http://c2ostock.s3.amazonaws.com/products.csv" target="_blank" rel="noopener noreferrer">SKU Stock information csv</a> which contains all C2O product information including SKUs.')
-                    ->set_width(33)
+                    ->set_width(20)
                     ->set_attribute('placeholder', 'eg: 3017-3-14')
                     ->set_conditional_logic(
                         array(

@@ -2,12 +2,12 @@
 
 /**
  * Plugin Name:         WPClothes2Order
- * Plugin URI:          https://wpclothes2order.com/download
+ * Plugin URI:          https://wpclothes2order.com
  * Description:         Unofficial WooCommerce Plugin for <a href="https://www.clothes2order.com/">Clothes2Order</a>
- * Version:             1.0.12
+ * Version:             1.1.0
  * Plugin URI:          https://www.wpclothes2order.com
  * Author:              AJR Software
- * Author URI:          https://github.com/ajrsoftware
+ * Author URI:          https://www.ajrsoftware.com
  * License              GPL v3 or later
  * Text Domain:         wpc2o
  * Domain Path:         /languages
@@ -80,7 +80,7 @@ function wpc2o_start()
             add_action('carbon_fields_register_fields', 'wpc2o_wc_theme_options');
 
             // register on place order
-            add_action('woocommerce_checkout_order_processed', 'wpc2o_process_completed_order', 10, 1);
+            add_action('woocommerce_order_status_processing', 'wpc2o_process_completed_order', 10, 1);
 
             // register rest fields
             add_action('rest_api_init', 'wpc2o_register_rest_fields');

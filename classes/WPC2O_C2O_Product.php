@@ -24,17 +24,21 @@ class WPC2O_C2O_Product
      */
     public function build(\WC_Order_Item $order_item): array
     {
-        $product_id = $order_item->get_product_id();
-        $meta       = get_post_meta($product_id);
-        $quantity   = $order_item->get_quantity();
-        $sku        = $meta['_' . constant('WPC2O_PRODUCT_SKU') . ''][0];
-        $logo_url   = wp_get_attachment_image_src($meta['_' . constant('WPC2O_PRODUCT_LOGO') . ''][0])[0];
-        $unique_id  = $order_item->get_order_id();
-        $print_type = $meta['_' . constant('WPC2O_PRODUCT_LOGO_PRINT_TYPE') . ''][0];
-        $type       = $meta['_' . constant('WPC2O_PRODUCT_TYPE') . ''][0];
-        $position   = $meta['_' . constant('WPC2O_PRODUCT_LOGO_POSITION') . '_' . $type . ''][0];
+        $product_id  = $order_item->get_product_id();
+        $meta        = get_post_meta($product_id);
+        $quantity    = $order_item->get_quantity();
+        $sku         = $meta['_' . constant('WPC2O_PRODUCT_SKU') . ''][0];
+        $logo_url    = wp_get_attachment_image_src($meta['_' . constant('WPC2O_PRODUCT_LOGO') . ''][0])[0];
+        $exteral_url = $meta['_' . constant('WPC2O_PRODUCT_LOGO_URL') . ''][0];
+        $unique_id   = $order_item->get_order_id();
+        $print_type  = $meta['_' . constant('WPC2O_PRODUCT_LOGO_PRINT_TYPE') . ''][0];
+        $type        = $meta['_' . constant('WPC2O_PRODUCT_TYPE') . ''][0];
+        $position    = $meta['_' . constant('WPC2O_PRODUCT_LOGO_POSITION') . '_' . $type . ''][0];
+        $width       = $meta['_' . constant('WPC2O_PRODUCT_LOGO_WIDTH') . "_position" . '_' . $position . ''][0] + 1;
 
-        $width = $meta['_' . constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_' . $position . ''][0] + 1;
+        if (isset($exteral_url) && strlen($exteral_url) > 0) {
+            $logo_url = $exteral_url;
+        }
 
         $product = array(
             'sku'      => $sku,

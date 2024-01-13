@@ -2,27 +2,25 @@
 
 /**
  * Get all processed WPC2O enabled orders 
- * @return \WP_Post[]|int[] 
+ * @return \WC_Order[]
  */
 function wpc2o_order_history()
 {
     $args = array(
-        'post_status'    => 'all',
-        'post_type'      => 'shop_order',
-        'posts_per_page' => '-1',
-        'orderby'        => 'date',
-        'order'          => 'DESC',
-        'meta_query'     => array(
-            array(
-                'key'     => '_wpc2o_order_processed',
-                'value'   => '1',
-                'compare' => '=',
-            ),
-        ),
+        'meta_key'      => '_wpc2o_order_processed',
+        'meta_value'    => '1',
+        'meta_compare'  => '=',
+        'return'        => 'ids'
     );
 
-    $query = new WP_Query($args);
-    return $query->posts;
+    $orders = wc_get_orders($args);
+    $posts = [];
+
+    foreach ($orders as $id) {
+        $posts[] = new WC_Order($id);
+    }
+
+    return $posts;
 }
 
 /**
@@ -53,17 +51,17 @@ function wpc2o_get_order_history_view(): string
         $content .= '<tbody>';
 
         foreach ($orders as $order) {
-            $meta          = get_post_meta($order->ID);
-            $time          = get_the_date('c') . '" itemprop="datePublished">' . get_the_date('dS M Y', $order);
-            $c2o_result    = $meta['_wpc2o_order_c2o_result'][0];
+
+            $time          = get_the_date('c') . '" itemprop="datePublished">' . get_the_date('dS M Y', $order->ID);
+            $c2o_result    = $order->get_meta('_wpc2o_order_c2o_result');
             $c2o_status    = $c2o_result ? '<span style="padding: 4px; color: green;">Order successful</span>' : '<span style="padding: 4px; color: red;">Order failed</span>';
-            $billing_email = $meta['_billing_email'][0];
-            $payment_type  = $meta['_payment_method_title'][0];
+            $billing_email = $order->get_meta('_billing_email');
+            $payment_type  = $order->get_meta('_payment_method_title');
 
             $content .= '<tr>';
             $content .= '<td><a href="' . get_admin_url() . 'post.php?post=' . $order->ID . '&action=edit" >' . $order->ID . '</a></td>';
-            $content .= '<td>' . $order->post_status . '</td>';
-            $content .= '<td>' . $order->post_title . '</td>';
+            $content .= '<td>' . $order->get_status() . '</td>';
+            $content .= '<td>' . $order->get_user()->user_nicename . '</td>';
             $content .= '<td><time datetime="' . $time . '</time></td>';
             $content .= '<td>' . $c2o_status . '</td>';
             $content .= '<td><a href="mailto:' . $billing_email . '" target="_blank" rel="noopener noreferrer">' . $billing_email . '</a></td>';
@@ -80,13 +78,13 @@ function wpc2o_get_order_history_view(): string
 
 /**
  * Content of this orders payload sent to C2O
- * @param \WP_Post $order 
+ * @param \WC_Order $order 
  * @return string 
  */
 function wpc2o_view_order_payload($order)
 {
-    $record   = get_post_meta($order->ID, '_wpc2o_order_api_payload', true);
-    $response = get_post_meta($order->ID, '_wpc2o_order_api_response', true);
+    $record = $order->get_meta('_wpc2o_order_api_payload');
+    $response = $order->get_meta('_wpc2o_order_api_response');
 
     $endpoint         = is_array($record) ? $record['endpoint'] : '';
     $headers          = is_array($record) ? $record['headers'] : '';

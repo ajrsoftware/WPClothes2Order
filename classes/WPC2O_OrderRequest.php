@@ -156,6 +156,7 @@ class WPC2O_OrderRequest
 
             $order->update_meta_data('_wpc2o_order_c2o_result', false);
         } else {
+            $message = $wp_response['response']['message'];
             $order->update_meta_data('_wpc2o_order_c2o_result', true);
         }
 
