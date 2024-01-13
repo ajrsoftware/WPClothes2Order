@@ -5,7 +5,7 @@
  */
 
 /** Our plugin version, used to asset cache busting & more. */
-define('WP_C2O_VERSION', '1.1.1');
+define('WP_C2O_VERSION', '1.1.2');
 
 /** API option values. */
 define('WPC2O_API_KEY', '_wpc2o_api_key');
