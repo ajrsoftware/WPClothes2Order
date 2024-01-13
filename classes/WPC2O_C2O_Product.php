@@ -34,7 +34,7 @@ class WPC2O_C2O_Product
         $print_type  = $meta['_' . constant('WPC2O_PRODUCT_LOGO_PRINT_TYPE') . ''][0];
         $type        = $meta['_' . constant('WPC2O_PRODUCT_TYPE') . ''][0];
         $position    = $meta['_' . constant('WPC2O_PRODUCT_LOGO_POSITION') . '_' . $type . ''][0];
-        $width       = $meta['_' . constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_position' . '_' . $position . ''][0] + 1;
+        $width       = $meta['_' . constant('WPC2O_PRODUCT_LOGO_WIDTH') . '_position_' . $position . ''][0] + 1;
 
         if (isset($exteral_url) && strlen($exteral_url) > 0) {
             $logo_url = $exteral_url;

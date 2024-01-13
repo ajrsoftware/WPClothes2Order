@@ -83,7 +83,7 @@ function wpc2o_get_order_history_view(): string
  */
 function wpc2o_view_order_payload($order)
 {
-    $record = $order->get_meta('_wpc2o_order_api_payload');
+    $record   = $order->get_meta('_wpc2o_order_api_payload');
     $response = $order->get_meta('_wpc2o_order_api_response');
 
     $endpoint         = is_array($record) ? $record['endpoint'] : '';

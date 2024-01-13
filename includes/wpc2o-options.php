@@ -57,7 +57,7 @@ function wpc2o_theme_options(): void
                         array(
                             'standard' => __('Standard'),
                             '4day'     => __('4day'),
-                            'express'  => __('Express')
+                            'express'  => __('Express'),
                         )
                     ),
             )
