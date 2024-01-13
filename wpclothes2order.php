@@ -4,10 +4,10 @@
  * Plugin Name:         WPClothes2Order
  * Plugin URI:          https://wpclothes2order.com/download
  * Description:         Unofficial WooCommerce Plugin for <a href="https://www.clothes2order.com/">Clothes2Order</a>
- * Version:             1.0.11
+ * Version:             1.0.12
  * Plugin URI:          https://www.wpclothes2order.com
- * Author:              Ashley Redman
- * Author URI:          https://github.com/AshleyRedman
+ * Author:              AJR Software
+ * Author URI:          https://github.com/ajrsoftware
  * License              GPL v3 or later
  * Text Domain:         wpc2o
  * Domain Path:         /languages

@@ -18,7 +18,7 @@ Welcome! :tada::sparkles: and thank you for taking the time to contribute to thi
 
 ---
 
-If you spot a :bug: bug :bug: then feel free to [open an issue](https://github.com/AshleyRedman/WPClothes2Order/issues). Please add the `bug` label to the issue.
+If you spot a :bug: bug :bug: then feel free to [open an issue](https://github.com/ajrsoftware/WPClothes2Order/issues). Please add the `bug` label to the issue.
 
 ---
 
@@ -26,7 +26,7 @@ If you spot a :bug: bug :bug: then feel free to [open an issue](https://github.c
 
 ---
 
-If you have an :bulb: idea :bulb: for an enhancement or feature then feel free to [open an issue](https://github.com/AshleyRedman/WPClothes2Order/issues). Please add the `enhancement` label to the issue.
+If you have an :bulb: idea :bulb: for an enhancement or feature then feel free to [open an issue](https://github.com/ajrsoftware/WPClothes2Order/issues). Please add the `enhancement` label to the issue.
 
 ---
 

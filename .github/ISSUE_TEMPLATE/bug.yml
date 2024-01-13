@@ -20,7 +20,7 @@ body:
       attributes:
           label: Plugin version
           description: |
-              e.g `1.0.11`
+              e.g `1.0.12`
       validations:
           required: true
 

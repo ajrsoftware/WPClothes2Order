@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
     - name: Help & support - FAQ
-      url: https://github.com/AshleyRedman/WPClothes2Order/discussions/new?category=q-a&body=%23%23%23%20Your%20question%20here%0A%0A-%20What%20version%20of%20the%20plugin%20are%20you%20using%3F%20e.g%20%601.0.11%60%0A-%20What%20PHP%20version%20are%20you%20using%3F%20e.g%20%607.4%60%0A-%20Where%20did%20you%20install%20the%20plugin%20from%3F%20e.g%20%60WordPress%20org%60%0A%0A---
+      url: https://github.com/ajrsoftware/WPClothes2Order/discussions/new?category=q-a&body=%23%23%23%20Your%20question%20here%0A%0A-%20What%20version%20of%20the%20plugin%20are%20you%20using%3F%20e.g%20%601.0.12%60%0A-%20What%20PHP%20version%20are%20you%20using%3F%20e.g%20%607.4%60%0A-%20Where%20did%20you%20install%20the%20plugin%20from%3F%20e.g%20%60WordPress%20org%60%0A%0A---
       about: "If you can't get something to work the way you expect, check out our FAQ's."
     - name: Feature Request
-      url: https://github.com/AshleyRedman/WPClothes2Order/discussions/new?category=ideas
+      url: https://github.com/ajrsoftware/WPClothes2Order/discussions/new?category=ideas
       about: 'Suggest any ideas you have using our discussion forums.'

@@ -90,7 +90,7 @@ class WPC2O_OrderRequest
             'api_key'  => $api_key,
             'order'    => array(
                 'order_id'        => strval($order->get_id()),
-                'order_notes'     => $order->get_customer_order_notes() ?: '',
+                'order_notes'     => $order->get_customer_note(),
                 'delivery_method' => $delivery_method,
             ),
             'customer' => array(

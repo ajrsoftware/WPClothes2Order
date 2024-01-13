@@ -96,7 +96,7 @@ function wpc2o_theme_options(): void
             __('Help & support'),
             array(
                 Field::make('html', 'wpc2o_help_support')
-                    ->set_html('<h1>Help & support</h1><p style="padding: 0 1px;">For any queries, please <a href="https://github.com/AshleyRedman/WPClothes2Order/issues" target="_blank" rel="noopener noreferrer">open a new GitHub issue</a> on the open repository.</p>'),
+                    ->set_html('<h1>Help & support</h1><p style="padding: 0 1px;">For any queries, please <a href="https://github.com/ajrsoftware/WPClothes2Order/issues" target="_blank" rel="noopener noreferrer">open a new GitHub issue</a> on the open repository.</p>'),
             )
         );
 }

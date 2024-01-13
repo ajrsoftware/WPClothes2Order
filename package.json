@@ -1,17 +1,17 @@
 {
     "name": "wpclothes2order",
-    "version": "1.0.11",
+    "version": "1.0.12",
     "description": "",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/AshleyRedman/WPClothes2Order.git"
+        "url": "git+https://github.com/ajrsoftware/WPClothes2Order.git"
     },
-    "author": "Ashley Redman",
+    "author": "AJRSoftware",
     "license": "GPLv3",
     "bugs": {
-        "url": "https://github.com/AshleyRedman/WPClothes2Order/issues"
+        "url": "https://github.com/ajrsoftware/WPClothes2Order/issues"
     },
-    "homepage": "https://github.com/AshleyRedman/WPClothes2Order#readme",
+    "homepage": "https://github.com/ajrsoftware/WPClothes2Order#readme",
     "engineStrict": true,
     "engines": {
         "node": "19.*"
