@@ -39,11 +39,11 @@ function wpc2o_process_completed_order(int $order_id): void
             }
 
             $order_request = new WPC2O_OrderRequest();
-            $order->add_order_note('Order request has been sent to Clothes2Order, waiting for their response...');
-            $response = $order_request->send($api_post_endpoint, $test_mode, $api_key, $delivery_method, $order, $products);
-            $order->add_order_note($response['message']);
+            $response      = $order_request->send($api_post_endpoint, $test_mode, $api_key, $delivery_method, $order, $products);
             $order->update_meta_data('_wpc2o_order_api_payload', $response['payload']);
             $order->update_meta_data('_wpc2o_order_api_response', $response['response']);
+            $order->add_order_note('Order request has been sent to Clothes2Order, waiting for their response...');
+            $order->add_order_note($response['message']);
         }
 
         $order->update_meta_data('_wpc2o_order_processed', true);

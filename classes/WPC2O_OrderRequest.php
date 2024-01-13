@@ -90,7 +90,7 @@ class WPC2O_OrderRequest
             'api_key'  => $api_key,
             'order'    => array(
                 'order_id'        => strval($order->get_id()),
-                'order_notes'     => $order->get_customer_order_notes() ?: '',
+                'order_notes'     => $order->get_customer_note(),
                 'delivery_method' => $delivery_method,
             ),
             'customer' => array(
@@ -156,6 +156,7 @@ class WPC2O_OrderRequest
 
             $order->update_meta_data('_wpc2o_order_c2o_result', false);
         } else {
+            $message = $wp_response['response']['message'];
             $order->update_meta_data('_wpc2o_order_c2o_result', true);
         }
 

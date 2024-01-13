@@ -23,6 +23,30 @@ function wpc2o_get_logo_view(): string
     return $content;
 }
 
+function wpc2o_logo_artwork_detail_view(): string
+{
+    $content  = '<h2>Accepted artwork</h2>';
+    $content .= '<br />';
+    $content .= '<div style="padding: 0 12px">';
+    $content .= '<strong>What is the Maximum Size My Logo Can Be?:</strong>';
+    $content .= '<p>The maximum width for print is 30cm.</p>';
+    $content .= '<p>The maximum width for embroidery is 25cm.</p>';
+    $content .= '<p>The height of your logo or image will automatically be scaled based on the width you select.</p>';
+    $content .= '<hr />';
+    $content .= '<br />';
+    $content .= '<strong>What File Types Do You Accept?:</strong>';
+    $content .= '<p>The best quality artwork is usually a vectored image file, either an .ai, .eps, or .pdf.</p>';
+    $content .= '<p>We accept the following image types: jpg, jpeg, gif, bmp, ai, eps, ps, pdf, png, psd, svg, tiff, tif. The maximum size file you can upload per logo is 50mb.</p>';
+    $content .= '<hr />';
+    $content .= '<br />';
+    $content .= '<strong>What is Digitisation?:</strong>';
+    $content .= '<p>Each embroidery logo is digitally recreated so it can be read by our embroidery machines and achieve an expectational level of accuracy to the original design.</p>';
+    $content .= '<p>You will always receive artwork proof for new embroidery designs</p>';
+    $content .= '</div>';
+
+    return $content;
+}
+
 /**
  * TODO
  * @return string 

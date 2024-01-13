@@ -41,6 +41,8 @@ function wpc2o_theme_options(): void
                     ->set_html(wpc2o_get_logo_view()),
                 Field::make('html', 'wpc2o_logo_position_detail')
                     ->set_html(wpc2o_get_logo_position_detail_view()),
+                Field::make('html', 'wpc2o_logo_artwork_detail')
+                    ->set_html(wpc2o_logo_artwork_detail_view()),
             )
         )
 
@@ -51,7 +53,13 @@ function wpc2o_theme_options(): void
                 Field::make('html', 'wpc2o_delivery_title')
                     ->set_html(wpc2o_get_delivery_view()),
                 Field::make('radio', constant('WPC2O_DELIVERY_OPTION'), __('Select your prefered devliery option'))
-                    ->add_options(array('standard' => __('Standard'))),
+                    ->add_options(
+                        array(
+                            'standard' => __('Standard'),
+                            '4day'     => __('4day'),
+                            'express'  => __('Express'),
+                        )
+                    ),
             )
         )
 
@@ -96,7 +104,7 @@ function wpc2o_theme_options(): void
             __('Help & support'),
             array(
                 Field::make('html', 'wpc2o_help_support')
-                    ->set_html('<h1>Help & support</h1><p style="padding: 0 1px;">For any queries, please <a href="https://github.com/AshleyRedman/WPClothes2Order/issues" target="_blank" rel="noopener noreferrer">open a new GitHub issue</a> on the open repository.</p>'),
+                    ->set_html('<h1>Help & support</h1><p style="padding: 0 1px;">For any queries, please <a href="https://github.com/ajrsoftware/WPClothes2Order/issues" target="_blank" rel="noopener noreferrer">open a new GitHub issue</a> on the open repository.</p>'),
             )
         );
 }

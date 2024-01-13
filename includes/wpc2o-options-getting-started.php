@@ -34,8 +34,8 @@ function wpc2o_getting_started_view(): string
     $content .= '<hr>';
     $content .= '<h3>Feedback</h3>';
     $content .= '<p>More details on how to get setup can be found on our <a href="https://www.wpclothes2order.com/getting-started" target="_blank" rel="noopener noreferrer">getting started guide</a>.</p>';
-    $content .= '<p>For any queries, please <a href="https://github.com/AshleyRedman/WPClothes2Order/issues" target="_blank" rel="noopener noreferrer">open a new GitHub issue</a> on our public repository.</p>';
-    $content .= '<p>If you have any feedback or ideas on how we could improve this integration, please open a new <a href="https://github.com/AshleyRedman/WPClothes2Order/discussions/new?category=ideas" target="_blank" rel="noopener noreferrer">idea discussion</a> on our forum.</p>';
+    $content .= '<p>For any queries, please <a href="https://github.com/ajrsoftware/WPClothes2Order/issues" target="_blank" rel="noopener noreferrer">open a new GitHub issue</a> on our public repository.</p>';
+    $content .= '<p>If you have any feedback or ideas on how we could improve this integration, please open a new <a href="https://github.com/ajrsoftware/WPClothes2Order/discussions/new?category=ideas" target="_blank" rel="noopener noreferrer">idea discussion</a> on our forum.</p>';
     $content .= '</article>';
     $content .= '</div>';
 

@@ -4,7 +4,7 @@ Tags: woocommerce, clothes2order
 Requires at least: 5.8
 Tested up to: 6.3
 Requires PHP: 7.4
-Stable tag: 1.0.11
+Stable tag: 1.1.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -25,11 +25,11 @@ A WordPress plugin thats extends your WooCommerce store to integrate with the Cl
 
 == Changelog ==
 
-[See changelog for all versions](https://github.com/AshleyRedman/WPClothes2Order/releases).
+[See changelog for all versions](https://github.com/ajrsoftware/WPClothes2Order/releases).
 
 == Help and support ==
 
-[Submit a new issue on our repository](https://github.com/AshleyRedman/WPClothes2Order/issues)
+[Submit a new issue on our repository](https://github.com/ajrsoftware/WPClothes2Order/issues)
 
 == Screenshots ==
 
@@ -43,4 +43,4 @@ A WordPress plugin thats extends your WooCommerce store to integrate with the Cl
 
 Please note, this is an **unoffical** Clothes2Order plugin.
 We are no way connected to the service & provide this plugin for free.
-Use this plugin at your own risk. We do not provide any offical support, however if you have any issues, please open a new issue [here](https://github.com/AshleyRedman/WPClothes2Order/issues)
+Use this plugin at your own risk. We do not provide any offical support, however if you have any issues, please open a new issue [here](https://github.com/ajrsoftware/WPClothes2Order/issues)

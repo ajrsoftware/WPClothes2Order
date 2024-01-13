@@ -5,7 +5,7 @@
  */
 
 /** Our plugin version, used to asset cache busting & more. */
-define('WP_C2O_VERSION', '1.0.11');
+define('WP_C2O_VERSION', '1.1.0');
 
 /** API option values. */
 define('WPC2O_API_KEY', '_wpc2o_api_key');
@@ -24,6 +24,7 @@ define('WPC2O_PRODUCT_ENABLED', '_wpc2o_product_enabled');
 define('WPC2O_PRODUCT_API', '_wpc2o_product_api');
 define('WPC2O_PRODUCT_COMPLEX', '_wpc2o_product_complex');
 define('WPC2O_PRODUCT_LOGO', '_wpc2o_product_logo');
+define('WPC2O_PRODUCT_LOGO_URL', '_wpc2o_product_logo_url');
 define('WPC2O_PRODUCT_TYPE', '_wpc2o_product_type');
 define('WPC2O_PRODUCT_LOGO_POSITION', '_wpc2o_product_logo_position');
 define('WPC2O_PRODUCT_LOGO_WIDTH', '_wpc2o_product_logo_width');
