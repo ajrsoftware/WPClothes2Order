@@ -36,13 +36,12 @@ function wpc2o_get_order_history_view(): string
     if (count($orders) <= 0) {
         $content .= '<p>No orders to show</p>';
     } else {
-        $content .= '<table style="position: relative;" class="wp-list-table widefat fixed striped table-view-list posts"><thead>';
+        $content .= '<table style="position:relative;" class="wp-list-table widefat fixed striped table-view-list posts"><thead>';
         $content .= '<tr>';
-        $content .= '<th style="width: 80px;" class="manage-column column-order_number column-primary">ID</th>';
-        $content .= '<th style="width: 160px;" class="manage-column column-order_number column-primary">Status</th>';
-        $content .= '<th class="manage-column column-order_number column-primary">Order name</th>';
+        $content .= '<th style="width:30px;" class="manage-column column-order_number column-primary">ID</th>';
+        $content .= '<th style="width:90px;" class="manage-column column-order_number column-primary">Status</th>';
         $content .= '<th class="manage-column column-order_number column-primary">Date</th>';
-        $content .= '<th class="manage-column column-order_number column-primary">Clothes2Order response</th>';
+        $content .= '<th class="manage-column column-order_number column-primary">API response</th>';
         $content .= '<th class="manage-column column-order_number column-primary">Billing email</th>';
         $content .= '<th class="manage-column column-order_number column-primary">Payment method</th>';
         $content .= '<th class="manage-column column-order_number column-primary">Order payload</th>';
@@ -61,7 +60,6 @@ function wpc2o_get_order_history_view(): string
             $content .= '<tr>';
             $content .= '<td><a href="' . get_admin_url() . 'post.php?post=' . $order->ID . '&action=edit" >' . $order->ID . '</a></td>';
             $content .= '<td>' . $order->get_status() . '</td>';
-            $content .= '<td>' . $order->get_user()->user_nicename . '</td>';
             $content .= '<td><time datetime="' . $time . '</time></td>';
             $content .= '<td>' . $c2o_status . '</td>';
             $content .= '<td><a href="mailto:' . $billing_email . '" target="_blank" rel="noopener noreferrer">' . $billing_email . '</a></td>';
@@ -74,6 +72,16 @@ function wpc2o_get_order_history_view(): string
     }
     $content .= '</div>';
     return $content;
+}
+
+function wpc2o_code_block(string $code): string
+{
+    return '<pre class="wpc2o-code-block"><code>' . $code . '</code></pre>';
+}
+
+function wpc2o_order_head(string $head): string
+{
+    return '<strong>' . $head . ': </strong>';
 }
 
 /**
@@ -95,19 +103,16 @@ function wpc2o_view_order_payload($order)
     $message = is_array($response) ? $response['message'] : '';
     $body    = is_array($response) ? htmlspecialchars($response['body']) : '';
 
-    $content  = '<div class="wpc2o-view-payload-modal-inner">';
+    $content  = '<section class="wpc2o-view-payload-modal-inner">';
     $content .= '<button class="wpc2o-view-payload-modal-copy button">Copy to clipboard</button>';
     $content .= '<button class="wpc2o-view-payload-modal-close button button-primary">Close</button>';
-    $content .= '<div>Endpoint: ' . $endpoint . '</div>';
-    $content .= '<div>Headers: ' . $formated_headers . '<div>';
-    $content .= '<div>Response code: ' . $code . '<div>';
-    $content .= '<div>Response message: ' . $message . '<div>';
-    $content .= '<div>Response body: ' . $body . '<div>';
-    $content .= '<div>Payload sent:<div>';
-    $content .= '<pre class="wpc2o-view-payload-modal-content"><code>';
-    $content .= $record_body;
-    $content .= '</code></pre>';
-    $content .= '</div>';
+    $content .= '<div>' . wpc2o_order_head('Endpoint') . $endpoint . '</div>';
+    $content .= '<div>' . wpc2o_order_head('Response code') . $code . '</div>';
+    $content .= '<div>' . wpc2o_order_head('Response message') . $message . '</div>';
+    $content .= '<div>' . wpc2o_order_head('Headers') . wpc2o_code_block($formated_headers) . '</div>';
+    $content .= '<div>' . wpc2o_order_head('Response body') . wpc2o_code_block($body) . '</div>';
+    $content .= '<div>' . wpc2o_order_head('Payload sent') . wpc2o_code_block($record_body) . '</div>';
+    $content .= '</section>';
 
     return $content;
 }

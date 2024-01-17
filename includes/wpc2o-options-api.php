@@ -21,8 +21,6 @@ function wpc2o_get_api_view(): string
     $content          .= '<p style="margin-top: 0;">The below example will be useful to provide to Clothes2Order if you encounter any issues</p>';
     $content          .= '<button id="wpc2o-expand-api-request" class="button button-primary">Show example request</button>';
     $content          .= '<button id="wpc2o-copy-api-request" style="margin-left:12px;" class="button">Copy to clipboard</button>';
-    $current_user      = wp_get_current_user();
-    $current_user_meta = get_user_meta($current_user->ID);
     $content          .= '<pre id="wpc2o-example-json"><code>';
     $json              = '
             {
@@ -67,7 +65,7 @@ function wpc2o_get_api_view(): string
                 }
             }
         ';
-    $content          .= $json;
+    $content          .= wpc2o_code_block($json);
     $content          .= '</code></pre>';
 
     return $content;

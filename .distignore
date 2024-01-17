@@ -6,9 +6,14 @@
 .distignore
 .gitignore
 
+COPYING
+LICENSE
+
 /assets
 /src
 .eslintrc.json
+.node-version
+.ncurc.json
 .nvmrc
 .prettierrc
 composer.json

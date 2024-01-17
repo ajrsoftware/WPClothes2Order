@@ -1,30 +1,14 @@
-name: Assets
+name: CI
 on: [push]
 
 jobs:
     ci:
-        timeout-minutes: 10
+        name: my-job
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout
-              uses: actions/checkout@v3
-
-            - name: Install Node.js
-              uses: actions/setup-node@v3
+            - uses: actions/checkout@v3
+            - uses: oven-sh/setup-bun@v1
               with:
-                  node-version: 20
-
-            - name: Install dependencies
-              run: npm i
-
-            - name: Prettier
-              run: npm run format:check
-
-            - name: TypeScript
-              run: npm run types
-
-            - name: ES lint
-              run: npm run lint:check
-
-            - name: NCU
-              run: npm run packages:check
+                  bun-version: latest
+            - run: bun format
+            - run: bun types
