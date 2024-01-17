@@ -22,7 +22,7 @@ function wpc2o_get_api_view(): string
     $content .= '<button id="wpc2o-expand-api-request" class="button button-primary">Show example request</button>';
     $content .= '<button id="wpc2o-copy-api-request" style="margin-left:12px;" class="button">Copy to clipboard</button>';
     $content .= '<pre id="wpc2o-example-json"><code>';
-    $json    = '
+    $json     = '
             {
                 "api_key": "' . get_option(constant('WPC2O_API_KEY')) . '",
                 "order": {
