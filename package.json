@@ -21,7 +21,7 @@
     "scripts": {
         "prod": "bun build ./src/ts/app.ts --outdir ./dist --target browser --minify",
         "dev": "bun build ./src/ts/app.ts --outdir ./dist --target browser --watch",
-        "format": "prettier --check src/",
+        "format": "prettier src --check",
         "types": "tsc --noEmit",
         "lint:php": "vendor/bin/phpcs",
         "format:php": "vendor/bin/phpcbf"
