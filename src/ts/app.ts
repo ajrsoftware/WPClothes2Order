@@ -1,8 +1,6 @@
-import hljs from 'highlight.js/lib/core';
-import json from 'highlight.js/lib/languages/json';
-import { sync } from './stock-sync';
+import JSONFormatter from 'json-formatter-js';
 
-hljs.registerLanguage('json', json);
+import { sync } from './stock-sync';
 
 document.querySelectorAll('.wpc2o-expand-details').forEach((element) => {
     element?.addEventListener('click', (event) => {
@@ -11,11 +9,25 @@ document.querySelectorAll('.wpc2o-expand-details').forEach((element) => {
     });
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    const codeBlocks = document.querySelectorAll('.wpc2o-code-block');
+
+    codeBlocks.forEach((el) => {
+        const codeElement = el.getElementsByTagName('code')[0];
+
+        const formatter = new JSONFormatter(
+            JSON.parse(codeElement.innerText),
+            Infinity
+        );
+
+        el.removeChild(codeElement);
+        el.appendChild(formatter.render());
+    });
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     const element = document.getElementById('wpc2o-example-json');
     if (element) {
-        hljs.highlightElement(element);
-
         document
             .getElementById('wpc2o-expand-api-request')
             ?.addEventListener('click', (event) => {
@@ -72,10 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    document
-        .querySelectorAll('.wpc2o-view-payload-modal-content')
-        .forEach((element) => hljs.highlightElement(element as HTMLElement));
-
     document
         .querySelectorAll('.wpc2o-view-order-payload')
         .forEach((element) => {

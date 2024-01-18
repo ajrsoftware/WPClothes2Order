@@ -1,3 +1,6 @@
+.wpc2o-code-block {
+}
+
 .wpc2o-expand-details-content {
     display: none;
     list-style-type: circle;
@@ -41,6 +44,10 @@
     width: calc(90% - 32px);
     height: calc(90% - 32px);
     box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.3);
+}
+
+.wpc2o-view-payload-modal-inner > div {
+    margin-bottom: 20px;
 }
 
 .wpc2o-view-payload-modal-close,

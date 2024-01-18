@@ -6,15 +6,22 @@
 .distignore
 .gitignore
 
+COPYING
+LICENSE
+SECURITY.md
+
 /assets
 /src
 .eslintrc.json
+.node-version
+.ncurc.json
 .nvmrc
 .prettierrc
 composer.json
 composer.lock
 package-lock.json
 package.json
+bun.lockb
 phpcs.xml
 README.md
 tsconfig.json

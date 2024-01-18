@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 type Response = {
     status: boolean;
     message: string;
@@ -9,11 +7,16 @@ export const sync = async (): Promise<Response | null> => {
     let res: Response | null = null;
 
     try {
-        const response = await axios.get<Response>(
-            `/wp-json/wpc2o/v1/stock-sync`
-        );
+        const response = await fetch(`/wp-json/wpc2o/v1/stock-sync`, {
+            method: 'get',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
 
-        if (response.status === 200) res = response.data;
+        if (response.ok) {
+            res = await response.json();
+        }
     } catch (err) {
         res = {
             status: false,
