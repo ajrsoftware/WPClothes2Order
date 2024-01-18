@@ -8,6 +8,7 @@
 
 COPYING
 LICENSE
+SECURITY.md
 
 /assets
 /src
@@ -20,6 +21,7 @@ composer.json
 composer.lock
 package-lock.json
 package.json
+bun.lockb
 phpcs.xml
 README.md
 tsconfig.json
