@@ -6,7 +6,7 @@
 -   Tags: woocommerce, clothes2order
 -   Requires at least: 6.0
 -   Requires PHP: 8.0
--   Tested up to: 8.2
+-   Tested up to: 6.5
 -   WC requires at least: 8.0
 -   WC tested up to: 8.8
 -   License: GPLv3

@@ -4,7 +4,7 @@
  * Plugin Name:          WPClothes2Order
  * Plugin URI:           https://wpclothes2order.com
  * Description:          Unofficial WooCommerce Plugin for <a href="https://www.clothes2order.com/">Clothes2Order</a>
- * Version:              1.1.4
+ * Version:              1.1.5
  * Plugin URI:           https://www.wpclothes2order.com
  * Author:               AJR Software
  * Author URI:           https://www.ajrsoftware.com
@@ -13,7 +13,7 @@
  * Domain Path:          /languages
  * Requires at least:    6.0
  * Requires PHP:         8.0
- * Tested up to:         8.2
+ * Tested up to:         6.5
  * WC requires at least: 8.0
  * WC tested up to:      8.8
  * 
