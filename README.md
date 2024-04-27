@@ -4,10 +4,11 @@
 
 -   Contributors: [Ashley Redman](https://github.com/AshleyRedman), [Reuben Porter](https://github.com/ReubenPorter)
 -   Tags: woocommerce, clothes2order
--   Requires at least: 5.8
--   Tested up to: 6.4
--   Requires PHP: 7.4
--   Stable tag: 1.1.3
+-   Requires at least: 6.0
+-   Requires PHP: 8.0
+-   Tested up to: 8.2
+-   WC requires at least: 8.0
+-   WC tested up to: 8.8
 -   License: GPLv3
 -   License URI: https://www.gnu.org/licenses/gpl-3.0.html
 

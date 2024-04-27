@@ -1,18 +1,21 @@
 <?php
 
 /**
- * Plugin Name:         WPClothes2Order
- * Plugin URI:          https://wpclothes2order.com
- * Description:         Unofficial WooCommerce Plugin for <a href="https://www.clothes2order.com/">Clothes2Order</a>
- * Version:             1.1.3
- * Plugin URI:          https://www.wpclothes2order.com
- * Author:              AJR Software
- * Author URI:          https://www.ajrsoftware.com
- * License              GPL v3 or later
- * Text Domain:         wpc2o
- * Domain Path:         /languages
- * Requires at least:   5.8
- * Requires PHP:        7.4
+ * Plugin Name:          WPClothes2Order
+ * Plugin URI:           https://wpclothes2order.com
+ * Description:          Unofficial WooCommerce Plugin for <a href="https://www.clothes2order.com/">Clothes2Order</a>
+ * Version:              1.1.4
+ * Plugin URI:           https://www.wpclothes2order.com
+ * Author:               AJR Software
+ * Author URI:           https://www.ajrsoftware.com
+ * License               GPL v3 or later
+ * Text Domain:          wpc2o
+ * Domain Path:          /languages
+ * Requires at least:    6.0
+ * Requires PHP:         8.0
+ * Tested up to:         8.2
+ * WC requires at least: 8.0
+ * WC tested up to:      8.8
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -55,6 +58,12 @@ add_action('plugins_loaded', 'wpc2o_start');
 function wpc2o_start()
 {
     if (class_exists('Woocommerce')) {
+        add_action('before_woocommerce_init', function () {
+            if (class_exists(\Automattic\WooCommerce\Utilities\FeaturesUtil::class)) {
+                \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('custom_order_tables', __FILE__, true);
+            }
+        });
+
         add_filter('woocommerce_get_sections_products', 'wpc2o_options_page');
         add_filter('woocommerce_get_settings_products', 'wpc2o_options_page_settings', 10, 2);
 
