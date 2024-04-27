@@ -200,8 +200,8 @@ class WPC2O_Stock_Sync
         // Skip the header line
         $file->seek(1);
 
-        $batchSize = 800;
-        $batch = array();
+        $batch_size = 800;
+        $batch      = array();
 
         while (!$file->eof()) {
             $line = $file->fgetcsv();
@@ -212,14 +212,14 @@ class WPC2O_Stock_Sync
 
             $batch[] = $line;
 
-            if (count($batch) >= $batchSize) {
+            if (count($batch) >= $batch_size) {
                 // Convert $batch into a format suitable for storing in the database
                 // For example, if you're storing each line as a separate record in a custom table:
                 // $wpdb->insert( $table_name, $batch ); // $batch should be an array of arrays
                 // Adjust this part according to your plugin's database structure
 
                 $batches[] = $batch;
-                $batch = array();
+                $batch     = array();
             }
         }
 
