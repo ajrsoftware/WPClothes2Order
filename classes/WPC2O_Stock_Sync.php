@@ -189,17 +189,46 @@ class WPC2O_Stock_Sync
 
     private function read_products_csv_to_batches($fileparam): array
     {
-        $file_array = array();
+        global $wpdb; // Access WordPress database functions
 
-        $file = fopen($fileparam, 'r');
-        while (( $line = fgetcsv($file) ) !== false) {
-            $file_array[] = $line;
+        $batches = array();
+
+        $file = new SplFileObject($fileparam);
+        $file->setFlags(SplFileObject::READ_CSV);
+        $file->setCsvControl(',', '"', '\\');
+
+        // Skip the header line
+        $file->seek(1);
+
+        $batch_size = 800;
+        $batch      = array();
+
+        while (!$file->eof()) {
+            $line = $file->fgetcsv();
+
+            if ($line === false) {
+                break;
+            }
+
+            $batch[] = $line;
+
+            if (count($batch) >= $batch_size) {
+                // Convert $batch into a format suitable for storing in the database
+                // For example, if you're storing each line as a separate record in a custom table:
+                // $wpdb->insert( $table_name, $batch ); // $batch should be an array of arrays
+                // Adjust this part according to your plugin's database structure
+
+                $batches[] = $batch;
+                $batch     = array();
+            }
         }
-        fclose($file);
 
-        array_shift($file_array);
-
-        $batches = array_chunk($file_array, 800);
+        // Add the last batch if it's not empty
+        if (!empty($batch)) {
+            // Insert the last batch into the database
+            // $wpdb->insert( $table_name, $batch );
+            $batches[] = $batch;
+        }
 
         return $batches;
     }
