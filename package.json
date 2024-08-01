@@ -7,7 +7,7 @@
         "url": "git+https://github.com/ajrsoftware/WPClothes2Order.git"
     },
     "devDependencies": {
-        "npm-check-updates": "^16.14.12",
+        "npm-check-updates": "^17.0.0",
         "prettier": "^3.2.4",
         "typescript": "^5.3.3"
     },
