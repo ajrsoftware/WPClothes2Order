@@ -1,5 +1,7 @@
 ![WPC2O](assets/readme-banner.png)
 
+# Important! This project is no longer active. If you wish to take over as primary maintainer, please get in touch.
+
 ---
 
 -   Contributors: [Ashley Redman](https://github.com/AshleyRedman), [Reuben Porter](https://github.com/ReubenPorter)
